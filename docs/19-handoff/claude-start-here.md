@@ -6,6 +6,10 @@
 
 This is the recommended entry point when the repository is opened in Claude Code for implementation.
 
+## Repository topology
+
+APOTHEM ships as **two repositories** ([ADR-008](../adr/008-two-repository-split.md)): `apothem-ai` (this repo — site, web app, design system, product docs) and `apothem-api` (separate repo — API, Agent Runtime, workers, database). See `/architecture.md` and `docs/02-architecture/monorepo-architecture.md`. Do not scaffold `apps/api` or `workers/` inside this repository.
+
 ## Before writing code
 
 Read in this order:

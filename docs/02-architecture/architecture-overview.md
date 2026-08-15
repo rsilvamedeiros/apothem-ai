@@ -6,7 +6,7 @@
 
 ## Architectural style
 
-Start with a **modular monolith / modular platform in a monorepo**, split into independently deployable delivery surfaces where operationally useful: site, product web, API and background AI/worker runtime. Preserve strong bounded-context boundaries so high-load or high-risk components can be extracted later.
+Start with a **modular monolith backend** (`apothem-api`) paired with a separate **frontend repository** (`apothem-ai`, this repo — site + product web), per [ADR-008](../adr/008-two-repository-split.md) (supersedes [ADR-001](../adr/001-monorepo.md)). Preserve strong bounded-context boundaries inside the backend so high-load or high-risk modules can be extracted into services later. See `/architecture.md` and `docs/02-architecture/monorepo-architecture.md` for the repository split.
 
 ```mermaid
 flowchart TB

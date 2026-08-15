@@ -1,6 +1,6 @@
 # ADR-001 — Use a Monorepo
 
-**Status:** Accepted  
+**Status:** Superseded by [ADR-008 — Split into Two Repositories](008-two-repository-split.md)
 **Project:** APOTHEM AI  
 **Canonical domain:** `apothemai.com.br`
 
