@@ -4,9 +4,9 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Produto — APOTHEM AI",
+  title: "Produto | APOTHEM AI",
   description:
-    "Apothem Core, Agents, Studio, Knowledge, Connect, Flow e Control — a arquitetura de produto por trás da APOTHEM AI.",
+    "Apothem Core, Agents, Studio, Knowledge, Connect, Flow e Control: a arquitetura de produto por trás da APOTHEM AI.",
 };
 
 const FAMILIES = [
@@ -44,7 +44,7 @@ const USE_CASES = [
   {
     title: "Analista de conhecimento corporativo",
     description:
-      "O agente recupera apenas conhecimento autorizado, sintetiza uma resposta e cita as fontes — sem efeito colateral.",
+      "O agente recupera apenas conhecimento autorizado, sintetiza uma resposta e cita as fontes, sem efeito colateral.",
   },
   {
     title: "Pesquisa de cliente/lead com contexto de CRM",
@@ -54,7 +54,7 @@ const USE_CASES = [
   {
     title: "Atualização com aprovação",
     description:
-      "O agente prepara uma ação — atualizar um status, criar um ticket, enviar uma mensagem — e um humano autorizado aprova antes da execução.",
+      "O agente prepara uma ação, como atualizar um status ou criar um ticket, e um humano autorizado aprova antes da execução.",
   },
 ];
 

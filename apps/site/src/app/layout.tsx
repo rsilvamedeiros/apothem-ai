@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "APOTHEM AI — Inteligência no centro do negócio",
+  title: "APOTHEM AI: inteligência no centro do negócio",
   description:
     "A APOTHEM conecta o conhecimento, os sistemas, as pessoas, os processos e as políticas da sua empresa a agentes de IA que raciocinam dentro de limites explícitos e executam ações autorizadas.",
 };

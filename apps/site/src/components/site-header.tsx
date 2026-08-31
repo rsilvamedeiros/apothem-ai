@@ -21,8 +21,8 @@ export function SiteHeader() {
           ))}
           <span className="cursor-default opacity-60">Docs</span>
         </nav>
-        <Button href="mailto:hello@apothemai.com.br" variant="secondary" className="text-sm">
-          Falar com a gente
+        <Button href="/#demo" variant="secondary" className="text-sm">
+          Solicitar demonstração
         </Button>
       </div>
     </header>

@@ -1,9 +1,24 @@
+import Link from "next/link";
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-border">
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between">
-        <span>© {new Date().getFullYear()} APOTHEM AI</span>
-        <span>apothemai.com.br</span>
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-10 text-sm text-text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-1">
+          <span className="font-semibold text-text">APOTHEM AI</span>
+          <span>© {new Date().getFullYear()} APOTHEM AI. Todos os direitos reservados.</span>
+        </div>
+        <nav className="flex gap-6">
+          <Link href="/produto" className="transition-colors hover:text-text">
+            Produto
+          </Link>
+          <Link href="/solucoes" className="transition-colors hover:text-text">
+            Soluções
+          </Link>
+          <a href="mailto:hello@apothemai.com.br" className="transition-colors hover:text-text">
+            Contato
+          </a>
+        </nav>
       </div>
     </footer>
   );

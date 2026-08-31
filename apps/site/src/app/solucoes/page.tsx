@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Soluções — APOTHEM AI",
+  title: "Soluções | APOTHEM AI",
   description:
     "Modelo de operação Product + Solutions da APOTHEM: implementações de cliente construídas sobre primitivos reutilizáveis da plataforma.",
 };
@@ -23,7 +23,7 @@ export default function SolucoesPage() {
         </h1>
         <p className="text-lg text-text-muted">
           A APOTHEM pode resolver problemas concretos da empresa antes que toda a plataforma
-          seja self-service — sem virar uma fábrica de software genérica cujos projetos não
+          seja self-service, sem virar uma fábrica de software genérica cujos projetos não
           fortalecem o núcleo.
         </p>
       </section>
@@ -40,7 +40,7 @@ export default function SolucoesPage() {
           <h2 className="text-base font-semibold">Apothem Solutions</h2>
           <p className="mt-1 text-sm text-text-muted">
             Configuração, integração e implementação específicas do cliente, construídas
-            sobre os primitivos da Platform — não código isolado de projeto.
+            sobre os primitivos da Platform, não código isolado de projeto.
           </p>
         </Card>
       </section>
