@@ -41,3 +41,10 @@ body {
 a {
   color: inherit;
 }
+
+/* Restrained geometric backdrop for the hero — a dot grid fading toward the edges. */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, var(--apothem-border) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 100%);
+}

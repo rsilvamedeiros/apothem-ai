@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@apothem/ui": "*",
+    "lucide-react": "^1.38.0",
+    "motion": "^13.1.1",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
