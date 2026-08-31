@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--apothem-space-3) var(--apothem-space-4);
+  border-bottom: 1px solid var(--apothem-border);
+}
+
+.wordmark {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: var(--apothem-space-3);
+  font-size: 0.875rem;
+  color: var(--apothem-text-muted);
+}
+
+.nav a {
+  text-decoration: none;
+}
+
+.nav a:hover {
+  color: var(--apothem-text);
+}
+
+.disabled {
+  cursor: default;
+  opacity: 0.6;
+}

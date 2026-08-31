@@ -1,0 +1,6 @@
+.card {
+  background: var(--apothem-surface);
+  border: 1px solid var(--apothem-border);
+  border-radius: var(--apothem-radius-lg);
+  padding: var(--apothem-space-3);
+}

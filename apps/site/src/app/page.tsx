@@ -1,4 +1,6 @@
 import { Button } from "@apothem/ui";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import styles from "./page.module.css";
 
 const LOOP_STEPS = ["Understand", "Connect", "Reason", "Act"];
@@ -6,14 +8,7 @@ const LOOP_STEPS = ["Understand", "Connect", "Reason", "Act"];
 export default function HomePage() {
   return (
     <main className={styles.main}>
-      <header className={styles.header}>
-        <span className={styles.wordmark}>APOTHEM AI</span>
-        <nav className={styles.nav}>
-          <span>Product</span>
-          <span>Solutions</span>
-          <span>Docs</span>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <section className={styles.hero}>
         <span className={styles.eyebrow}>Intelligence at the core</span>
@@ -37,16 +32,13 @@ export default function HomePage() {
         </p>
         <div className={styles.ctaRow}>
           <Button href="mailto:hello@apothemai.com.br">Talk to us</Button>
-          <Button href="#" variant="secondary">
-            How it works
+          <Button href="/product" variant="secondary">
+            See the product
           </Button>
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <span>© {new Date().getFullYear()} APOTHEM AI</span>
-        <span>apothemai.com.br</span>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
