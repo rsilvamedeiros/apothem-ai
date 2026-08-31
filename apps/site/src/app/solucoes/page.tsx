@@ -3,6 +3,7 @@ import { Card } from "@apothem/ui";
 import { Layers, Puzzle } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { CtaBanner } from "@/components/cta-banner";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
@@ -71,6 +72,12 @@ export default function SolucoesPage() {
           </Reveal>
         </div>
       </section>
+
+      <CtaBanner
+        title="Tem um caso de uso específico em mente?"
+        subtitle="Vamos entender o problema e desenhar a solução junto com você."
+        ctaLabel="Conversar com a gente"
+      />
 
       <SiteFooter />
     </div>

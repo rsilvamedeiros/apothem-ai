@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { CtaBanner } from "@/components/cta-banner";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
@@ -133,6 +134,11 @@ export default function ProdutoPage() {
           </div>
         </div>
       </section>
+
+      <CtaBanner
+        title="Veja a APOTHEM aplicada ao seu processo"
+        subtitle="Agende uma demonstração com um dos nossos especialistas."
+      />
 
       <SiteFooter />
     </div>

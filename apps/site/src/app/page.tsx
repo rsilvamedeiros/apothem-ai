@@ -19,7 +19,8 @@ import {
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RunPreviewCard } from "@/components/run-preview-card";
-import { DemoRequestForm } from "@/components/demo-request-form";
+import { LeadForm } from "@/components/lead-form";
+import { CtaBanner } from "@/components/cta-banner";
 import { Reveal } from "@/components/motion/reveal";
 
 const TRUST_POINTS: { icon: LucideIcon; text: string }[] = [
@@ -168,6 +169,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      <CtaBanner
+        title="Quer ver os planos disponíveis?"
+        subtitle="Do primeiro piloto ao contrato enterprise."
+        ctaLabel="Ver planos"
+        href="/precos"
+      />
+
       <section className="border-b border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
@@ -202,7 +210,7 @@ export default function HomePage() {
           </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <DemoRequestForm />
+          <LeadForm />
         </Reveal>
       </section>
 

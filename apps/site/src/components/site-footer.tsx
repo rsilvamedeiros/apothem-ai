@@ -8,16 +8,19 @@ export function SiteFooter() {
           <span className="font-semibold text-text">APOTHEM AI</span>
           <span>© {new Date().getFullYear()} APOTHEM AI. Todos os direitos reservados.</span>
         </div>
-        <nav className="flex gap-6">
+        <nav className="flex flex-wrap gap-6">
           <Link href="/produto" className="transition-colors hover:text-text">
             Produto
           </Link>
           <Link href="/solucoes" className="transition-colors hover:text-text">
             Soluções
           </Link>
-          <a href="mailto:hello@apothemai.com.br" className="transition-colors hover:text-text">
+          <Link href="/precos" className="transition-colors hover:text-text">
+            Preços
+          </Link>
+          <Link href="/contato" className="transition-colors hover:text-text">
             Contato
-          </a>
+          </Link>
         </nav>
       </div>
     </footer>

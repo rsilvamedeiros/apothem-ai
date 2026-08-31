@@ -1,16 +1,17 @@
 import Link from "next/link";
-import { Button } from "@apothem/ui";
 import { LogoMark } from "@/components/logo-mark";
+import { MobileNav } from "@/components/mobile-nav";
 
 const NAV_LINKS = [
   { href: "/produto", label: "Produto" },
   { href: "/solucoes", label: "Soluções" },
+  { href: "/precos", label: "Preços" },
 ];
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-10 border-b border-border bg-bg/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-wide">
           <LogoMark className="h-6 w-6 text-accent" />
           APOTHEM AI
@@ -23,9 +24,15 @@ export function SiteHeader() {
           ))}
           <span className="cursor-default opacity-60">Docs</span>
         </nav>
-        <Button href="/#demo" variant="secondary" className="text-sm">
-          Solicitar demonstração
-        </Button>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/contato"
+            className="hidden rounded-md bg-accent px-4 py-2 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-strong sm:inline-flex"
+          >
+            Solicitar demonstração
+          </Link>
+          <MobileNav />
+        </div>
       </div>
     </header>
   );
