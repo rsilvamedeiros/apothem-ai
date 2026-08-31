@@ -44,12 +44,20 @@ The initial implementation is expected to be a **modular monorepo** with indepen
 
 ```text
 apothem-ai/
-├── apps/                 # future executable applications
+├── apps/
+│   └── site/             # institutional website (apothemai.com.br) — scaffolded
 ├── packages/             # future shared libraries and contracts
 ├── services/             # future extracted services when justified
 ├── infra/                # infrastructure definitions
-├── tooling/              # repository tooling
-└── docs/                 # current source of truth
+├── tooling/               # repository tooling
+└── docs/                  # current source of truth
+```
+
+## Local development
+
+```bash
+npm install
+npm run dev:site      # http://localhost:3000
 ```
 
 ## Read this first
