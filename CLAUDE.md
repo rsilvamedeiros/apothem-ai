@@ -19,6 +19,10 @@ Before creating or materially changing code, read:
 
 If the requested implementation conflicts with documentation, **do not silently choose one**. Prefer the documented decision and surface the conflict. If the change is intentional, update or add an ADR together with the code.
 
+## Git workflow
+
+- Never run `git commit` (or `git push`) automatically. Stage/prepare changes and hand back an English commit message for the user to review and commit manually themselves.
+
 ## Non-negotiable project rules
 
 - APOTHEM is multi-tenant from the domain model forward. Tenant context is never optional on tenant-owned resources.
