@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
 export const metadata: Metadata = {
-  title: "APOTHEM AI — Intelligence at the core",
+  title: "APOTHEM AI — Inteligência no centro do negócio",
   description:
-    "APOTHEM AI is the Intelligence Layer for Business: connecting company knowledge, systems, people, processes and policies to governed AI agents.",
+    "A APOTHEM conecta o conhecimento, os sistemas, as pessoas, os processos e as políticas da sua empresa a agentes de IA que raciocinam dentro de limites explícitos e executam ações autorizadas.",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" className={inter.variable}>
       <body>{children}</body>
     </html>
   );

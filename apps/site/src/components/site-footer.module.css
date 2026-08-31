@@ -1,8 +1,0 @@
-.footer {
-  padding: var(--apothem-space-3) var(--apothem-space-4);
-  border-top: 1px solid var(--apothem-border);
-  color: var(--apothem-text-muted);
-  font-size: 0.8rem;
-  display: flex;
-  justify-content: space-between;
-}

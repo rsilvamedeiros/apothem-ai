@@ -1,16 +1,41 @@
 @import "@apothem/ui/tokens.css";
+@import "tailwindcss";
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/**
+ * Maps @apothem/ui's design tokens into Tailwind v4's theme, so Tailwind
+ * utilities (bg-accent, text-muted, rounded-lg, font-sans, ...) resolve to
+ * the same source of truth as packages/ui — see docs/13-design-system.
+ * Spacing intentionally uses Tailwind's own 4px-based scale (compatible
+ * with the 8px grid at even steps) instead of remapping --spacing.
+ */
+@theme {
+  --color-bg: var(--apothem-bg);
+  --color-surface: var(--apothem-surface);
+  --color-surface-raised: var(--apothem-surface-raised);
+  --color-border: var(--apothem-border);
+  --color-border-strong: var(--apothem-border-strong);
+  --color-text: var(--apothem-text);
+  --color-text-muted: var(--apothem-text-muted);
+  --color-text-subtle: var(--apothem-text-subtle);
+  --color-accent: var(--apothem-accent);
+  --color-accent-strong: var(--apothem-accent-strong);
+  --color-accent-muted: var(--apothem-accent-muted);
+  --color-on-accent: var(--apothem-on-accent);
+  --color-success: var(--apothem-success);
+  --color-warning: var(--apothem-warning);
+  --color-danger: var(--apothem-danger);
+  --color-info: var(--apothem-info);
+
+  --radius-sm: var(--apothem-radius-sm);
+  --radius-md: var(--apothem-radius-md);
+  --radius-lg: var(--apothem-radius-lg);
+
+  --font-sans: var(--font-inter), var(--apothem-font-sans);
 }
 
-html,
 body {
-  background: var(--apothem-bg);
-  color: var(--apothem-text);
-  font-family: var(--apothem-font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 a {

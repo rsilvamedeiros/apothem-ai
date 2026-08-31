@@ -1,17 +1,30 @@
 import Link from "next/link";
-import styles from "./site-header.module.css";
+import { Button } from "@apothem/ui";
+
+const NAV_LINKS = [
+  { href: "/produto", label: "Produto" },
+  { href: "/solucoes", label: "Soluções" },
+];
 
 export function SiteHeader() {
   return (
-    <header className={styles.header}>
-      <Link className={styles.wordmark} href="/">
-        APOTHEM AI
-      </Link>
-      <nav className={styles.nav}>
-        <Link href="/product">Product</Link>
-        <Link href="/solutions">Solutions</Link>
-        <span className={styles.disabled}>Docs</span>
-      </nav>
+    <header className="sticky top-0 z-10 border-b border-border bg-bg/90 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <Link href="/" className="text-sm font-semibold tracking-wide">
+          APOTHEM AI
+        </Link>
+        <nav className="hidden items-center gap-6 text-sm text-text-muted sm:flex">
+          {NAV_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} className="transition-colors hover:text-text">
+              {link.label}
+            </Link>
+          ))}
+          <span className="cursor-default opacity-60">Docs</span>
+        </nav>
+        <Button href="mailto:hello@apothemai.com.br" variant="secondary" className="text-sm">
+          Falar com a gente
+        </Button>
+      </div>
     </header>
   );
 }
