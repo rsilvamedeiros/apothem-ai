@@ -60,8 +60,8 @@ apothem-ai/
 
 ```bash
 npm install
-npm run dev:site      # http://localhost:3000
-npm run dev:web        # http://localhost:3000 (separate port if run alongside site)
+npm run site      # http://127.0.0.1:3000
+npm run web        # http://127.0.0.1:3000 (separate port if run alongside site)
 ```
 
 `apps/web` requires a running `apothem-api` (see its README) and `apps/web/.env.example` copied to `.env.local`. Its sign-in is a dev-only bootstrap (pasted principal/organization id) until self-hosted OIDC lands (ADR-009).
