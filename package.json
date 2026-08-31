@@ -8,6 +8,8 @@
   "scripts": {
     "dev:site": "npm run dev --workspace=apps/site",
     "build:site": "npm run build --workspace=apps/site",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "build:web": "npm run build --workspace=apps/web",
     "lint": "npm run lint --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"
   }

@@ -1,0 +1,23 @@
+{
+  "name": "@apothem/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "sync": "node scripts/sync-openapi.mjs",
+    "generate": "openapi-typescript ./openapi.json -o ./src/generated/schema.d.ts",
+    "sync-and-generate": "npm run sync && npm run generate",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.13.4"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.5.2",
+    "typescript": "^5.7.0"
+  }
+}

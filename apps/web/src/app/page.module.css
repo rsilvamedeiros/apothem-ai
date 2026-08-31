@@ -1,0 +1,36 @@
+.main {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--apothem-space-4);
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-3);
+}
+
+.wordmark {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.headline {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--apothem-text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-2);
+}

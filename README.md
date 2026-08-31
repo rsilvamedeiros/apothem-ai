@@ -45,8 +45,11 @@ The initial implementation is expected to be a **modular monorepo** with indepen
 ```text
 apothem-ai/
 ├── apps/
-│   └── site/             # institutional website (apothemai.com.br) — scaffolded
-├── packages/             # future shared libraries and contracts
+│   ├── site/             # institutional website (apothemai.com.br) — scaffolded
+│   └── web/              # authenticated product app (app.apothemai.com.br) — scaffolded, dev-auth only
+├── packages/
+│   ├── ui/                # design system: tokens + primitives — scaffolded
+│   └── api-client/         # typed client generated from apothem-api's OpenAPI spec — scaffolded
 ├── services/             # future extracted services when justified
 ├── infra/                # infrastructure definitions
 ├── tooling/               # repository tooling
@@ -58,7 +61,10 @@ apothem-ai/
 ```bash
 npm install
 npm run dev:site      # http://localhost:3000
+npm run dev:web        # http://localhost:3000 (separate port if run alongside site)
 ```
+
+`apps/web` requires a running `apothem-api` (see its README) and `apps/web/.env.example` copied to `.env.local`. Its sign-in is a dev-only bootstrap (pasted principal/organization id) until self-hosted OIDC lands (ADR-009).
 
 ## Read this first
 

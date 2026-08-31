@@ -1,0 +1,40 @@
+@import "@apothem/ui/tokens.css";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: var(--apothem-bg);
+  color: var(--apothem-text);
+  font-family: var(--apothem-font-sans);
+}
+
+a {
+  color: inherit;
+}
+
+input {
+  font: inherit;
+  color: inherit;
+  background: var(--apothem-surface-raised);
+  border: 1px solid var(--apothem-border);
+  border-radius: var(--apothem-radius-sm);
+  padding: 8px 12px;
+}
+
+input:focus {
+  outline: 2px solid var(--apothem-accent);
+  outline-offset: 1px;
+}
+
+label {
+  font-size: 0.85rem;
+  color: var(--apothem-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
