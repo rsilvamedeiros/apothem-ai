@@ -1,0 +1,16 @@
+{
+  "name": "@apothem/frontend-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig/next-app.json": "./tsconfig/next-app.json",
+    "./eslint/next": "./eslint/next.mjs"
+  },
+  "dependencies": {
+    "@eslint/eslintrc": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  }
+}

@@ -16,10 +16,10 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@apothem/frontend-config": "*",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@eslint/eslintrc": "^3.2.0",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.1.0",
     "typescript": "^5.7.0"
