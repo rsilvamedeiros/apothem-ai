@@ -1,3 +1,4 @@
+import { Button } from "@apothem/ui";
 import styles from "./page.module.css";
 
 const LOOP_STEPS = ["Understand", "Connect", "Reason", "Act"];
@@ -35,12 +36,10 @@ export default function HomePage() {
           evidence built in from day one.
         </p>
         <div className={styles.ctaRow}>
-          <a className={styles.ctaPrimary} href="mailto:hello@apothemai.com.br">
-            Talk to us
-          </a>
-          <a className={styles.ctaSecondary} href="#">
+          <Button href="mailto:hello@apothemai.com.br">Talk to us</Button>
+          <Button href="#" variant="secondary">
             How it works
-          </a>
+          </Button>
         </div>
       </section>
 

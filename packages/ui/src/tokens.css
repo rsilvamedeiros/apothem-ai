@@ -1,0 +1,53 @@
+/**
+ * APOTHEM design tokens.
+ * Geometric, precise, enterprise. One controlled brand accent — no gradients/neon.
+ * See docs/13-design-system/foundations-tokens.md.
+ */
+:root {
+  /* Neutral background/surface/text scale */
+  --apothem-bg: #0b0c0e;
+  --apothem-surface: #131417;
+  --apothem-surface-raised: #1a1c20;
+  --apothem-border: #23252b;
+  --apothem-border-strong: #34363d;
+  --apothem-text: #eef0f2;
+  --apothem-text-muted: #9aa0aa;
+  --apothem-text-subtle: #676c76;
+
+  /* Brand accent family */
+  --apothem-accent: #5b8cff;
+  --apothem-accent-strong: #3f6fe0;
+  --apothem-accent-muted: #26365e;
+  --apothem-on-accent: #0b0c0e;
+
+  /* Semantic */
+  --apothem-success: #3fb950;
+  --apothem-warning: #d29922;
+  --apothem-danger: #f85149;
+  --apothem-info: #58a6ff;
+
+  /* Spacing grid (8px base) */
+  --apothem-space-1: 8px;
+  --apothem-space-2: 16px;
+  --apothem-space-3: 24px;
+  --apothem-space-4: 48px;
+  --apothem-space-5: 96px;
+
+  /* Radii — restrained geometry */
+  --apothem-radius-sm: 4px;
+  --apothem-radius-md: 8px;
+  --apothem-radius-lg: 12px;
+
+  /* Elevation / border hierarchy */
+  --apothem-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --apothem-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+
+  /* Motion */
+  --apothem-duration-fast: 120ms;
+  --apothem-duration-base: 200ms;
+  --apothem-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Typography */
+  --apothem-font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --apothem-font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
