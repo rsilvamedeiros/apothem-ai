@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/produto", label: "Produto" },
+  { href: "/casos-de-uso", label: "Casos de uso" },
   { href: "/solucoes", label: "Soluções" },
   { href: "/seguranca", label: "Segurança" },
   { href: "/precos", label: "Preços" },
@@ -17,7 +18,7 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="sm:hidden">
+    <div className="lg:hidden">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}

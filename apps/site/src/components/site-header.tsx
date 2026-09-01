@@ -19,7 +19,7 @@ export function SiteHeader() {
           <LogoMark className="h-6 w-6 text-accent" />
           APOTHEM AI
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-text-muted sm:flex">
+        <nav className="hidden items-center gap-5 text-sm text-text-muted lg:flex">
           {NAV_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="transition-colors hover:text-text">
               {link.label}
@@ -28,7 +28,7 @@ export function SiteHeader() {
           <span className="cursor-default opacity-60">Docs</span>
         </nav>
         <div className="flex items-center gap-3">
-          <div className="hidden sm:block">
+          <div className="hidden lg:block">
             <CtaLink href="/contato" className="!py-2">
               Solicitar demonstração
             </CtaLink>
