@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "/precos", label: "Preços" },
   { href: "/sobre", label: "Sobre" },
   { href: "/roadmap", label: "Roadmap" },
+  { href: "/desenvolvedores", label: "Desenvolvedores" },
   { href: "/contato", label: "Contato" },
 ];
 
