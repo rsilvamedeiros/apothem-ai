@@ -368,7 +368,12 @@ export default function HomePage() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Conecta ao que sua empresa já usa</h2>
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Conecta ao que sua empresa já usa</h2>
+              <a href="/integracoes" className="text-sm text-accent hover:underline">
+                Ver todas as integrações →
+              </a>
+            </div>
             <p className="mt-2 max-w-2xl text-text-muted">
               A arquitetura Connect traduz sistemas externos em ferramentas tipadas e
               auditáveis, sem expor credenciais ao modelo.

@@ -5,6 +5,7 @@ import { CtaLink } from "@/components/cta-link";
 
 const NAV_LINKS = [
   { href: "/produto", label: "Produto" },
+  { href: "/integracoes", label: "Integrações" },
   { href: "/solucoes", label: "Soluções" },
   { href: "/seguranca", label: "Segurança" },
   { href: "/precos", label: "Preços" },
