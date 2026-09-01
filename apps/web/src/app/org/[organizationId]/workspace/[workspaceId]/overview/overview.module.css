@@ -1,0 +1,95 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-4);
+  max-width: 880px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--apothem-text-muted);
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--apothem-space-2);
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValue {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--apothem-text-muted);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-2);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.quickStartGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--apothem-space-2);
+}
+
+.quickStartCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.quickStartLink {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--apothem-space-3);
+  text-decoration: none;
+  color: inherit;
+}
+
+.quickStartTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.quickStartDescription {
+  font-size: 0.8rem;
+  color: var(--apothem-text-muted);
+  line-height: 1.4;
+}
+
+.activityEmpty {
+  padding: var(--apothem-space-4);
+  border: 1px dashed var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-lg);
+  color: var(--apothem-text-subtle);
+  font-size: 0.85rem;
+  text-align: center;
+}
