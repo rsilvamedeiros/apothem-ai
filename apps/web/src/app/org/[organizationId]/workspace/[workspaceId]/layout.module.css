@@ -7,26 +7,45 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: var(--apothem-space-4);
+  gap: var(--apothem-space-3);
   padding: var(--apothem-space-3);
   border-right: 1px solid var(--apothem-border);
   background: var(--apothem-surface);
 }
 
-.demoBadge {
-  align-self: flex-start;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mark {
+  color: var(--apothem-accent);
+}
+
+.wordmark {
+  font-weight: 700;
+  letter-spacing: 0.06em;
   font-size: 0.7rem;
+  color: var(--apothem-text-muted);
+}
+
+.demoBadge {
+  margin-left: auto;
+  font-size: 0.65rem;
   color: var(--apothem-warning);
   background: color-mix(in srgb, var(--apothem-warning) 12%, transparent);
   border: 1px solid var(--apothem-warning);
   border-radius: var(--apothem-radius-sm);
-  padding: 2px 8px;
+  padding: 1px 6px;
 }
 
 .identity {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding-bottom: var(--apothem-space-2);
+  border-bottom: 1px solid var(--apothem-border);
 }
 
 .orgLink {
@@ -62,6 +81,17 @@
 .navItem:hover {
   background: var(--apothem-surface-raised);
   color: var(--apothem-text);
+}
+
+.navItemActive {
+  background: var(--apothem-accent-muted);
+  color: var(--apothem-accent);
+  font-weight: 600;
+}
+
+.navItemActive:hover {
+  background: var(--apothem-accent-muted);
+  color: var(--apothem-accent);
 }
 
 .signOut {

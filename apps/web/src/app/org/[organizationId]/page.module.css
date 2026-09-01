@@ -1,44 +1,61 @@
-.main {
+.page {
   min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--apothem-space-2) var(--apothem-space-4);
+  border-bottom: 1px solid var(--apothem-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mark {
+  color: var(--apothem-accent);
+}
+
+.wordmark {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+}
+
+.signOutButton {
+  background: transparent;
+  border: 1px solid var(--apothem-border);
+  border-radius: var(--apothem-radius-sm);
+  color: var(--apothem-text-muted);
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.signOutButton:hover {
+  color: var(--apothem-text);
+  border-color: var(--apothem-border-strong);
+}
+
+.main {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--apothem-space-4);
-  padding: var(--apothem-space-4);
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--apothem-space-1);
-  text-align: center;
-}
-
-.wordmark {
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--apothem-text-muted);
-  font-size: 0.85rem;
-}
-
-.headline {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.subheadline {
-  font-size: 1.05rem;
-  font-weight: 600;
-}
-
-.hint {
-  font-size: 0.85rem;
-  color: var(--apothem-text-muted);
+  padding: var(--apothem-space-5) var(--apothem-space-4);
 }
 
 .demoBanner {
   width: 100%;
-  max-width: 640px;
+  max-width: 720px;
   text-align: center;
   font-size: 0.8rem;
   color: var(--apothem-warning);
@@ -48,9 +65,33 @@
   padding: 8px 12px;
 }
 
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.orgSlug {
+  font-size: 0.75rem;
+  color: var(--apothem-text-subtle);
+  font-family: var(--apothem-font-mono);
+}
+
+.headline {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: var(--apothem-text-muted);
+}
+
 .workspaceGrid {
   width: 100%;
-  max-width: 640px;
+  max-width: 720px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: var(--apothem-space-2);
@@ -59,7 +100,26 @@
 .workspaceCard {
   display: flex;
   flex-direction: column;
-  gap: var(--apothem-space-1);
+  gap: var(--apothem-space-2);
+}
+
+.workspaceIcon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--apothem-radius-md);
+  background: var(--apothem-accent-muted);
+  color: var(--apothem-accent);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.workspaceMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .workspaceName {
@@ -69,18 +129,33 @@
 .workspaceSlug {
   font-size: 0.8rem;
   color: var(--apothem-text-muted);
+  font-family: var(--apothem-font-mono);
+}
+
+.workspaceOpen {
+  align-self: flex-start;
 }
 
 .createCard {
-  width: 100%;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--apothem-space-3);
-}
-
-.form {
   display: flex;
   flex-direction: column;
   gap: var(--apothem-space-2);
+  border-style: dashed;
+  background: transparent;
+}
+
+.createLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--apothem-text-muted);
+}
+
+.createForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-1);
+}
+
+.createSubmit {
+  align-self: flex-start;
 }
