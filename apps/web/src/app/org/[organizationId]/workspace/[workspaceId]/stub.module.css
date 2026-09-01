@@ -1,0 +1,26 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-2);
+  max-width: 720px;
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--apothem-text-muted);
+}
+
+.emptyState {
+  margin-top: var(--apothem-space-2);
+  padding: var(--apothem-space-4);
+  border: 1px dashed var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-lg);
+  color: var(--apothem-text-subtle);
+  font-size: 0.85rem;
+  text-align: center;
+}

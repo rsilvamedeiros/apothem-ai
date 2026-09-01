@@ -1,82 +1,93 @@
 import { getOrganization, listWorkspaces } from "@apothem/api-client";
 import { Button, Card } from "@apothem/ui";
-import { getApiClient } from "@/lib/session";
 import { createWorkspaceAction } from "./actions";
+import { getApiClient } from "@/lib/session";
+import { isNetworkError, mockOrganization, mockWorkspaces } from "@/lib/mock";
 import styles from "./page.module.css";
 
-export default async function OrganizationPage({
-  params,
-}: {
+type PageProps = {
   params: Promise<{ organizationId: string }>;
-}) {
+};
+
+export default async function OrganizationPage({ params }: PageProps) {
   const { organizationId } = await params;
   const client = await getApiClient();
 
-  const [orgResult, workspacesResult] = await Promise.all([
-    getOrganization(client, organizationId),
-    listWorkspaces(client, organizationId),
-  ]);
+  let organization;
+  let workspaces;
+  let isMock = false;
 
-  if (orgResult.error || !orgResult.data) {
-    return (
-      <main className={styles.main}>
-        <div className={styles.content}>
-          <p className={styles.error}>
-            Could not load organization {organizationId}. Confirm the
-            principal id has membership and apothem-api is running.
+  try {
+    const [orgResult, workspacesResult] = await Promise.all([
+      getOrganization(client, organizationId),
+      listWorkspaces(client, organizationId),
+    ]);
+
+    if (orgResult.error || !orgResult.data) {
+      return (
+        <main className={styles.main}>
+          <p className={styles.hint}>
+            Could not load organization {organizationId}. Confirm the principal id has
+            membership and apothem-api is running.
           </p>
-        </div>
-      </main>
-    );
+        </main>
+      );
+    }
+
+    organization = orgResult.data;
+    workspaces = workspacesResult.data ?? [];
+  } catch (error) {
+    if (!isNetworkError(error)) throw error;
+    organization = mockOrganization(organizationId);
+    workspaces = mockWorkspaces(organizationId);
+    isMock = true;
   }
 
-  const organization = orgResult.data;
-  const workspaces = workspacesResult.data ?? [];
+  const boundCreateWorkspace = createWorkspaceAction.bind(null, organizationId);
 
   return (
     <main className={styles.main}>
-      <header className={styles.header}>
-        <div>
-          <div className={styles.orgName}>{organization.name}</div>
-          <div className={styles.orgSlug}>{organization.slug}</div>
-        </div>
-      </header>
-
-      <div className={styles.content}>
-        <section>
-          <h2 className={styles.sectionTitle}>Workspaces</h2>
-          {workspaces.length === 0 ? (
-            <p className={styles.empty}>No workspaces yet.</p>
-          ) : (
-            <div className={styles.workspaceList}>
-              {workspaces.map((workspace) => (
-                <Card key={workspace.id} className={styles.workspaceItem}>
-                  <span>{workspace.name}</span>
-                  <span className={styles.orgSlug}>{workspace.slug}</span>
-                </Card>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section>
-          <h2 className={styles.sectionTitle}>Create workspace</h2>
-          <form
-            className={styles.form}
-            action={createWorkspaceAction.bind(null, organizationId)}
-          >
-            <label>
-              Name
-              <input name="name" required />
-            </label>
-            <label>
-              Slug
-              <input name="slug" required />
-            </label>
-            <Button type="submit">Create</Button>
-          </form>
-        </section>
+      {isMock && (
+        <p className={styles.demoBanner}>
+          Demo mode — apothem-api is unreachable, showing fixture data so you can review
+          the layout.
+        </p>
+      )}
+      <div className={styles.header}>
+        <span className={styles.wordmark}>APOTHEM</span>
+        <h1 className={styles.headline}>{organization.name}</h1>
+        <p className={styles.hint}>Choose a workspace to continue.</p>
       </div>
+
+      <div className={styles.workspaceGrid}>
+        {workspaces.map((workspace) => (
+          <Card key={workspace.id} className={styles.workspaceCard}>
+            <span className={styles.workspaceName}>{workspace.name}</span>
+            <span className={styles.workspaceSlug}>{workspace.slug}</span>
+            <Button href={`/org/${organizationId}/workspace/${workspace.id}/overview`}>
+              Open
+            </Button>
+          </Card>
+        ))}
+        {workspaces.length === 0 && (
+          <p className={styles.hint}>No workspaces yet. Create the first one below.</p>
+        )}
+      </div>
+
+      <Card className={styles.createCard}>
+        <h2 className={styles.subheadline}>New workspace</h2>
+        <form className={styles.form} action={boundCreateWorkspace}>
+          <label>
+            Name
+            <input name="name" placeholder="Support Operations" required />
+          </label>
+          <label>
+            Slug
+            <input name="slug" placeholder="support-operations" required />
+          </label>
+          <Button type="submit">Create workspace</Button>
+        </form>
+      </Card>
     </main>
   );
 }

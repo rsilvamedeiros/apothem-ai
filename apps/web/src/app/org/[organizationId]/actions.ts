@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { createWorkspace } from "@apothem/api-client";
 import { getApiClient } from "@/lib/session";
 
@@ -12,10 +12,10 @@ export async function createWorkspaceAction(organizationId: string, formData: Fo
   }
 
   const client = await getApiClient();
-  const { error } = await createWorkspace(client, organizationId, { name, slug });
-  if (error) {
+  const { data, error } = await createWorkspace(client, organizationId, { name, slug });
+  if (error || !data) {
     throw new Error("Failed to create workspace");
   }
 
-  revalidatePath(`/org/${organizationId}`);
+  redirect(`/org/${organizationId}/workspace/${data.id}/overview`);
 }

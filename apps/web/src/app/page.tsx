@@ -17,11 +17,21 @@ export default function SignInPage() {
         <form className={styles.form} action={signIn}>
           <label>
             Principal ID
-            <input name="principalId" placeholder="00000000-0000-0000-0000-000000000000" required />
+            <input
+              name="principalId"
+              defaultValue="00000000-0000-0000-0000-000000000000"
+              placeholder="00000000-0000-0000-0000-000000000000"
+              required
+            />
           </label>
           <label>
             Organization ID
-            <input name="organizationId" placeholder="00000000-0000-0000-0000-000000000000" required />
+            <input
+              name="organizationId"
+              defaultValue="00000000-0000-0000-0000-000000000000"
+              placeholder="00000000-0000-0000-0000-000000000000"
+              required
+            />
           </label>
           <Button type="submit">Continue</Button>
         </form>

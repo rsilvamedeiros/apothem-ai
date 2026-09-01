@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { setSessionPrincipalId } from "@/lib/session";
+import { clearSessionPrincipalId, setSessionPrincipalId } from "@/lib/session";
 
 export async function signIn(formData: FormData): Promise<void> {
   const principalId = String(formData.get("principalId") ?? "").trim();
@@ -13,4 +13,9 @@ export async function signIn(formData: FormData): Promise<void> {
 
   await setSessionPrincipalId(principalId);
   redirect(`/org/${organizationId}`);
+}
+
+export async function signOut(): Promise<void> {
+  await clearSessionPrincipalId();
+  redirect("/");
 }
