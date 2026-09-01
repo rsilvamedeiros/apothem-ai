@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { href: "/sobre", label: "Sobre" },
   { href: "/roadmap", label: "Roadmap" },
   { href: "/desenvolvedores", label: "Desenvolvedores" },
+  { href: "/qualidade", label: "Qualidade" },
   { href: "/contato", label: "Contato" },
 ];
 
