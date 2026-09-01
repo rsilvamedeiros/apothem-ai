@@ -4,3 +4,5 @@ export { Card } from "./components/card";
 export type { CardProps } from "./components/card";
 export { Logomark } from "./components/logomark";
 export type { LogomarkProps } from "./components/logomark";
+export { StatusBadge } from "./components/status-badge";
+export type { StatusBadgeProps, StatusTone } from "./components/status-badge";

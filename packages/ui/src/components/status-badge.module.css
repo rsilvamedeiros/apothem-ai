@@ -1,0 +1,41 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: var(--apothem-radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.neutral {
+  color: var(--apothem-text-muted);
+  background: var(--apothem-surface-raised);
+  border-color: var(--apothem-border);
+}
+
+.info {
+  color: var(--apothem-info);
+  background: color-mix(in srgb, var(--apothem-info) 12%, transparent);
+  border-color: var(--apothem-info);
+}
+
+.success {
+  color: var(--apothem-success);
+  background: color-mix(in srgb, var(--apothem-success) 12%, transparent);
+  border-color: var(--apothem-success);
+}
+
+.warning {
+  color: var(--apothem-warning);
+  background: color-mix(in srgb, var(--apothem-warning) 12%, transparent);
+  border-color: var(--apothem-warning);
+}
+
+.danger {
+  color: var(--apothem-danger);
+  background: color-mix(in srgb, var(--apothem-danger) 12%, transparent);
+  border-color: var(--apothem-danger);
+}
