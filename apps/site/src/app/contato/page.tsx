@@ -17,7 +17,7 @@ export default function ContatoPage() {
 
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal className="flex flex-col gap-6">
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
+          <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">
             Contato
           </span>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">

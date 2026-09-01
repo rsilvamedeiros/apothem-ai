@@ -152,7 +152,7 @@ export default function HomePage() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 sm:py-28 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="flex flex-col gap-6">
             <Reveal>
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
+              <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">
                 Plataforma de IA para empresas
               </span>
             </Reveal>
@@ -236,7 +236,7 @@ export default function HomePage() {
       <section className="border-b border-border bg-surface/40">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 lg:grid-cols-2">
           <Reveal className="flex flex-col gap-3">
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
+            <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">
               O problema real
             </span>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -262,11 +262,14 @@ export default function HomePage() {
       <section id="como-funciona" className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-sm font-medium uppercase tracking-[0.2em] text-text-muted">
-              Como funciona
+            <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">
+              O ciclo Apothem
+            </span>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+              Como funciona, do primeiro contexto à ação final.
             </h2>
           </Reveal>
-          <Reveal delay={0.1} className="mt-10">
+          <Reveal delay={0.1} className="mt-10 rounded-xl border border-border bg-surface p-8">
             <LoopFlowDiagram steps={LOOP_STEPS} />
           </Reveal>
         </div>

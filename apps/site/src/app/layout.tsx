@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Manrope, JetBrains_Mono } from "next/font/google";
 import { MotionProvider } from "@/components/motion/providers";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono" });
 
 export const metadata: Metadata = {
   title: "APOTHEM AI: inteligência no centro do negócio",
@@ -15,7 +17,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    <html
+      lang="pt-BR"
+      className={`${inter.variable} ${manrope.variable} ${jetbrainsMono.variable}`}
+    >
       <body>
         <MotionProvider>{children}</MotionProvider>
       </body>

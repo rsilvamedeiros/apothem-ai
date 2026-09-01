@@ -106,7 +106,7 @@ export default function ProdutoPage() {
 
       <section className="mx-auto flex max-w-3xl flex-col gap-4 px-6 pb-8 pt-20">
         <Reveal>
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
+          <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">
             Arquitetura de produto
           </span>
         </Reveal>
