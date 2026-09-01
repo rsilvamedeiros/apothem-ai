@@ -1,0 +1,61 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-3);
+  max-width: 880px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--apothem-space-2);
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--apothem-text-muted);
+}
+
+.emptyState {
+  padding: var(--apothem-space-4);
+  border: 1px dashed var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-lg);
+  color: var(--apothem-text-subtle);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-1);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sectionHint {
+  font-size: 0.8rem;
+  color: var(--apothem-text-subtle);
+  margin-bottom: var(--apothem-space-1);
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--apothem-space-2);
+}

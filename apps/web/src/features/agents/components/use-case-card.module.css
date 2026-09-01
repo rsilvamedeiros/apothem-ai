@@ -1,0 +1,22 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: default;
+}
+
+.card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.description {
+  font-size: 0.8rem;
+  color: var(--apothem-text-muted);
+  line-height: 1.4;
+}
