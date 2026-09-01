@@ -19,6 +19,9 @@ import {
   Headset,
   Table2,
   MessageCircle,
+  Bot,
+  BookOpen,
+  ArrowRight,
   type LucideIcon,
 } from "lucide-react";
 import { Card } from "@apothem/ui";
@@ -73,22 +76,22 @@ const LOOP_STEPS = [
 
 const SHOWCASE = [
   {
+    icon: BookOpen,
     name: "Apothem Knowledge",
     description: "Cada resposta baseada em conhecimento corporativo cita a fonte de onde veio.",
     preview: <EvidencePreview />,
-    span: "lg:col-span-7 lg:row-span-2",
   },
   {
+    icon: Bot,
     name: "Apothem Agents",
     description: "Agentes configurados com objetivo, conhecimento, ferramentas e permissões claras.",
     preview: <AgentConfigPreview />,
-    span: "lg:col-span-5",
   },
   {
+    icon: ShieldCheck,
     name: "Apothem Control",
     description: "Toda ação relevante fica registrada, com identidade, política e decisão.",
     preview: <AuditLogPreview />,
-    span: "lg:col-span-5",
   },
 ];
 
@@ -277,31 +280,38 @@ export default function HomePage() {
 
       <section className="border-b border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <Reveal className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Construído como plataforma, não como um chatbot avulso.
+          <Reveal className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <h2 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl">
+              Construído como{" "}
+              <span className="bg-gradient-to-r from-accent to-info bg-clip-text text-transparent">
+                plataforma
+              </span>
+              , não como um chatbot avulso.
             </h2>
-            <div className="flex flex-col gap-3">
-              <p className="text-text-muted">
+            <div className="flex flex-col gap-4">
+              <p className="text-lg leading-relaxed text-text-muted">
                 A APOTHEM é um núcleo de inteligência reutilizável. Isto é o que acontece por
                 trás de cada agente, antes mesmo de você ver a primeira resposta.
               </p>
-              <a href="/produto" className="w-fit text-sm text-accent hover:underline">
-                Ver todos os pilares →
+              <a
+                href="/produto"
+                className="group inline-flex w-fit items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm font-semibold text-text transition-colors hover:border-accent hover:text-accent"
+              >
+                Ver todos os pilares
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
               </a>
             </div>
           </Reveal>
-          <div className="mt-6 grid gap-4 lg:grid-cols-12 lg:grid-rows-2">
+          <div className="mt-10 grid gap-6 sm:grid-cols-3 sm:items-stretch">
             {SHOWCASE.map((item, i) => (
-              <Reveal
-                key={item.name}
-                delay={i * 0.08}
-                className={`flex flex-col gap-3 rounded-lg border border-border bg-surface p-4 ${item.span}`}
-              >
-                {item.preview}
-                <div>
-                  <h3 className="text-base font-semibold">{item.name}</h3>
-                  <p className="mt-1 text-sm text-text-muted">{item.description}</p>
+              <Reveal key={item.name} delay={i * 0.08} className="h-full">
+                <div className="flex h-full flex-col gap-4 rounded-lg border border-border bg-surface p-5">
+                  <div className="flex items-center gap-2">
+                    <item.icon className="h-5 w-5 text-accent" aria-hidden />
+                    <h3 className="font-heading text-base font-bold">{item.name}</h3>
+                  </div>
+                  <div className="flex-1">{item.preview}</div>
+                  <p className="text-sm text-text-muted">{item.description}</p>
                 </div>
               </Reveal>
             ))}
@@ -424,21 +434,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="demo" className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-20">
-        <Reveal>
-          <div className="flex flex-col gap-2">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-              Pronto para transformar contexto de negócio em ação governada?
-            </h2>
-            <p className="max-w-xl text-text-muted">
-              Conte um pouco sobre sua empresa e entramos em contato para agendar uma
-              demonstração.
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <LeadForm />
-        </Reveal>
+      <section id="demo" className="relative overflow-hidden border-t border-border">
+        <div className="bg-dot-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden />
+        <div className="relative mx-auto max-w-6xl px-6 py-20 sm:py-24">
+          <Reveal className="relative overflow-hidden rounded-2xl border border-border bg-surface p-8 sm:p-12">
+            <div
+              className="pointer-events-none absolute -right-24 -top-24 -z-10 h-64 w-64 rounded-full bg-accent opacity-[0.12] blur-3xl"
+              aria-hidden
+            />
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-3">
+                  <span className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent">
+                    Comece agora
+                  </span>
+                  <h2 className="text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl">
+                    Pronto para transformar{" "}
+                    <span className="bg-gradient-to-r from-accent to-info bg-clip-text text-transparent">
+                      contexto de negócio
+                    </span>{" "}
+                    em ação governada?
+                  </h2>
+                  <p className="text-lg leading-relaxed text-text-muted">
+                    Conte um pouco sobre sua empresa e entramos em contato para agendar uma
+                    demonstração.
+                  </p>
+                </div>
+                <ol className="flex flex-col gap-4">
+                  {[
+                    "Você conta sobre sua empresa e o problema que quer resolver",
+                    "Agendamos uma conversa de 30 minutos com o time",
+                    "Mapeamos juntos o primeiro caso de uso",
+                  ].map((step, i) => (
+                    <li key={step} className="flex items-center gap-3">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border bg-surface-raised text-xs font-semibold text-accent">
+                        {i + 1}
+                      </span>
+                      <span className="text-sm text-text-muted">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              <div className="rounded-xl border border-border bg-surface-raised p-6">
+                <LeadForm />
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       <SiteFooter />

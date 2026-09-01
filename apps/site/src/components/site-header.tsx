@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { LogoMark } from "@/components/logo-mark";
 import { MobileNav } from "@/components/mobile-nav";
 
@@ -28,9 +29,10 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <Link
             href="/contato"
-            className="hidden rounded-md bg-accent px-4 py-2 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-strong sm:inline-flex"
+            className="group hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-accent to-info px-4 py-2 text-sm font-semibold text-on-accent shadow-[0_0_0_0_var(--apothem-accent)] transition-all hover:shadow-[0_0_20px_-2px_var(--apothem-accent)] sm:inline-flex"
           >
             Solicitar demonstração
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
           </Link>
           <MobileNav />
         </div>
