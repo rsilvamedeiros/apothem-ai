@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { LogoMark } from "@/components/logo-mark";
 import { MobileNav } from "@/components/mobile-nav";
+import { CtaLink } from "@/components/cta-link";
 
 const NAV_LINKS = [
   { href: "/produto", label: "Produto" },
@@ -27,13 +27,11 @@ export function SiteHeader() {
           <span className="cursor-default opacity-60">Docs</span>
         </nav>
         <div className="flex items-center gap-3">
-          <Link
-            href="/contato"
-            className="group hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-accent to-info px-4 py-2 text-sm font-semibold text-on-accent shadow-[0_0_0_0_var(--apothem-accent)] transition-all hover:shadow-[0_0_20px_-2px_var(--apothem-accent)] sm:inline-flex"
-          >
-            Solicitar demonstração
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-          </Link>
+          <div className="hidden sm:block">
+            <CtaLink href="/contato" className="!py-2">
+              Solicitar demonstração
+            </CtaLink>
+          </div>
           <MobileNav />
         </div>
       </div>

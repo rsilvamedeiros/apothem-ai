@@ -35,6 +35,7 @@ import { AuditLogPreview } from "@/components/audit-log-preview";
 import { Faq } from "@/components/faq";
 import { LeadForm } from "@/components/lead-form";
 import { CtaBanner } from "@/components/cta-banner";
+import { CtaLink } from "@/components/cta-link";
 import { Reveal } from "@/components/motion/reveal";
 
 const TRUST_POINTS: { icon: LucideIcon; text: string }[] = [
@@ -177,18 +178,10 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={0.15}>
               <div className="flex flex-wrap gap-3">
-                <a
-                  href="#demo"
-                  className="inline-flex items-center justify-center rounded-md bg-accent px-5 py-3 text-sm font-semibold text-on-accent transition-colors hover:bg-accent-strong"
-                >
-                  Solicitar demonstração
-                </a>
-                <a
-                  href="#como-funciona"
-                  className="inline-flex items-center justify-center rounded-md border border-border px-5 py-3 text-sm font-semibold text-text transition-colors hover:border-border-strong"
-                >
+                <CtaLink href="#demo">Solicitar demonstração</CtaLink>
+                <CtaLink href="#como-funciona" variant="secondary">
                   Ver como funciona
-                </a>
+                </CtaLink>
               </div>
             </Reveal>
             <Reveal delay={0.2}>

@@ -1,6 +1,8 @@
 import { ChevronDown } from "lucide-react";
 
-const FAQ_ITEMS = [
+export type FaqItem = { question: string; answer: string };
+
+const DEFAULT_ITEMS: FaqItem[] = [
   {
     question: "Meus dados ficam seguros?",
     answer:
@@ -28,10 +30,10 @@ const FAQ_ITEMS = [
   },
 ];
 
-export function Faq() {
+export function Faq({ items = DEFAULT_ITEMS }: { items?: FaqItem[] }) {
   return (
     <div className="mx-auto flex max-w-3xl flex-col divide-y divide-border">
-      {FAQ_ITEMS.map((item) => (
+      {items.map((item) => (
         <details key={item.question} className="group py-4">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-medium">
             {item.question}
