@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: "/solucoes", label: "Soluções" },
   { href: "/seguranca", label: "Segurança" },
   { href: "/precos", label: "Preços" },
+  { href: "/sobre", label: "Sobre" },
 ];
 
 export function SiteHeader() {
