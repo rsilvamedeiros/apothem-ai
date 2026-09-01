@@ -1,4 +1,3 @@
-import { Card } from "@apothem/ui";
 import {
   Search,
   Plug,
@@ -7,18 +6,23 @@ import {
   ShieldCheck,
   FileSearch,
   ScrollText,
-  Bot,
-  BookOpen,
-  BarChart3,
   Building2,
   Wrench,
   UserCheck,
   ShieldAlert,
+  AlertTriangle,
+  Check,
+  X,
   type LucideIcon,
 } from "lucide-react";
+import { Card } from "@apothem/ui";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { RunPreviewCard } from "@/components/run-preview-card";
+import { AgentConfigPreview } from "@/components/agent-config-preview";
+import { EvidencePreview } from "@/components/evidence-preview";
+import { AuditLogPreview } from "@/components/audit-log-preview";
+import { Faq } from "@/components/faq";
 import { LeadForm } from "@/components/lead-form";
 import { CtaBanner } from "@/components/cta-banner";
 import { Reveal } from "@/components/motion/reveal";
@@ -29,6 +33,12 @@ const TRUST_POINTS: { icon: LucideIcon; text: string }[] = [
   { icon: ScrollText, text: "Auditoria completa, do primeiro run em diante" },
 ];
 
+const RISKS = [
+  "Agentes com acesso amplo demais e sem trilha de auditoria",
+  "Respostas sem evidência, difíceis de confiar em decisões reais",
+  "Automação que ninguém revisa antes de agir sobre um sistema real",
+];
+
 const LOOP_STEPS: { icon: LucideIcon; title: string; body: string }[] = [
   { icon: Search, title: "Entender", body: "Contexto de negócio, políticas e conhecimento autorizado." },
   { icon: Plug, title: "Conectar", body: "Sistemas, dados e ferramentas reais da empresa." },
@@ -36,21 +46,39 @@ const LOOP_STEPS: { icon: LucideIcon; title: string; body: string }[] = [
   { icon: Zap, title: "Agir", body: "Execução autorizada, com aprovação e auditoria." },
 ];
 
-const PILLARS: { icon: LucideIcon; name: string; description: string }[] = [
+const SHOWCASE = [
   {
-    icon: Bot,
     name: "Apothem Agents",
-    description: "Agentes de IA configurados com objetivo, conhecimento, ferramentas e permissões claras.",
+    description: "Agentes configurados com objetivo, conhecimento, ferramentas e permissões claras.",
+    preview: <AgentConfigPreview />,
   },
   {
-    icon: BookOpen,
     name: "Apothem Knowledge",
-    description: "Ingestão e recuperação de conhecimento corporativo, com evidência rastreável até a fonte.",
+    description: "Cada resposta baseada em conhecimento corporativo cita a fonte de onde veio.",
+    preview: <EvidencePreview />,
   },
   {
-    icon: BarChart3,
     name: "Apothem Control",
-    description: "Governança, auditoria, uso e observabilidade desde o primeiro run.",
+    description: "Toda ação relevante fica registrada, com identidade, política e decisão.",
+    preview: <AuditLogPreview />,
+  },
+];
+
+const DIFFERENTIATORS = [
+  {
+    title: "Chatbot genérico",
+    description: "Responde perguntas, mas não age nos seus sistemas nem preserva evidência.",
+    highlight: false,
+  },
+  {
+    title: "Construir internamente",
+    description: "Alto custo de engenharia para reconstruir aprovação, auditoria e evidência do zero.",
+    highlight: false,
+  },
+  {
+    title: "APOTHEM",
+    description: "Plataforma pronta, com aprovação, auditoria e evidência desde o primeiro agente.",
+    highlight: true,
   },
 ];
 
@@ -113,15 +141,51 @@ export default function HomePage() {
                 ))}
               </ul>
             </Reveal>
+            <Reveal delay={0.25}>
+              <div className="flex flex-wrap items-center gap-2 border-t border-border pt-4 text-xs text-text-subtle">
+                <span>Aplicável a</span>
+                {["Suporte", "Financeiro", "Operações", "TI"].map((area) => (
+                  <span key={area} className="rounded-sm border border-border px-2 py-1">
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </Reveal>
           </div>
 
-          <Reveal delay={0.15} className="flex justify-center lg:justify-end">
+          <Reveal delay={0.15} className="flex justify-center pt-6 lg:justify-end lg:pt-0">
             <RunPreviewCard />
           </Reveal>
         </div>
       </section>
 
-      <section id="como-funciona" className="border-b border-border bg-surface/40">
+      <section className="border-b border-border bg-surface/40">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 lg:grid-cols-2">
+          <Reveal className="flex flex-col gap-3">
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
+              O problema real
+            </span>
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Sua empresa já tem acesso a modelos poderosos. O que falta é controle.
+            </h2>
+            <p className="text-text-muted">
+              O gargalo não é acesso a um LLM. É a ausência de uma camada operacional que
+              converta contexto de negócio em ação segura, conectada aos seus sistemas e
+              respeitando suas políticas e permissões.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1} className="flex flex-col gap-3">
+            {RISKS.map((risk) => (
+              <div key={risk} className="flex items-start gap-3 rounded-md border border-border bg-surface p-4">
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden />
+                <span className="text-sm text-text-muted">{risk}</span>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      <section id="como-funciona" className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
             <h2 className="text-sm font-medium uppercase tracking-[0.2em] text-text-muted">
@@ -142,7 +206,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-border">
+      <section className="border-b border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
             <div className="flex items-end justify-between gap-4">
@@ -152,16 +216,44 @@ export default function HomePage() {
               </a>
             </div>
             <p className="mt-2 max-w-2xl text-text-muted">
-              A APOTHEM é um núcleo de inteligência reutilizável, não um chatbot de propósito único.
+              A APOTHEM é um núcleo de inteligência reutilizável, não um chatbot de propósito
+              único. Isto é o que acontece por trás de cada agente:
             </p>
           </Reveal>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {PILLARS.map((pillar, i) => (
-              <Reveal key={pillar.name} delay={i * 0.08}>
-                <Card className="h-full">
-                  <pillar.icon className="h-5 w-5 text-accent" aria-hidden />
-                  <h3 className="mt-2 text-base font-semibold">{pillar.name}</h3>
-                  <p className="mt-1 text-sm text-text-muted">{pillar.description}</p>
+            {SHOWCASE.map((item, i) => (
+              <Reveal key={item.name} delay={i * 0.08} className="flex flex-col gap-3">
+                {item.preview}
+                <div>
+                  <h3 className="text-base font-semibold">{item.name}</h3>
+                  <p className="mt-1 text-sm text-text-muted">{item.description}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Reveal>
+            <h2 className="text-2xl font-semibold tracking-tight">Por que não é só mais um chatbot</h2>
+          </Reveal>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {DIFFERENTIATORS.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.08}>
+                <Card
+                  className={
+                    "h-full " + (item.highlight ? "border-accent bg-accent-muted/30" : undefined)
+                  }
+                >
+                  {item.highlight ? (
+                    <Check className="h-5 w-5 text-accent" aria-hidden />
+                  ) : (
+                    <X className="h-5 w-5 text-text-subtle" aria-hidden />
+                  )}
+                  <h3 className="mt-2 text-base font-semibold">{item.title}</h3>
+                  <p className="mt-1 text-sm text-text-muted">{item.description}</p>
                 </Card>
               </Reveal>
             ))}
@@ -193,6 +285,17 @@ export default function HomePage() {
                 </div>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Reveal>
+            <h2 className="text-2xl font-semibold tracking-tight">Perguntas frequentes</h2>
+          </Reveal>
+          <div className="mt-8">
+            <Faq />
           </div>
         </div>
       </section>
