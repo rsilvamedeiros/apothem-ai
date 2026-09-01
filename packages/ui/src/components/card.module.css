@@ -3,4 +3,14 @@
   border: 1px solid var(--apothem-border);
   border-radius: var(--apothem-radius-lg);
   padding: var(--apothem-space-3);
+  transition:
+    border-color var(--apothem-duration-base) var(--apothem-easing-standard),
+    transform var(--apothem-duration-base) var(--apothem-easing-standard),
+    box-shadow var(--apothem-duration-base) var(--apothem-easing-standard);
+}
+
+.card:hover {
+  border-color: var(--apothem-border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--apothem-shadow-md);
 }

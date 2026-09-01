@@ -5,7 +5,7 @@ const SOURCES = ["Política de reembolso v4", "Manual do produto §3.2", "SLA �
 /** Visual mockup of a grounded answer with source citations, selling Knowledge concretely. */
 export function EvidencePreview() {
   return (
-    <div className="flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-5">
+    <div className="flex h-full flex-col gap-3 rounded-md border border-border bg-surface-raised p-4">
       <span className="text-xs font-medium text-text-muted">Resposta com evidência</span>
       <p className="text-sm text-text">
         Reembolsos integrais são permitidos em até 7 dias após a compra, sem necessidade de

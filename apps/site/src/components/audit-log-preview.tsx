@@ -7,7 +7,7 @@ const ENTRIES = [
 /** Visual mockup of an audit trail, selling Control concretely. */
 export function AuditLogPreview() {
   return (
-    <div className="flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-5">
+    <div className="flex h-full flex-col gap-3 rounded-md border border-border bg-surface-raised p-4">
       <span className="text-xs font-medium text-text-muted">Trilha de auditoria</span>
       <ul className="flex flex-col gap-3">
         {ENTRIES.map((entry) => (

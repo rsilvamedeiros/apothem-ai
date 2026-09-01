@@ -9,7 +9,7 @@ const CONFIG = [
 /** Visual mockup of an agent's bound configuration, selling Agents concretely. */
 export function AgentConfigPreview() {
   return (
-    <div className="flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-5">
+    <div className="flex h-full flex-col gap-3 rounded-md border border-border bg-surface-raised p-4">
       <div className="flex items-center gap-2">
         <Bot className="h-4 w-4 text-accent" aria-hidden />
         <span className="text-sm font-medium">Agente de Suporte — v3</span>

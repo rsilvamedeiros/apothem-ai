@@ -109,7 +109,7 @@ export default function SegurancaPage() {
       <section className="border-t border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-semibold tracking-tight">Contra o que projetamos</h2>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Contra o que projetamos</h2>
             <p className="mt-2 max-w-2xl text-text-muted">
               IA muda a superfície de ataque. Entrada de modelo pode conter instruções
               hostis vindas de usuários, documentos ou ferramentas — tratamos isso como
@@ -131,7 +131,7 @@ export default function SegurancaPage() {
 
       <section className="mx-auto max-w-6xl px-6 py-16">
         <Reveal>
-          <h2 className="text-2xl font-semibold tracking-tight">Maturidade em estágios</h2>
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Maturidade em estágios</h2>
           <p className="mt-2 max-w-2xl text-text-muted">
             Somos honestos sobre onde estamos: a plataforma está em fase de fundação. Antes de
             um piloto externo, revisamos tenancy, autenticação, segredos, aprovação de

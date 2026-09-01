@@ -24,7 +24,8 @@ import {
 import { Card } from "@apothem/ui";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { RunPreviewCard } from "@/components/run-preview-card";
+import { HeroPreview } from "@/components/hero-preview";
+import { LoopFlowDiagram } from "@/components/loop-flow-diagram";
 import { AgentConfigPreview } from "@/components/agent-config-preview";
 import { EvidencePreview } from "@/components/evidence-preview";
 import { AuditLogPreview } from "@/components/audit-log-preview";
@@ -45,28 +46,49 @@ const RISKS = [
   "Automação que ninguém revisa antes de agir sobre um sistema real",
 ];
 
-const LOOP_STEPS: { icon: LucideIcon; title: string; body: string }[] = [
-  { icon: Search, title: "Entender", body: "Contexto de negócio, políticas e conhecimento autorizado." },
-  { icon: Plug, title: "Conectar", body: "Sistemas, dados e ferramentas reais da empresa." },
-  { icon: Brain, title: "Raciocinar", body: "Decisões dentro de limites explícitos, com evidência." },
-  { icon: Zap, title: "Agir", body: "Execução autorizada, com aprovação e auditoria." },
+const iconClass = "h-5 w-5 text-accent";
+
+const LOOP_STEPS = [
+  {
+    icon: <Search className={iconClass} aria-hidden />,
+    title: "Entender",
+    body: "Contexto de negócio, políticas e conhecimento autorizado.",
+  },
+  {
+    icon: <Plug className={iconClass} aria-hidden />,
+    title: "Conectar",
+    body: "Sistemas, dados e ferramentas reais da empresa.",
+  },
+  {
+    icon: <Brain className={iconClass} aria-hidden />,
+    title: "Raciocinar",
+    body: "Decisões dentro de limites explícitos, com evidência.",
+  },
+  {
+    icon: <Zap className={iconClass} aria-hidden />,
+    title: "Agir",
+    body: "Execução autorizada, com aprovação e auditoria.",
+  },
 ];
 
 const SHOWCASE = [
   {
-    name: "Apothem Agents",
-    description: "Agentes configurados com objetivo, conhecimento, ferramentas e permissões claras.",
-    preview: <AgentConfigPreview />,
-  },
-  {
     name: "Apothem Knowledge",
     description: "Cada resposta baseada em conhecimento corporativo cita a fonte de onde veio.",
     preview: <EvidencePreview />,
+    span: "lg:col-span-7 lg:row-span-2",
+  },
+  {
+    name: "Apothem Agents",
+    description: "Agentes configurados com objetivo, conhecimento, ferramentas e permissões claras.",
+    preview: <AgentConfigPreview />,
+    span: "lg:col-span-5",
   },
   {
     name: "Apothem Control",
     description: "Toda ação relevante fica registrada, com identidade, política e decisão.",
     preview: <AuditLogPreview />,
+    span: "lg:col-span-5",
   },
 ];
 
@@ -135,8 +157,12 @@ export default function HomePage() {
               </span>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
-                Dê aos seus agentes de IA o contexto certo e o controle que sua empresa exige.
+              <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+                Dê aos seus agentes de IA{" "}
+                <span className="bg-gradient-to-r from-accent to-info bg-clip-text text-transparent">
+                  o contexto certo
+                </span>{" "}
+                e o controle que sua empresa exige.
               </h1>
             </Reveal>
             <Reveal delay={0.1}>
@@ -185,8 +211,25 @@ export default function HomePage() {
           </div>
 
           <Reveal delay={0.15} className="flex justify-center pt-6 lg:justify-end lg:pt-0">
-            <RunPreviewCard />
+            <HeroPreview />
           </Reveal>
+        </div>
+      </section>
+
+      <section className="border-b border-border">
+        <div className="mx-auto grid max-w-6xl gap-8 px-6 py-14 sm:grid-cols-3">
+          {[
+            { n: "01", label: "Evidência sempre, em cada resposta baseada em conhecimento." },
+            { n: "02", label: "Aprovação sempre, em toda ação com risco real." },
+            { n: "03", label: "Auditoria sempre, do primeiro run em diante." },
+          ].map((item, i) => (
+            <Reveal key={item.n} delay={i * 0.08} className="flex items-start gap-4">
+              <span className="text-4xl font-semibold tracking-tight text-border-strong sm:text-5xl">
+                {item.n}
+              </span>
+              <span className="pt-1 text-sm text-text-muted">{item.label}</span>
+            </Reveal>
+          ))}
         </div>
       </section>
 
@@ -196,7 +239,7 @@ export default function HomePage() {
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-accent">
               O problema real
             </span>
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               Sua empresa já tem acesso a modelos poderosos. O que falta é controle.
             </h2>
             <p className="text-text-muted">
@@ -223,37 +266,35 @@ export default function HomePage() {
               Como funciona
             </h2>
           </Reveal>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {LOOP_STEPS.map((step, i) => (
-              <Reveal key={step.title} delay={i * 0.08}>
-                <Card className="flex h-full flex-col gap-2">
-                  <step.icon className="h-5 w-5 text-accent" aria-hidden />
-                  <h3 className="text-base font-semibold">{step.title}</h3>
-                  <p className="text-sm text-text-muted">{step.body}</p>
-                </Card>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={0.1} className="mt-10">
+            <LoopFlowDiagram steps={LOOP_STEPS} />
+          </Reveal>
         </div>
       </section>
 
       <section className="border-b border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
-          <Reveal>
-            <div className="flex items-end justify-between gap-4">
-              <h2 className="text-2xl font-semibold tracking-tight">Construído como plataforma</h2>
-              <a href="/produto" className="text-sm text-accent hover:underline">
+          <Reveal className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Construído como plataforma, não como um chatbot avulso.
+            </h2>
+            <div className="flex flex-col gap-3">
+              <p className="text-text-muted">
+                A APOTHEM é um núcleo de inteligência reutilizável. Isto é o que acontece por
+                trás de cada agente, antes mesmo de você ver a primeira resposta.
+              </p>
+              <a href="/produto" className="w-fit text-sm text-accent hover:underline">
                 Ver todos os pilares →
               </a>
             </div>
-            <p className="mt-2 max-w-2xl text-text-muted">
-              A APOTHEM é um núcleo de inteligência reutilizável, não um chatbot de propósito
-              único. Isto é o que acontece por trás de cada agente:
-            </p>
           </Reveal>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 grid gap-4 lg:grid-cols-12 lg:grid-rows-2">
             {SHOWCASE.map((item, i) => (
-              <Reveal key={item.name} delay={i * 0.08} className="flex flex-col gap-3">
+              <Reveal
+                key={item.name}
+                delay={i * 0.08}
+                className={`flex flex-col gap-3 rounded-lg border border-border bg-surface p-4 ${item.span}`}
+              >
                 {item.preview}
                 <div>
                   <h3 className="text-base font-semibold">{item.name}</h3>
@@ -268,7 +309,7 @@ export default function HomePage() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-semibold tracking-tight">Por que não é só mais um chatbot</h2>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Por que não é só mais um chatbot</h2>
           </Reveal>
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {DIFFERENTIATORS.map((item, i) => (
@@ -296,7 +337,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
             <div className="flex items-end justify-between gap-4">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                 Segurança de nível enterprise, desde o primeiro agente
               </h2>
               <a href="/seguranca" className="text-sm text-accent hover:underline">
@@ -321,7 +362,7 @@ export default function HomePage() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-semibold tracking-tight">Conecta ao que sua empresa já usa</h2>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Conecta ao que sua empresa já usa</h2>
             <p className="mt-2 max-w-2xl text-text-muted">
               A arquitetura Connect traduz sistemas externos em ferramentas tipadas e
               auditáveis, sem expor credenciais ao modelo.
@@ -351,7 +392,7 @@ export default function HomePage() {
       <section className="border-b border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-semibold tracking-tight">Feito para times reais</h2>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Feito para times reais</h2>
           </Reveal>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {PERSONAS.map((persona, i) => (
@@ -372,7 +413,7 @@ export default function HomePage() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-semibold tracking-tight">Perguntas frequentes</h2>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Perguntas frequentes</h2>
           </Reveal>
           <div className="mt-8">
             <Faq />
@@ -383,7 +424,7 @@ export default function HomePage() {
       <section id="demo" className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-20">
         <Reveal>
           <div className="flex flex-col gap-2">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               Pronto para transformar contexto de negócio em ação governada?
             </h2>
             <p className="max-w-xl text-text-muted">

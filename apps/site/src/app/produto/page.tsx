@@ -149,7 +149,7 @@ export default function ProdutoPage() {
       <section className="border-t border-border bg-surface/40">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <Reveal>
-            <h2 className="text-2xl font-semibold tracking-tight">Casos de uso prioritários</h2>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Casos de uso prioritários</h2>
             <p className="mt-2 max-w-2xl text-text-muted">
               Cenários concretos que validam entender, conectar, raciocinar e agir em conjunto.
             </p>
