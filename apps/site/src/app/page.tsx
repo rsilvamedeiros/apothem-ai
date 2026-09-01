@@ -13,6 +13,12 @@ import {
   AlertTriangle,
   Check,
   X,
+  KeyRound,
+  Lock,
+  Users2,
+  Headset,
+  Table2,
+  MessageCircle,
   type LucideIcon,
 } from "lucide-react";
 import { Card } from "@apothem/ui";
@@ -80,6 +86,31 @@ const DIFFERENTIATORS = [
     description: "Plataforma pronta, com aprovação, auditoria e evidência desde o primeiro agente.",
     highlight: true,
   },
+];
+
+const SECURITY_HIGHLIGHTS: { icon: LucideIcon; title: string; description: string }[] = [
+  {
+    icon: Building2,
+    title: "Isolamento multi-tenant",
+    description: "Contexto de organização e workspace resolvido pela identidade autenticada, nunca pelo cliente.",
+  },
+  {
+    icon: KeyRound,
+    title: "Segredos criptografados",
+    description: "Credenciais nunca chegam ao modelo ou à UI — o executor da ferramenta usa identidade de servidor.",
+  },
+  {
+    icon: Lock,
+    title: "Falha para o lado seguro",
+    description: "Autorização ambígua nega por padrão. Aprovação expirada nunca é aprovada automaticamente.",
+  },
+];
+
+const INTEGRATION_CATEGORIES: { icon: LucideIcon; title: string; description: string }[] = [
+  { icon: Users2, title: "CRM", description: "Leitura e atualização controlada de clientes e oportunidades." },
+  { icon: Headset, title: "Central de atendimento", description: "Tickets, filas e histórico de conversas." },
+  { icon: Table2, title: "Planilhas & BI", description: "Dados estruturados como fonte de conhecimento ou consulta." },
+  { icon: MessageCircle, title: "Comunicação", description: "Mensagens e notificações para times e operadores." },
 ];
 
 const PERSONAS: { icon: LucideIcon; role: string; need: string }[] = [
@@ -252,6 +283,55 @@ export default function HomePage() {
                   ) : (
                     <X className="h-5 w-5 text-text-subtle" aria-hidden />
                   )}
+                  <h3 className="mt-2 text-base font-semibold">{item.title}</h3>
+                  <p className="mt-1 text-sm text-text-muted">{item.description}</p>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border bg-surface/40">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Reveal>
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Segurança de nível enterprise, desde o primeiro agente
+              </h2>
+              <a href="/seguranca" className="text-sm text-accent hover:underline">
+                Ver modelo completo →
+              </a>
+            </div>
+          </Reveal>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {SECURITY_HIGHLIGHTS.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.08}>
+                <Card className="h-full">
+                  <item.icon className="h-5 w-5 text-accent" aria-hidden />
+                  <h3 className="mt-2 text-base font-semibold">{item.title}</h3>
+                  <p className="mt-1 text-sm text-text-muted">{item.description}</p>
+                </Card>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Reveal>
+            <h2 className="text-2xl font-semibold tracking-tight">Conecta ao que sua empresa já usa</h2>
+            <p className="mt-2 max-w-2xl text-text-muted">
+              A arquitetura Connect traduz sistemas externos em ferramentas tipadas e
+              auditáveis, sem expor credenciais ao modelo.
+            </p>
+          </Reveal>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {INTEGRATION_CATEGORIES.map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.06}>
+                <Card className="h-full">
+                  <item.icon className="h-5 w-5 text-accent" aria-hidden />
                   <h3 className="mt-2 text-base font-semibold">{item.title}</h3>
                   <p className="mt-1 text-sm text-text-muted">{item.description}</p>
                 </Card>
