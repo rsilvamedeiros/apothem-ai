@@ -154,32 +154,32 @@ export default function ProdutoPage() {
               Cenários concretos que validam entender, conectar, raciocinar e agir em conjunto.
             </p>
           </Reveal>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {[
-              {
-                title: "Analista de conhecimento corporativo",
-                description:
-                  "O agente recupera apenas conhecimento autorizado, sintetiza uma resposta e cita as fontes, sem efeito colateral.",
-              },
-              {
-                title: "Pesquisa de cliente/lead com contexto de CRM",
-                description:
-                  "O agente lê CRM e contexto interno permitido, resume o que importa e sugere o próximo passo.",
-              },
-              {
-                title: "Atualização com aprovação",
-                description:
-                  "O agente prepara uma ação, como atualizar um status ou criar um ticket, e um humano autorizado aprova antes da execução.",
-              },
-            ].map((useCase, i) => (
-              <Reveal key={useCase.title} delay={i * 0.06}>
-                <div className="flex flex-col gap-2 border-l-2 border-border pl-4">
+          <Reveal delay={0.1} className="mt-8 rounded-xl border border-border bg-surface p-8">
+            <div className="grid gap-8 sm:grid-cols-3">
+              {[
+                {
+                  title: "Analista de conhecimento corporativo",
+                  description:
+                    "O agente recupera apenas conhecimento autorizado, sintetiza uma resposta e cita as fontes, sem efeito colateral.",
+                },
+                {
+                  title: "Pesquisa de cliente/lead com contexto de CRM",
+                  description:
+                    "O agente lê CRM e contexto interno permitido, resume o que importa e sugere o próximo passo.",
+                },
+                {
+                  title: "Atualização com aprovação",
+                  description:
+                    "O agente prepara uma ação, como atualizar um status ou criar um ticket, e um humano autorizado aprova antes da execução.",
+                },
+              ].map((useCase) => (
+                <div key={useCase.title} className="flex flex-col gap-2 border-l-2 border-border pl-4">
                   <h3 className="text-sm font-semibold">{useCase.title}</h3>
                   <p className="text-sm text-text-muted">{useCase.description}</p>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 

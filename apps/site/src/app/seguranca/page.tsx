@@ -116,15 +116,17 @@ export default function SegurancaPage() {
               manipulação de dado não confiável, não como algo resolvido só com um prompt.
             </p>
           </Reveal>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {THREATS.map((threat, i) => (
-              <Reveal key={threat.title} delay={i * 0.05}>
-                <div className="flex flex-col gap-1 border-l-2 border-border pl-4">
-                  <span className="text-sm font-semibold">{threat.title}</span>
-                  <span className="text-sm text-text-muted">{threat.mitigation}</span>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-8 rounded-xl border border-border bg-surface p-8">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {THREATS.map((threat, i) => (
+                <Reveal key={threat.title} delay={i * 0.05}>
+                  <div className="flex flex-col gap-1 border-l-2 border-border pl-4">
+                    <span className="text-sm font-semibold">{threat.title}</span>
+                    <span className="text-sm text-text-muted">{threat.mitigation}</span>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
