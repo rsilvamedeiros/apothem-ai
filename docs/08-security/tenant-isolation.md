@@ -17,3 +17,7 @@ Tenant isolation is enforced in multiple layers:
 Consider database Row Level Security as an additional defense once the persistence model is concrete; do not rely on RLS as a substitute for application authorization.
 
 Automated tests must attempt horizontal privilege escalation with valid IDs from another tenant.
+
+## Required automated cases
+
+For every tenant-owned resource: same-workspace allowed; other workspace in the same organization denied; other organization denied by direct ID; client-supplied tenant ids that conflict with the authenticated scope ignored or rejected; denial indistinguishable from "not found". The `authorization` module in `apothem-api` is the reference implementation (`tenant-context-resolver.test.ts`).

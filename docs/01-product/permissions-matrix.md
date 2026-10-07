@@ -22,3 +22,9 @@ Roles are a product abstraction and should eventually be customizable; the initi
 | API keys | ✓ | ✓ | scoped | — | metadata |
 
 Permissions must be capabilities/scopes internally, even if roles provide bundled defaults.
+
+## Implementation notes
+
+- The backend resolves conditional cells ("limited", "configurable", "policy", "scoped", "own") conservatively: a capability is granted by default only where the matrix shows an unconditional check. Conditional behavior is added later through attribute/policy checks, not by widening the bundle.
+- The default bundles are enforced by a golden test in `apothem-api` (`permission-matrix.test.ts`). Changing this table requires changing that test in the same commit.
+- Workspace-level roles override only workspace capabilities, never organization settings or billing.
