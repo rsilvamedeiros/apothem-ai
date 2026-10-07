@@ -16,7 +16,7 @@ export type AgentDetail = {
   activeVersionId: string | null;
 };
 
-export type AgentDraftView = { instructions: string; updatedAt: string };
+export type AgentDraftView = { instructions: string; toolBindings: unknown; updatedAt: string };
 
 export type AgentVersionView = {
   id: string;

@@ -11,12 +11,17 @@ const actions = {
   archive: action,
   startRun: vi.fn(async () => ({})),
   runDetailHref: (runId: string) => `/runs/${runId}`,
+  saveTools: action,
+  tools: {
+    kind: "ok" as const,
+    tools: [{ name: "create_note", description: "Saves a note.", risk: "reversible_write" as const, allowedApprovalModes: ["required" as const, "auto" as const] }],
+  },
 };
 
 const ok = (status: "draft" | "active" | "disabled" | "archived" = "active"): LoadAgentDetailResult => ({
   kind: "ok",
   agent: { id: "a1", name: "Support", slug: "support", description: "Answers tickets", status, activeVersionId: "v2" },
-  draft: { instructions: "Be kind.", updatedAt: "2026-01-02T00:00:00.000Z" },
+  draft: { instructions: "Be kind.", toolBindings: [{ tool: "create_note", approval: "required" }], updatedAt: "2026-01-02T00:00:00.000Z" },
   versions: [
     { id: "v2", versionNumber: 2, checksum: "b".repeat(64), createdAt: "2026-01-02T00:00:00.000Z" },
     { id: "v1", versionNumber: 1, checksum: "a".repeat(64), createdAt: "2026-01-01T00:00:00.000Z" },
@@ -34,7 +39,7 @@ describe("AgentDetailView", () => {
 
   it("lists versions newest first, marks the active one and shortens checksums", () => {
     render(<AgentDetailView result={ok()} backHref="/back" {...actions} />);
-    const rows = screen.getAllByRole("listitem");
+    const rows = within(screen.getByRole("heading", { name: "Versions" }).closest("section")!).getAllByRole("listitem");
     expect(within(rows[0]!).getByText("Version 2")).toBeInTheDocument();
     expect(within(rows[0]!).getByText("Active version")).toBeInTheDocument();
     expect(within(rows[1]!).getByText("Version 1")).toBeInTheDocument();
@@ -81,5 +86,23 @@ describe("AgentDetailView", () => {
   it.each(["draft", "disabled", "archived"] as const)("does not offer a test run for a %s agent", (status) => {
     render(<AgentDetailView result={ok(status)} backHref="/back" {...actions} />);
     expect(screen.queryByRole("button", { name: "Run agent" })).toBeNull();
+  });
+
+  it("lets the agent author choose which tools the agent may use, starting from the saved bindings", () => {
+    render(<AgentDetailView result={ok("active")} backHref="/back" {...actions} />);
+    expect(screen.getByRole("heading", { name: "Tools" })).toBeInTheDocument();
+    expect(screen.getByLabelText(/create note/i)).toHaveValue("required");
+    expect(screen.getByRole("button", { name: "Save tools" })).toBeEnabled();
+  });
+
+  it("makes the tool editor read-only for an archived agent", () => {
+    render(<AgentDetailView result={ok("archived")} backHref="/back" {...actions} />);
+    expect(screen.getByLabelText(/create note/i)).toBeDisabled();
+  });
+
+  it("explains when the tool catalog could not be loaded instead of showing an empty editor", () => {
+    render(<AgentDetailView result={ok("active")} backHref="/back" {...actions} tools={{ kind: "error", message: "The tool catalog could not be loaded." }} />);
+    expect(screen.getByText("The tool catalog could not be loaded.")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Save tools" })).toBeNull();
   });
 });

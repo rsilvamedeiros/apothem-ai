@@ -4,6 +4,8 @@ import { describeAgentStatus } from "../agent-status";
 import type { ActionState } from "../components/action-state";
 import { DraftEditor } from "../components/draft-editor";
 import { StatusControls } from "../components/status-controls";
+import { ToolBindingsEditor } from "../components/tool-bindings-editor";
+import type { LoadToolsResult } from "../load-tools";
 import { RunPanel, type RunPanelState } from "@/features/runs/components/run-panel";
 import type { LoadAgentDetailResult } from "../load-agent-detail";
 import styles from "./agent-detail-view.module.css";
@@ -19,6 +21,8 @@ type AgentDetailViewProps = {
   archive: Action;
   startRun: (state: RunPanelState, formData: FormData) => Promise<RunPanelState>;
   runDetailHref: (runId: string) => string;
+  saveTools: Action;
+  tools: LoadToolsResult;
 };
 
 const SHORT_CHECKSUM_LENGTH = 8;
@@ -34,7 +38,7 @@ function failureMessage(result: Exclude<LoadAgentDetailResult, { kind: "ok" }>):
   }
 }
 
-export function AgentDetailView({ result, backHref, saveDraft, publish, disable, archive, startRun, runDetailHref }: AgentDetailViewProps) {
+export function AgentDetailView({ result, backHref, saveDraft, publish, disable, archive, startRun, runDetailHref, saveTools, tools }: AgentDetailViewProps) {
   const back = (
     <Link href={backHref} className={styles.back}>
       ← Agents
@@ -76,6 +80,19 @@ export function AgentDetailView({ result, backHref, saveDraft, publish, disable,
           published version.
         </p>
         <DraftEditor action={saveDraft} initialInstructions={draft.instructions} disabled={archived} />
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Tools</h2>
+        <p className={styles.hint}>
+          Tools let the agent act. It can only use the ones listed here, and a tool that changes data should ask a person first.
+          Changes apply to the next version you publish.
+        </p>
+        {tools.kind === "ok" ? (
+          <ToolBindingsEditor action={saveTools} tools={tools.tools} bindings={draft.toolBindings} disabled={archived} />
+        ) : (
+          <p className={styles.hint}>{tools.message}</p>
+        )}
       </section>
 
       <section className={styles.section}>
