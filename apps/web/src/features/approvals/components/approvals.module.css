@@ -1,0 +1,96 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-2);
+  padding: var(--apothem-space-3);
+  border: 1px solid var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-lg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--apothem-space-2);
+}
+
+.tool {
+  font-weight: 600;
+}
+
+.args {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px var(--apothem-space-2);
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.args dt {
+  color: var(--apothem-text-subtle);
+  font-family: var(--apothem-font-mono, monospace);
+}
+
+.args dd {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  font-size: 0.8rem;
+  color: var(--apothem-text-subtle);
+}
+
+.note {
+  font-size: 0.8rem;
+  color: var(--apothem-text-muted);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-1);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.field textarea {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-md, 6px);
+  background: transparent;
+  color: inherit;
+  resize: vertical;
+}
+
+.row {
+  display: flex;
+  gap: var(--apothem-space-1);
+}
+
+.ok {
+  font-size: 0.85rem;
+  color: var(--apothem-success, #1e8449);
+}
+
+.error {
+  font-size: 0.85rem;
+  color: var(--apothem-danger, #c0392b);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
