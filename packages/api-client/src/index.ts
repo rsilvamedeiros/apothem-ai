@@ -16,6 +16,7 @@ export { getAccount } from "./account";
 export { decideApproval, listApprovals } from "./approvals";
 export type { ApprovalDecision } from "./approvals";
 export { getRun, listRuns, startRun } from "./runs";
+export { listTools } from "./tools";
 export { listAuditEvents } from "./audit";
 export { addMember, changeMemberRole, listMembers, revokeMember } from "./members";
 export type { MemberRole } from "./members";

@@ -8,6 +8,7 @@ import {
 } from "@apothem/api-client";
 import { isUuid } from "@/lib/ids";
 import { isNetworkError } from "@/lib/mock";
+import type { ToolBindingInput } from "./tool-bindings";
 import { INSTRUCTIONS_MAX_LENGTH, type CreateAgentFieldErrors, type CreateAgentInput } from "./agent-form";
 
 /**
@@ -120,12 +121,15 @@ export async function saveDraftCommand(
   organizationId: string,
   workspaceId: string,
   agentId: string,
-  patch: { instructions: string },
+  patch: { instructions?: string; toolBindings?: ToolBindingInput[] },
 ): Promise<SaveDraftResult> {
   if (!isUuid(organizationId) || !isUuid(workspaceId) || !isUuid(agentId)) {
     return { kind: "error", message: AGENT_NOT_FOUND };
   }
-  if (patch.instructions.length > INSTRUCTIONS_MAX_LENGTH) {
+  if (patch.instructions === undefined && patch.toolBindings === undefined) {
+    return { kind: "error", message: "There is nothing to save." };
+  }
+  if (patch.instructions !== undefined && patch.instructions.length > INSTRUCTIONS_MAX_LENGTH) {
     return { kind: "error", message: "Instructions are limited to 50,000 characters." };
   }
 

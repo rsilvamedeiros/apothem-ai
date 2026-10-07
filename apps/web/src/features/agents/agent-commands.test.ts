@@ -123,6 +123,23 @@ describe("saveDraftCommand", () => {
   });
 });
 
+describe("saveDraftCommand with tool bindings", () => {
+  it("sends tool bindings and leaves instructions out when they were not provided", async () => {
+    const seen: { body?: unknown; path?: string }[] = [];
+    const bindings = [{ tool: "create_note", approval: "required" as const }];
+    const result = await saveDraftCommand(clientReplying({ data: {}, response: { status: 200 } }, seen), ORG, WS, AGENT_ID, { toolBindings: bindings });
+    expect(result).toEqual({ kind: "saved" });
+    expect(seen[0]?.body).toEqual({ toolBindings: bindings });
+  });
+
+  it("refuses an empty patch without calling the API", async () => {
+    const seen: { body?: unknown; path?: string }[] = [];
+    const result = await saveDraftCommand(clientReplying({ response: { status: 200 } }, seen), ORG, WS, AGENT_ID, {});
+    expect(result).toEqual({ kind: "error", message: "There is nothing to save." });
+    expect(seen).toHaveLength(0);
+  });
+});
+
 describe("changeAgentStatusCommand", () => {
   it.each(["disable", "archive"] as const)("posts %s and reports done", async (action) => {
     const seen: { body?: unknown; path?: string }[] = [];
