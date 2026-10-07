@@ -2,7 +2,7 @@ import { getOrganization, listWorkspaces } from "@apothem/api-client";
 import { Button, Card, Logomark } from "@apothem/ui";
 import { createWorkspaceAction } from "./actions";
 import { getApiClient } from "@/lib/session";
-import { isNetworkError, mockOrganization, mockWorkspaces } from "@/lib/mock";
+import { canUseDemoFallback, mockOrganization, mockWorkspaces } from "@/lib/mock";
 import { signOut } from "@/app/actions";
 import styles from "./page.module.css";
 
@@ -38,7 +38,7 @@ export default async function OrganizationPage({ params }: PageProps) {
     organization = orgResult.data;
     workspaces = workspacesResult.data ?? [];
   } catch (error) {
-    if (!isNetworkError(error)) throw error;
+    if (!canUseDemoFallback(error)) throw error;
     organization = mockOrganization(organizationId);
     workspaces = mockWorkspaces(organizationId);
     isMock = true;

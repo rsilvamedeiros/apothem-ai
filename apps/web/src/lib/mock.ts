@@ -60,3 +60,8 @@ export function mockWorkspace(organizationId: string, workspaceId: string): Work
 export function isNetworkError(error: unknown): boolean {
   return error instanceof TypeError;
 }
+
+/** Demo fixtures are a development aid only; production must surface the failure. */
+export function canUseDemoFallback(error: unknown): boolean {
+  return process.env.NODE_ENV !== "production" && isNetworkError(error);
+}

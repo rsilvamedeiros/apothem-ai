@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getOrganization, getWorkspace } from "@apothem/api-client";
 import { Logomark } from "@apothem/ui";
 import { getApiClient } from "@/lib/session";
-import { isNetworkError, mockOrganization, mockWorkspace } from "@/lib/mock";
+import { canUseDemoFallback, mockOrganization, mockWorkspace } from "@/lib/mock";
 import { signOut } from "@/app/actions";
 import { WorkspaceNav } from "./workspace-nav";
 import styles from "./layout.module.css";
@@ -29,7 +29,7 @@ export default async function WorkspaceLayout({ children, params }: LayoutProps)
     organization = orgResult.data;
     workspace = workspaceResult.data;
   } catch (error) {
-    if (!isNetworkError(error)) throw error;
+    if (!canUseDemoFallback(error)) throw error;
     organization = mockOrganization(organizationId);
     workspace = mockWorkspace(organizationId, workspaceId);
     isMock = true;
