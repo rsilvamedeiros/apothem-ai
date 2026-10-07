@@ -1,32 +1,38 @@
 {
-  "name": "apothem-ai",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "site": "npm run dev --workspace=apps/site",
-    "site:build": "npm run build --workspace=apps/site",
-    "web": "npm run dev --workspace=apps/web",
-    "web:build": "npm run build --workspace=apps/web",
-    "lint": "npm run lint --workspaces --if-present",
-    "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "openapi:check": "node tooling/check-openapi-drift.mjs",
-    "e2e": "playwright test"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.63.0",
-    "@testing-library/dom": "^10.4.2",
-    "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.3",
-    "@testing-library/user-event": "^14.6.7",
-    "@vitejs/plugin-react": "^6.1.2",
-    "@vitest/coverage-v8": "^4.1.11",
-    "jsdom": "^29.1.1",
-    "vitest": "^4.1.11"
-  }
+    "name": "apothem-ai",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "scripts": {
+        "site": "npm run dev --workspace=apps/site",
+        "site:build": "npm run build --workspace=apps/site",
+        "web": "npm run dev --workspace=apps/web",
+        "web:build": "npm run build --workspace=apps/web",
+        "lint": "npm run lint --workspaces --if-present",
+        "typecheck": "npm run typecheck --workspaces --if-present",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "openapi:check": "node tooling/check-openapi-drift.mjs",
+        "e2e": "playwright test"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.63.0",
+        "@testing-library/dom": "^10.4.2",
+        "@testing-library/jest-dom": "^7.0.1",
+        "@testing-library/react": "^16.3.3",
+        "@testing-library/user-event": "^14.6.7",
+        "@vitejs/plugin-react": "^6.1.2",
+        "@vitest/coverage-v8": "^4.1.11",
+        "jsdom": "^29.1.1",
+        "postcss": "^8.5.29",
+        "vitest": "^4.1.11"
+    },
+    "overrides": {
+        "next": {
+            "postcss": "^8.5.29"
+        }
+    }
 }
