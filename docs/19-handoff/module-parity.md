@@ -15,7 +15,7 @@ Legend: Done, Partial, Planned, n/a.
 | workspaces | Done (service tests, cross-organization isolation) | Done | |
 | authorization | Done (golden matrix, properties, mutation about 98%) | n/a | Frontend never decides access |
 | audit | Partial (record port only) | Planned | Read API and screens pending |
-| agents | Done (draft/version lifecycle, canonical checksum) | Partial (list screen on real API; create/edit/publish pending) | Next: create and draft editor |
+| agents | Done (draft/version lifecycle, canonical checksum) | Done for the core flow (list, create, edit instructions, publish, disable, archive, versions) | Next: structured editors for model policy, guardrails, knowledge and tool bindings once their typed contracts exist; run/test panel with `runs` |
 | models (Model Gateway) | Done (Anthropic and mock adapters, cost/provider/capability guardrails, routing evals) | Planned | Model policy editor depends on a typed model-policy contract |
 | knowledge | Planned (README only) | Partial (UI shell without backend) | Backend contract first |
 | runs | Planned | Planned | |
