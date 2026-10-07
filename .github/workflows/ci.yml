@@ -54,9 +54,8 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      # Production dependencies only. Known high: postcss bundled by next@15 (fix
-      # needs a Next major bump); tighten to high once Next is upgraded.
-      - run: npm audit --omit=dev --audit-level=critical
+      # Production dependencies only. Dev-tooling advisories are tracked separately.
+      - run: npm audit --omit=dev --audit-level=high
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
