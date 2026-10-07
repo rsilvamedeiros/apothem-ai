@@ -21,3 +21,5 @@ AI quality:
 - full task success evals.
 
 Do not use live paid providers for every unit test. Provider adapters need mocks/recorded contract fixtures plus a smaller real-provider compatibility suite.
+
+See [quality-practices.md](quality-practices.md) and [ADR-011](../adr/011-engineering-quality-and-responsible-ai.md) for the shared test layers, mandatory tenant-isolation cases, responsible-AI checklist and CI gates.
