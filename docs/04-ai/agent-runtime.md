@@ -117,3 +117,12 @@ Use stable internal codes, for example:
 - `RUN_CANCELLED`
 
 Provider-specific text may be attached privately for diagnosis but not become the public contract.
+
+## Implemented in apothem-api (runs v1)
+
+- A run starts only from an **active published version**; the request to the model is assembled server-side from that immutable version. The client supplies the task text and an optional idempotency key, nothing else.
+- Lifecycle `queued -> running -> completed | failed | cancelled` with compare-and-set transitions: a late result can never overwrite a terminal run.
+- Budgets come from agent guardrails with hard ceilings (`maxOutputTokens` up to 4096, `timeoutMs` up to 60 seconds) plus the model policy cost budget enforced by the gateway. Exceeding the time budget records `RUN_BUDGET_EXCEEDED`.
+- Failures are persisted as `failed` runs with stable public codes and fixed messages. Provider text, keys, policy details and tool names are never stored, and nothing is retried automatically.
+- Agent `modelPolicy` and `guardrails` are strict typed contracts validated at publish time, so an immutable version is always runnable. Unknown keys are rejected so a typo cannot disable a guardrail.
+- Not yet: tools, approvals, knowledge, streaming, a worker queue and cancellation. The record is already step based so execution can move to a worker without changing it.

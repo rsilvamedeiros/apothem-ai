@@ -18,7 +18,7 @@ Legend: Done, Partial, Planned, n/a.
 | agents | Done (draft/version lifecycle, canonical checksum) | Done for the core flow (list, create, edit instructions, publish, disable, archive, versions) | Next: structured editors for model policy, guardrails, knowledge and tool bindings once their typed contracts exist; run/test panel with `runs` |
 | models (Model Gateway) | Done (Anthropic and mock adapters, cost/provider/capability guardrails, routing evals) | Planned | Model policy editor depends on a typed model-policy contract |
 | knowledge | Planned (README only) | Partial (UI shell without backend) | Backend contract first |
-| runs | Planned | Planned | |
+| runs | Done for v1 (synchronous single model call, durable record, idempotency, budgets, failure codes; no tools or approvals) | Planned | Next: test run panel on the agent page and a runs list |
 | tools | Planned | Planned | |
 | approvals | Planned | Planned | |
 | conversations | Planned | Planned | |

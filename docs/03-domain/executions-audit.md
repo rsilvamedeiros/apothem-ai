@@ -22,3 +22,7 @@ Historical run/audit records should survive resource archival.
 ## Audit read API (implemented in apothem-api)
 
 `GET /v1/organizations/{organizationId}/audit-events` returns events newest first with keyset pagination (`limit` default 50, max 200; opaque `nextCursor`). It requires `audit.read` (owner, admin, auditor), always scopes by the caller's organization, and supports `workspaceId`, `action` and `actorPrincipalId` filters that can only narrow results. The store is append-only. Audit metadata carries opaque ids only, never secrets or personal data.
+
+## Runs in apothem-api (v1)
+
+Runs are durable: input, the exact agent version, model route and usage, output or a public error code, timings and one step per model call. Audit events (`run.started`, `run.completed`, `run.failed`) carry ids and outcome only, never the task text or model output. Operators read only their own runs. A terminal run is never rewritten. Details in `04-ai/agent-runtime.md`.
