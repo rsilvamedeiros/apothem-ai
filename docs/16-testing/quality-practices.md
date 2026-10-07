@@ -64,3 +64,5 @@ Lint, typecheck, unit/component/integration tests, build, migration test on a cl
 ## Working agreement
 
 Small commits, Conventional Commits in English, push after each commit. After each module, update tests, OpenAPI and docs before requesting review.
+
+Module status across both repositories is tracked in [../19-handoff/module-parity.md](../19-handoff/module-parity.md).
