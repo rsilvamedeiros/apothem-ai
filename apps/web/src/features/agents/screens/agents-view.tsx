@@ -26,7 +26,7 @@ export function AgentsView({ result, allowDemo, basePath }: AgentsViewProps) {
         <Button href={`${basePath}/new`}>New agent</Button>
       </div>
 
-      {result.kind === "ok" ? <AgentList agents={result.agents} /> : null}
+      {result.kind === "ok" ? <AgentList agents={result.agents} basePath={basePath} /> : null}
       {result.kind === "error" ? (
         <div role="alert" className={styles.alert}>
           {result.message}

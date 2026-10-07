@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { StatusBadge } from "@apothem/ui";
 import { describeAgentStatus, type AgentStatus } from "../agent-status";
 import styles from "./agent-list.module.css";
@@ -11,7 +12,7 @@ export type AgentListItem = {
   activeVersionId: string | null;
 };
 
-export function AgentList({ agents }: { agents: AgentListItem[] }) {
+export function AgentList({ agents, basePath }: { agents: AgentListItem[]; basePath: string }) {
   if (agents.length === 0) {
     return <div className={styles.empty}>No agents yet in this workspace.</div>;
   }
@@ -23,7 +24,9 @@ export function AgentList({ agents }: { agents: AgentListItem[] }) {
         return (
           <li key={agent.id} className={styles.row}>
             <div className={styles.main}>
-              <span className={styles.name}>{agent.name}</span>
+              <Link href={`${basePath}/${agent.id}`} className={styles.name}>
+                {agent.name}
+              </Link>
               <span className={styles.slug}>{agent.slug}</span>
               {agent.description ? (
                 <span className={styles.description}>{agent.description}</span>
