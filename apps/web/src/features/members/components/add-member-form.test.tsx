@@ -49,4 +49,13 @@ describe("AddMemberForm", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("No active account");
     expect(screen.getByLabelText("Email")).toHaveValue("b@example.com");
   });
+
+  it("keeps the chosen role after a refused or successful submit, so the screen matches what is sent next", async () => {
+    render(<AddMemberForm action={make({ ok: false, message: "Your role cannot add members with that role." })} />);
+    await userEvent.selectOptions(screen.getByLabelText("Role"), "builder");
+    await userEvent.type(screen.getByLabelText("Email"), "a@example.com");
+    await userEvent.click(screen.getByRole("button", { name: "Add member" }));
+    await screen.findByRole("alert");
+    expect(screen.getByLabelText("Role")).toHaveValue("builder");
+  });
 });

@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { Button } from "@apothem/ui";
 import type { ActionState } from "@/lib/action-state";
+import { useControlledResetKey } from "@/lib/use-controlled-reset-key";
 import { MEMBER_ROLES } from "../member-roles";
 import styles from "./members.module.css";
 
@@ -18,6 +19,7 @@ export function AddMemberForm({ action }: { action: Action }) {
     return result;
   };
   const [state, formAction, pending] = useActionState(wrapped, {});
+  const resetKey = useControlledResetKey(state);
 
   return (
     <form action={formAction} className={styles.addForm}>
@@ -35,7 +37,7 @@ export function AddMemberForm({ action }: { action: Action }) {
       </label>
       <label className={styles.field}>
         Role
-        <select name="role" value={role} onChange={(event) => setRole(event.target.value)}>
+        <select key={resetKey} name="role" value={role} onChange={(event) => setRole(event.target.value)}>
           {MEMBER_ROLES.map((value) => (
             <option key={value} value={value}>
               {value.charAt(0).toUpperCase() + value.slice(1)}

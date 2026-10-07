@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { Button } from "@apothem/ui";
 import type { ActionState } from "@/lib/action-state";
+import { useControlledResetKey } from "@/lib/use-controlled-reset-key";
 import { MEMBER_ROLES, type MemberRoleName } from "../member-roles";
 import styles from "./members.module.css";
 
@@ -27,6 +28,7 @@ function Message({ state }: { state: ActionState }) {
 
 export function MemberRowControls({ email, role, status, changeRole, revoke }: MemberRowControlsProps) {
   const [roleState, roleAction, changing] = useActionState(changeRole, {});
+  const resetKey = useControlledResetKey(roleState);
   const [revokeState, revokeAction, revoking] = useActionState(revoke, {});
   const [selected, setSelected] = useState<string>(role);
   const [confirming, setConfirming] = useState(false);
@@ -39,6 +41,7 @@ export function MemberRowControls({ email, role, status, changeRole, revoke }: M
       <div className={styles.row}>
         <form action={roleAction} className={styles.row}>
           <select
+            key={resetKey}
             name="role"
             aria-label={`Role for ${email}`}
             className={styles.roleSelect}

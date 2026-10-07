@@ -62,4 +62,13 @@ describe("MemberRowControls", () => {
     expect(screen.queryByRole("button")).toBeNull();
     expect(screen.queryByRole("combobox")).toBeNull();
   });
+
+  it("keeps the selected role after the API refuses the change", async () => {
+    const changeRole = make({ ok: false, message: "Your role cannot make this change." });
+    render(<MemberRowControls email="a@example.com" role="operator" status="active" changeRole={changeRole} revoke={make()} />);
+    await userEvent.selectOptions(screen.getByLabelText("Role for a@example.com"), "owner");
+    await userEvent.click(screen.getByRole("button", { name: "Update role" }));
+    await screen.findByRole("alert");
+    expect(screen.getByLabelText("Role for a@example.com")).toHaveValue("owner");
+  });
 });
