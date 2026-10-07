@@ -11,8 +11,8 @@ Legend: Done, Partial, Planned, n/a.
 | Module | Backend | Frontend | Notes |
 |---|---|---|---|
 | identity | Partial (dev header authenticator) | Partial (dev sign-in bootstrap) | Self-hosted OIDC pending (ADR-009) |
-| organizations | Done | Done | |
-| workspaces | Done | Done | |
+| organizations | Done (duplicate slug 409, service tests) | Done | Known limitation: organization and first membership are not created atomically |
+| workspaces | Done (service tests, cross-organization isolation) | Done | |
 | authorization | Done (golden matrix, properties, mutation about 98%) | n/a | Frontend never decides access |
 | audit | Partial (record port only) | Planned | Read API and screens pending |
 | agents | Done (draft/version lifecycle, canonical checksum) | Partial (list screen on real API; create/edit/publish pending) | Next: create and draft editor |

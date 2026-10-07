@@ -15,3 +15,9 @@ Key fields conceptually:
 - workspace membership/scope: membership_id, workspace_id, role/capabilities.
 
 Tenant deletion is a controlled lifecycle with retention/export checks, not a cascade-delete convenience function.
+
+## Enforced invariants (implemented in apothem-api)
+
+- The creator of an organization becomes its active `owner`; organization and membership creation are audited. Creation is not yet atomic across the two writes (tracked as a known limitation before onboarding real customers).
+- Organization slugs are globally unique (409 on conflict); workspace slugs are unique per organization.
+- Workspace creation requires `workspace.membership.manage`; workspace lookups are always scoped by organization.
