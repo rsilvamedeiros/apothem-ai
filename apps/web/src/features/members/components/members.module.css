@@ -1,0 +1,50 @@
+.addForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--apothem-space-2);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.field input,
+.field select,
+.roleSelect {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-md, 6px);
+  background: transparent;
+  color: inherit;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--apothem-space-1);
+}
+
+.confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--apothem-space-1);
+  font-size: 0.85rem;
+}
+
+.ok {
+  font-size: 0.85rem;
+  color: var(--apothem-success, #1e8449);
+}
+
+.error {
+  font-size: 0.85rem;
+  color: var(--apothem-danger, #c0392b);
+}
