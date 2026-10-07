@@ -1,0 +1,67 @@
+import { render, screen, within } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { AgentDetailView } from "./agent-detail-view";
+import type { LoadAgentDetailResult } from "../load-agent-detail";
+
+const action = vi.fn(async () => ({ ok: true }));
+const actions = { saveDraft: action, publish: action, disable: action, archive: action };
+
+const ok = (status: "draft" | "active" | "disabled" | "archived" = "active"): LoadAgentDetailResult => ({
+  kind: "ok",
+  agent: { id: "a1", name: "Support", slug: "support", description: "Answers tickets", status, activeVersionId: "v2" },
+  draft: { instructions: "Be kind.", updatedAt: "2026-01-02T00:00:00.000Z" },
+  versions: [
+    { id: "v2", versionNumber: 2, checksum: "b".repeat(64), createdAt: "2026-01-02T00:00:00.000Z" },
+    { id: "v1", versionNumber: 1, checksum: "a".repeat(64), createdAt: "2026-01-01T00:00:00.000Z" },
+  ],
+});
+
+describe("AgentDetailView", () => {
+  it("shows identity, status and the draft", () => {
+    render(<AgentDetailView result={ok()} backHref="/back" {...actions} />);
+    expect(screen.getByRole("heading", { level: 1, name: "Support" })).toBeInTheDocument();
+    expect(screen.getByText("support")).toBeInTheDocument();
+    expect(screen.getByText("Active")).toBeInTheDocument();
+    expect(screen.getByLabelText("Instructions")).toHaveValue("Be kind.");
+  });
+
+  it("lists versions newest first, marks the active one and shortens checksums", () => {
+    render(<AgentDetailView result={ok()} backHref="/back" {...actions} />);
+    const rows = screen.getAllByRole("listitem");
+    expect(within(rows[0]!).getByText("Version 2")).toBeInTheDocument();
+    expect(within(rows[0]!).getByText("Active version")).toBeInTheDocument();
+    expect(within(rows[1]!).getByText("Version 1")).toBeInTheDocument();
+    expect(within(rows[1]!).queryByText("Active version")).toBeNull();
+    expect(within(rows[0]!).getByText("bbbbbbbb")).toBeInTheDocument();
+  });
+
+  it("says when nothing has been published yet", () => {
+    const result = ok("draft");
+    if (result.kind === "ok") result.versions = [];
+    render(<AgentDetailView result={result} backHref="/back" {...actions} />);
+    expect(screen.getByText("No versions published yet.")).toBeInTheDocument();
+  });
+
+  it("makes an archived agent read-only", () => {
+    render(<AgentDetailView result={ok("archived")} backHref="/back" {...actions} />);
+    expect(screen.getByLabelText("Instructions")).toBeDisabled();
+    expect(screen.queryByRole("button", { name: "Publish new version" })).toBeNull();
+  });
+
+  it("renders agent text as text, never markup", () => {
+    const result = ok();
+    if (result.kind === "ok") result.agent.name = "<script>alert(1)</script>";
+    render(<AgentDetailView result={result} backHref="/back" {...actions} />);
+    expect(document.querySelector("script")).toBeNull();
+  });
+
+  it.each([
+    [{ kind: "not_found" } as const, "Agent not found."],
+    [{ kind: "error", message: "You do not have access to this agent." } as const, "You do not have access to this agent."],
+    [{ kind: "unreachable" } as const, "apothem-api is unreachable. Try again shortly."],
+  ])("renders a non-ok result (%j)", (result, text) => {
+    render(<AgentDetailView result={result} backHref="/back" {...actions} />);
+    expect(screen.getByRole("alert")).toHaveTextContent(text);
+    expect(screen.getByRole("link", { name: /Agents/ })).toHaveAttribute("href", "/back");
+  });
+});
