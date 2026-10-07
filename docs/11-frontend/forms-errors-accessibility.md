@@ -19,3 +19,10 @@ Accessibility baseline includes keyboard navigation, focus states, semantic labe
 - Forms are controlled so a failed submit keeps the user's input; field errors use `aria-invalid` and `aria-describedby`, successes use `role="status"` and failures `role="alert"`.
 - Destructive, irreversible actions (archive) require an explicit confirmation step. The UI mirrors but never decides lifecycle rules (archived is terminal in the API).
 - Demo data is a development aid only and is never used when `NODE_ENV` is `production`.
+
+## Runs UI (apps/web, runs feature)
+
+- A run that ends `failed` is a successful call: the failure is part of the durable record and is shown with guidance mapped from the stable public error code. Unknown codes fall back to generic guidance and are never rendered, and the API's `errorMessage` is not displayed.
+- Starting a run sends only the task text and an idempotency key. The key is generated per submit attempt on the client and regenerated after a finished run, so a double click replays one run instead of paying for two. A missing or malformed key is replaced server-side.
+- Tenant, agent and run ids come from the route; the form has no tenant fields. The Test run panel is offered only for an active, published agent.
+- Task text and model answers are rendered as text. Timestamps are shown in a fixed UTC format.
