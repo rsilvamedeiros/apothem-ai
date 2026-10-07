@@ -12,7 +12,7 @@ Decision record: [ADR-011](../adr/011-engineering-quality-and-responsible-ai.md)
 |---|---|---|
 | Unit | Vitest: domain, policies, state machines | Vitest: pure logic, formatters, mappers |
 | Component | n/a | Vitest + Testing Library for feature components |
-| Integration | Vitest + real Postgres (Docker/CI service), repositories, migrations | n/a |
+| Integration | Vitest + PGlite (real Postgres in WASM, no Docker) running the committed migrations, repositories and the full HTTP stack; CI also migrates a real pgvector Postgres | n/a |
 | Contract | OpenAPI response validation, golden fixtures for tool schemas | generated client typechecks against the vendored spec; spec drift check vs `apothem-api` |
 | E2E | API journeys with a real DB (agent publish/run, approvals, cross-tenant denial) | Playwright on high-value journeys against a mocked or local API |
 | AI evals | datasets run through the mock Model Gateway | n/a (UI never calls providers) |
