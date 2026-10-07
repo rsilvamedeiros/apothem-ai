@@ -12,6 +12,7 @@ export {
   archiveAgent,
   listAgentVersions,
 } from "./agents";
+export { getAccount } from "./account";
 export { listAuditEvents } from "./audit";
 export { addMember, changeMemberRole, listMembers, revokeMember } from "./members";
 export type { MemberRole } from "./members";
