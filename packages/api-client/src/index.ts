@@ -12,4 +12,5 @@ export {
   archiveAgent,
   listAgentVersions,
 } from "./agents";
+export { listAuditEvents } from "./audit";
 export type { paths, components } from "./generated/schema";
