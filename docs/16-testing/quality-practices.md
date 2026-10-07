@@ -49,7 +49,9 @@ Use for invariants that example tests miss: run/approval state machines never re
 
 ## Mutation testing
 
-Scheduled (not per push) on authorization, tenant scoping and approval policy, using Stryker with per-test coverage and incremental mode (about 2 minutes for the authorization module). A surviving mutant in these areas is a missing test. Break threshold is 75%; the authorization module scores about 98%.
+Scheduled (not per push) on authorization, tenant scoping, approvals, tools, runs, identity and the authenticator factory, using Stryker with per-test coverage and incremental mode. A cold full run takes about 40 minutes; mutate one file with `npx stryker run --mutate <file>` (1-5 minutes) while working on it. A surviving mutant in these areas is a missing test, unless it is equivalent (for example a guard the storage layer already enforces). Break threshold is 75%; the last full run scored 83.7% before the reinforcement below.
+
+Reinforced after that run: `tool-bindings` 51% to 98%, `build-authenticator` 52% to 100%, `approval.service` 80% to 97%, `run.service` 78% to 96%. The remaining survivors there are equivalent mutants or cosmetic.
 
 Property-based testing already paid off: a fast-check property found that a forged role named `toString` made the authorization service throw instead of deny.
 
