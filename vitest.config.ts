@@ -12,7 +12,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: false,
     setupFiles: ["./tooling/vitest.setup.ts"],
-    include: ["apps/**/*.test.{ts,tsx}", "packages/**/*.test.{ts,tsx}"],
+    include: ["apps/**/*.test.{ts,tsx}", "packages/**/*.test.{ts,tsx}", "tooling/**/*.test.ts"],
     exclude: ["**/node_modules/**", "**/.next/**", "e2e/**"],
     css: { modules: { classNameStrategy: "non-scoped" } },
     coverage: {

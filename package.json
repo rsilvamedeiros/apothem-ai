@@ -14,7 +14,8 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "openapi:check": "node tooling/check-openapi-drift.mjs"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.1",
