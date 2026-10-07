@@ -1,10 +1,20 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { signIn as authSignIn, signOut as authSignOut } from "@/auth";
 import { parseSignIn } from "@/lib/sign-in";
 import { clearSession, setSessionAccessToken, setSessionPrincipalId } from "@/lib/session";
 
+/** Starts the Google flow; Auth.js redirects back to the home page (the organization picker). */
+export async function signInWithGoogle(): Promise<void> {
+  await authSignIn("google", { redirectTo: "/" });
+}
+
+/** Local/dev bootstrap: paste an access token or a principal id. Never shown in production. */
 export async function signIn(formData: FormData): Promise<void> {
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("Manual sign-in is disabled in production");
+  }
   // Both the credential and the organization id end up in a cookie or a URL path.
   const parsed = parseSignIn(formData);
   if (!parsed.ok) {
@@ -22,5 +32,5 @@ export async function signIn(formData: FormData): Promise<void> {
 
 export async function signOut(): Promise<void> {
   await clearSession();
-  redirect("/");
+  await authSignOut({ redirectTo: "/" });
 }

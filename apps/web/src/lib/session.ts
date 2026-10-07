@@ -1,16 +1,18 @@
 import { cookies } from "next/headers";
 import { createApothemApiClient } from "@apothem/api-client";
+import { auth } from "@/auth";
+import { loadAccessTokenConfig } from "./access-token";
+import { accessTokenForSession } from "./session-token";
 import { sessionCookieOptions } from "./sign-in";
 
 const PRINCIPAL_COOKIE = "apothem_principal_id";
 const ACCESS_TOKEN_COOKIE = "apothem_access_token";
 
 /**
- * Session credentials live in httpOnly cookies, so page scripts never see
- * them. Two modes mirror apothem-api's AUTH_MODE:
- * - access token (`jwt`): the production credential, sent as a bearer token;
- * - principal id (`dev`): a pasted id for local development only.
- * Real sign-in (self-hosted OIDC, ADR-012) will set the access token cookie.
+ * Credential sources, strongest first (all httpOnly, never readable by page scripts):
+ * 1. the Auth.js session, exchanged for a short-lived signed bearer token per call (ADR-012);
+ * 2. a pasted access token cookie (API in `jwt` mode, e.g. from `npm run auth:dev-token`);
+ * 3. a pasted principal id cookie, for the API's local `dev` mode only.
  */
 export async function getSessionPrincipalId(): Promise<string | undefined> {
   const store = await cookies();
@@ -40,13 +42,23 @@ export async function clearSession(): Promise<void> {
   store.delete(ACCESS_TOKEN_COOKIE);
 }
 
+/** True when any credential is present; used to decide between the landing page and the app. */
+export async function hasSession(): Promise<boolean> {
+  const session = await auth();
+  if (session?.user?.email) return true;
+  return Boolean((await getSessionAccessToken()) ?? (await getSessionPrincipalId()));
+}
+
 export async function getApiClient() {
   const baseUrl = process.env.APOTHEM_API_URL;
   if (!baseUrl) {
     throw new Error("APOTHEM_API_URL is not set — copy apps/web/.env.example to .env.local");
   }
-  const accessToken = await getSessionAccessToken();
+
+  const fromSession = await accessTokenForSession(await auth(), loadAccessTokenConfig());
+  const accessToken = fromSession ?? (await getSessionAccessToken());
   const principalId = accessToken ? undefined : await getSessionPrincipalId();
+
   return createApothemApiClient({
     baseUrl,
     ...(accessToken ? { accessToken } : {}),
