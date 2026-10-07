@@ -4,6 +4,8 @@
  */
 export const AGENT_LIMITS = { name: 200, slug: 63, description: 2000 } as const;
 
+export const INSTRUCTIONS_MAX_LENGTH = 50_000;
+
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 export type CreateAgentInput = { name: string; slug: string; description?: string };

@@ -1,11 +1,14 @@
 import {
+  archiveAgent,
   createAgent,
+  disableAgent,
   publishAgent,
+  updateAgentDraft,
   type ApothemApiClient,
 } from "@apothem/api-client";
 import { isUuid } from "@/lib/ids";
 import { isNetworkError } from "@/lib/mock";
-import type { CreateAgentFieldErrors, CreateAgentInput } from "./agent-form";
+import { INSTRUCTIONS_MAX_LENGTH, type CreateAgentFieldErrors, type CreateAgentInput } from "./agent-form";
 
 /**
  * Commands wrap API calls and translate every outcome into a fixed,
@@ -99,6 +102,81 @@ export async function publishAgentCommand(
           return { kind: "error", message: "This agent was not found." };
         case 409:
           return { kind: "error", message: "This agent is archived and cannot be published." };
+        default:
+          return { kind: "error", message: GENERIC };
+      }
+    },
+    { kind: "error", message: UNREACHABLE },
+  );
+}
+
+export type SaveDraftResult = { kind: "saved" } | { kind: "error"; message: string };
+export type ChangeStatusResult = { kind: "done" } | { kind: "error"; message: string };
+
+const AGENT_NOT_FOUND = "This agent was not found.";
+
+export async function saveDraftCommand(
+  client: ApothemApiClient,
+  organizationId: string,
+  workspaceId: string,
+  agentId: string,
+  patch: { instructions: string },
+): Promise<SaveDraftResult> {
+  if (!isUuid(organizationId) || !isUuid(workspaceId) || !isUuid(agentId)) {
+    return { kind: "error", message: AGENT_NOT_FOUND };
+  }
+  if (patch.instructions.length > INSTRUCTIONS_MAX_LENGTH) {
+    return { kind: "error", message: "Instructions are limited to 50,000 characters." };
+  }
+
+  return guarded<SaveDraftResult>(
+    async () => {
+      const { response } = await updateAgentDraft(client, organizationId, workspaceId, agentId, patch);
+      if (response.status < 300) return { kind: "saved" };
+      switch (response.status) {
+        case 401:
+          return { kind: "error", message: SIGN_IN_AGAIN };
+        case 403:
+          return { kind: "error", message: "You don't have permission to edit this agent." };
+        case 404:
+          return { kind: "error", message: AGENT_NOT_FOUND };
+        case 409:
+          return { kind: "error", message: "This agent is archived and cannot be edited." };
+        case 400:
+          return { kind: "error", message: "The instructions were rejected. Review them and try again." };
+        default:
+          return { kind: "error", message: GENERIC };
+      }
+    },
+    { kind: "error", message: UNREACHABLE },
+  );
+}
+
+export async function changeAgentStatusCommand(
+  client: ApothemApiClient,
+  organizationId: string,
+  workspaceId: string,
+  agentId: string,
+  action: "disable" | "archive",
+): Promise<ChangeStatusResult> {
+  if (!isUuid(organizationId) || !isUuid(workspaceId) || !isUuid(agentId)) {
+    return { kind: "error", message: AGENT_NOT_FOUND };
+  }
+
+  return guarded<ChangeStatusResult>(
+    async () => {
+      const call = action === "disable" ? disableAgent : archiveAgent;
+      const { response } = await call(client, organizationId, workspaceId, agentId);
+      if (response.status < 300) return { kind: "done" };
+      switch (response.status) {
+        case 401:
+          return { kind: "error", message: SIGN_IN_AGAIN };
+        case 403:
+          return { kind: "error", message: "You don't have permission to change this agent." };
+        case 404:
+          return { kind: "error", message: AGENT_NOT_FOUND };
+        case 409:
+          return { kind: "error", message: "Archived agents cannot change status." };
         default:
           return { kind: "error", message: GENERIC };
       }

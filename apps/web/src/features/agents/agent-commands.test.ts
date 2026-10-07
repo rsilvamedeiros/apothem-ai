@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import type { ApothemApiClient } from "@apothem/api-client";
-import { createAgentCommand, publishAgentCommand } from "./agent-commands";
+import {
+  changeAgentStatusCommand,
+  createAgentCommand,
+  publishAgentCommand,
+  saveDraftCommand,
+} from "./agent-commands";
 
 const ORG = "11111111-1111-4111-8111-111111111111";
 const WS = "22222222-2222-4222-8222-222222222222";
@@ -86,5 +91,54 @@ describe("publishAgentCommand", () => {
   it("explains missing permission on 403", async () => {
     const result = await publishAgentCommand(clientReplying({ response: { status: 403 } }), ORG, WS, AGENT_ID);
     expect(result).toEqual({ kind: "error", message: "You don't have permission to publish agents." });
+  });
+});
+
+describe("saveDraftCommand", () => {
+  it("saves instructions and returns saved", async () => {
+    const seen: { body?: unknown; path?: string }[] = [];
+    const client = clientReplying({ data: {}, response: { status: 200 } }, seen);
+    expect(await saveDraftCommand(client, ORG, WS, AGENT_ID, { instructions: "Be brief." })).toEqual({ kind: "saved" });
+    expect(seen[0]?.body).toEqual({ instructions: "Be brief." });
+  });
+
+  it("refuses instructions above the API limit without calling it", async () => {
+    const seen: { body?: unknown; path?: string }[] = [];
+    const result = await saveDraftCommand(clientReplying({ response: { status: 200 } }, seen), ORG, WS, AGENT_ID, {
+      instructions: "x".repeat(50_001),
+    });
+    expect(result).toEqual({ kind: "error", message: "Instructions are limited to 50,000 characters." });
+    expect(seen).toHaveLength(0);
+  });
+
+  it.each([
+    [403, "You don't have permission to edit this agent."],
+    [404, "This agent was not found."],
+    [409, "This agent is archived and cannot be edited."],
+  ])("maps HTTP %i", async (status, message) => {
+    expect(await saveDraftCommand(clientReplying({ response: { status } }), ORG, WS, AGENT_ID, { instructions: "x" })).toEqual({
+      kind: "error",
+      message,
+    });
+  });
+});
+
+describe("changeAgentStatusCommand", () => {
+  it.each(["disable", "archive"] as const)("posts %s and reports done", async (action) => {
+    const seen: { body?: unknown; path?: string }[] = [];
+    const result = await changeAgentStatusCommand(clientReplying({ data: {}, response: { status: 200 } }, seen), ORG, WS, AGENT_ID, action);
+    expect(result).toEqual({ kind: "done" });
+    expect(seen[0]?.path).toContain(`/${action}`);
+  });
+
+  it("explains an archived agent on 409 and missing permission on 403", async () => {
+    expect(await changeAgentStatusCommand(clientReplying({ response: { status: 409 } }), ORG, WS, AGENT_ID, "disable")).toEqual({
+      kind: "error",
+      message: "Archived agents cannot change status.",
+    });
+    expect(await changeAgentStatusCommand(clientReplying({ response: { status: 403 } }), ORG, WS, AGENT_ID, "archive")).toEqual({
+      kind: "error",
+      message: "You don't have permission to change this agent.",
+    });
   });
 });
