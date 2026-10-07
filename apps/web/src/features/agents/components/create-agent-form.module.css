@@ -1,0 +1,42 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-2);
+  max-width: 520px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.field input,
+.field textarea {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-md, 6px);
+  background: transparent;
+  color: inherit;
+}
+
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"] {
+  border-color: var(--apothem-danger, #c0392b);
+}
+
+.error {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--apothem-danger, #c0392b);
+}
+
+.alert {
+  padding: var(--apothem-space-2);
+  border: 1px solid var(--apothem-danger, #c0392b);
+  border-radius: var(--apothem-radius-lg);
+  font-size: 0.85rem;
+}
