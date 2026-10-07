@@ -1,0 +1,102 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-3);
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--apothem-space-4) var(--apothem-space-3);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: var(--apothem-text-muted);
+}
+
+.email {
+  font-family: var(--apothem-font-mono, monospace);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.orgLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.orgCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.orgName {
+  font-weight: 600;
+}
+
+.orgMeta {
+  font-size: 0.8rem;
+  color: var(--apothem-text-subtle);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--apothem-space-1);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--apothem-space-2);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.field input {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-md, 6px);
+  background: transparent;
+  color: inherit;
+}
+
+.error {
+  flex-basis: 100%;
+  font-size: 0.85rem;
+  color: var(--apothem-danger, #c0392b);
+}
+
+.alert {
+  margin: var(--apothem-space-4) auto;
+  max-width: 720px;
+  padding: var(--apothem-space-3);
+  border: 1px solid var(--apothem-border-strong);
+  border-radius: var(--apothem-radius-lg);
+  font-size: 0.9rem;
+}
