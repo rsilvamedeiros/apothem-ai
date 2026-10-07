@@ -1,10 +1,9 @@
 import { startRun, type ApothemApiClient } from "@apothem/api-client";
 import { isUuid } from "@/lib/ids";
 import { isNetworkError } from "@/lib/mock";
-import type { RunView } from "./run-view";
+import { MAX_RUN_INPUT_LENGTH, type RunView } from "./run-view";
 
-/** Same limit as apothem-api; the API validates again and its answer wins. */
-export const MAX_RUN_INPUT_LENGTH = 20_000;
+export { MAX_RUN_INPUT_LENGTH };
 
 export type StartRunResult = { kind: "done"; run: RunView } | { kind: "error"; message: string };
 

@@ -1,5 +1,8 @@
 import type { StatusTone } from "@apothem/ui";
 
+/** Same limit as apothem-api; the API validates again and its answer wins. */
+export const MAX_RUN_INPUT_LENGTH = 20_000;
+
 export type RunStatus = "queued" | "running" | "completed" | "failed" | "cancelled";
 
 /** Mirrors the API's run response; presentation only. */
