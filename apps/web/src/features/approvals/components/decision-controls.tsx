@@ -16,6 +16,8 @@ export function DecisionControls({ action }: { action: Action }) {
   const [state, formAction, pending] = useActionState(action, {});
   // Controlled so a refused decision never wipes what the user typed.
   const [reason, setReason] = useState("");
+  // A successful decision is final: keep the outcome on screen and stop a second click.
+  const decided = state.ok === true;
 
   return (
     <form action={formAction} className={styles.controls}>
@@ -30,10 +32,10 @@ export function DecisionControls({ action }: { action: Action }) {
         />
       </label>
       <div className={styles.row}>
-        <Button type="submit" name="decision" value="approve" disabled={pending}>
+        <Button type="submit" name="decision" value="approve" disabled={pending || decided}>
           Approve
         </Button>
-        <Button type="submit" name="decision" value="reject" variant="secondary" disabled={pending}>
+        <Button type="submit" name="decision" value="reject" variant="secondary" disabled={pending || decided}>
           Reject
         </Button>
       </div>

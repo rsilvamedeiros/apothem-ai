@@ -30,6 +30,21 @@ describe("DecisionControls", () => {
     expect(await screen.findByRole("status")).toHaveTextContent("Approved.");
   });
 
+  it("locks the buttons once a decision succeeded, so a second click cannot repeat it", async () => {
+    render(<DecisionControls action={make({ ok: true, message: "Approved." })} />);
+    await userEvent.click(screen.getByRole("button", { name: "Approve" }));
+    await screen.findByRole("status");
+    expect(screen.getByRole("button", { name: "Approve" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Reject" })).toBeDisabled();
+  });
+
+  it("keeps the buttons available after a refusal so the person can try again", async () => {
+    render(<DecisionControls action={make({ ok: false, message: "nope" })} />);
+    await userEvent.click(screen.getByRole("button", { name: "Approve" }));
+    await screen.findByRole("alert");
+    expect(screen.getByRole("button", { name: "Approve" })).toBeEnabled();
+  });
+
   it("submits reject when Reject is clicked", async () => {
     const action = make({ ok: true, message: "Rejected." });
     render(<DecisionControls action={action} />);
