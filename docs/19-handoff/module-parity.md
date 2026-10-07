@@ -14,7 +14,7 @@ Legend: Done, Partial, Planned, n/a.
 | organizations | Done (duplicate slug 409, service tests) | Done | Known limitation: organization and first membership are not created atomically |
 | workspaces | Done (service tests, cross-organization isolation) | Done | |
 | authorization | Done (golden matrix, properties, mutation about 98%) | n/a | Frontend never decides access |
-| audit | Partial (record port only) | Planned | Read API and screens pending |
+| audit | Done (append-only record, tenant-scoped read API with cursor pagination, mutation about 90%) | Planned | Next: audit screen in apps/web; DB integration test and retention job pending |
 | agents | Done (draft/version lifecycle, canonical checksum) | Done for the core flow (list, create, edit instructions, publish, disable, archive, versions) | Next: structured editors for model policy, guardrails, knowledge and tool bindings once their typed contracts exist; run/test panel with `runs` |
 | models (Model Gateway) | Done (Anthropic and mock adapters, cost/provider/capability guardrails, routing evals) | Planned | Model policy editor depends on a typed model-policy contract |
 | knowledge | Planned (README only) | Partial (UI shell without backend) | Backend contract first |
