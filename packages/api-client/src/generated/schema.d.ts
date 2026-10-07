@@ -2231,7 +2231,7 @@ export interface paths {
                                 /** Format: uuid */
                                 requestedByPrincipalId: string;
                                 /** @enum {string} */
-                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                status: "queued" | "running" | "waiting_approval" | "completed" | "failed" | "cancelled";
                                 input: {
                                     text: string;
                                 };
@@ -2269,7 +2269,7 @@ export interface paths {
                                 /** Format: uuid */
                                 requestedByPrincipalId: string;
                                 /** @enum {string} */
-                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                status: "queued" | "running" | "waiting_approval" | "completed" | "failed" | "cancelled";
                                 input: {
                                     text: string;
                                 };
@@ -2418,7 +2418,7 @@ export interface paths {
                                 /** Format: uuid */
                                 requestedByPrincipalId: string;
                                 /** @enum {string} */
-                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                status: "queued" | "running" | "waiting_approval" | "completed" | "failed" | "cancelled";
                                 input: {
                                     text: string;
                                 };
@@ -2550,7 +2550,7 @@ export interface paths {
                                 /** Format: uuid */
                                 requestedByPrincipalId: string;
                                 /** @enum {string} */
-                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                status: "queued" | "running" | "waiting_approval" | "completed" | "failed" | "cancelled";
                                 input: {
                                     text: string;
                                 };
@@ -2580,6 +2580,29 @@ export interface paths {
                                 finishReason: string | null;
                                 durationMs: number | null;
                                 errorCode: string | null;
+                                createdAt: string;
+                            }[];
+                            approvals: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                runId: string;
+                                /** Format: uuid */
+                                agentId: string;
+                                stepSequence: number;
+                                toolName: string;
+                                arguments: {
+                                    [key: string]: unknown;
+                                };
+                                /** Format: uuid */
+                                requestedByPrincipalId: string;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "rejected" | "expired";
+                                expiresAt: string;
+                                decidedByPrincipalId: string | null;
+                                decisionReason: string | null;
+                                selfApproved: boolean;
+                                decidedAt: string | null;
                                 createdAt: string;
                             }[];
                         };
@@ -2653,6 +2676,315 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/workspaces/{workspaceId}/approvals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    status?: "pending" | "approved" | "rejected" | "expired";
+                    limit?: number;
+                    cursor?: string;
+                };
+                header?: never;
+                path: {
+                    organizationId: string;
+                    workspaceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            approvals: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                runId: string;
+                                /** Format: uuid */
+                                agentId: string;
+                                stepSequence: number;
+                                toolName: string;
+                                arguments: {
+                                    [key: string]: unknown;
+                                };
+                                /** Format: uuid */
+                                requestedByPrincipalId: string;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "rejected" | "expired";
+                                expiresAt: string;
+                                decidedByPrincipalId: string | null;
+                                decisionReason: string | null;
+                                selfApproved: boolean;
+                                decidedAt: string | null;
+                                createdAt: string;
+                            }[];
+                            nextCursor: string | null;
+                        };
+                    };
+                };
+                /** @description Default Response */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/workspaces/{workspaceId}/approvals/{approvalId}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                    workspaceId: string;
+                    approvalId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        decision: "approve" | "reject";
+                        reason?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            approval: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                runId: string;
+                                /** Format: uuid */
+                                agentId: string;
+                                stepSequence: number;
+                                toolName: string;
+                                arguments: {
+                                    [key: string]: unknown;
+                                };
+                                /** Format: uuid */
+                                requestedByPrincipalId: string;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "rejected" | "expired";
+                                expiresAt: string;
+                                decidedByPrincipalId: string | null;
+                                decisionReason: string | null;
+                                selfApproved: boolean;
+                                decidedAt: string | null;
+                                createdAt: string;
+                            };
+                            run: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                status: "queued" | "running" | "waiting_approval" | "completed" | "failed" | "cancelled";
+                                output: {
+                                    text: string;
+                                } | null;
+                                errorCode: string | null;
+                                errorMessage: string | null;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
