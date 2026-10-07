@@ -2185,6 +2185,480 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/organizations/{organizationId}/workspaces/{workspaceId}/agents/{agentId}/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                    workspaceId: string;
+                    agentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        input: string;
+                        idempotencyKey?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            run: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                agentId: string;
+                                /** Format: uuid */
+                                agentVersionId: string;
+                                /** Format: uuid */
+                                requestedByPrincipalId: string;
+                                /** @enum {string} */
+                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                input: {
+                                    text: string;
+                                };
+                                output: {
+                                    text: string;
+                                } | null;
+                                errorCode: string | null;
+                                errorMessage: string | null;
+                                modelProvider: string | null;
+                                model: string | null;
+                                inputTokens: number | null;
+                                outputTokens: number | null;
+                                createdAt: string;
+                                startedAt: string | null;
+                                finishedAt: string | null;
+                            };
+                            replayed: boolean;
+                        };
+                    };
+                };
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            run: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                agentId: string;
+                                /** Format: uuid */
+                                agentVersionId: string;
+                                /** Format: uuid */
+                                requestedByPrincipalId: string;
+                                /** @enum {string} */
+                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                input: {
+                                    text: string;
+                                };
+                                output: {
+                                    text: string;
+                                } | null;
+                                errorCode: string | null;
+                                errorMessage: string | null;
+                                modelProvider: string | null;
+                                model: string | null;
+                                inputTokens: number | null;
+                                outputTokens: number | null;
+                                createdAt: string;
+                                startedAt: string | null;
+                                finishedAt: string | null;
+                            };
+                            replayed: boolean;
+                        };
+                    };
+                };
+                /** @description Default Response */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/workspaces/{workspaceId}/runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    agentId?: string;
+                    limit?: number;
+                    cursor?: string;
+                };
+                header?: never;
+                path: {
+                    organizationId: string;
+                    workspaceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            runs: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                agentId: string;
+                                /** Format: uuid */
+                                agentVersionId: string;
+                                /** Format: uuid */
+                                requestedByPrincipalId: string;
+                                /** @enum {string} */
+                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                input: {
+                                    text: string;
+                                };
+                                output: {
+                                    text: string;
+                                } | null;
+                                errorCode: string | null;
+                                errorMessage: string | null;
+                                modelProvider: string | null;
+                                model: string | null;
+                                inputTokens: number | null;
+                                outputTokens: number | null;
+                                createdAt: string;
+                                startedAt: string | null;
+                                finishedAt: string | null;
+                            }[];
+                            nextCursor: string | null;
+                        };
+                    };
+                };
+                /** @description Default Response */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/workspaces/{workspaceId}/runs/{runId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                    workspaceId: string;
+                    runId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            run: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                agentId: string;
+                                /** Format: uuid */
+                                agentVersionId: string;
+                                /** Format: uuid */
+                                requestedByPrincipalId: string;
+                                /** @enum {string} */
+                                status: "queued" | "running" | "completed" | "failed" | "cancelled";
+                                input: {
+                                    text: string;
+                                };
+                                output: {
+                                    text: string;
+                                } | null;
+                                errorCode: string | null;
+                                errorMessage: string | null;
+                                modelProvider: string | null;
+                                model: string | null;
+                                inputTokens: number | null;
+                                outputTokens: number | null;
+                                createdAt: string;
+                                startedAt: string | null;
+                                finishedAt: string | null;
+                            };
+                            steps: {
+                                /** Format: uuid */
+                                id: string;
+                                sequence: number;
+                                type: string;
+                                status: string;
+                                modelProvider: string | null;
+                                model: string | null;
+                                inputTokens: number | null;
+                                outputTokens: number | null;
+                                finishReason: string | null;
+                                durationMs: number | null;
+                                errorCode: string | null;
+                                createdAt: string;
+                            }[];
+                        };
+                    };
+                };
+                /** @description Default Response */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+                /** @description Default Response */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                requestId: string;
+                                details?: Record<string, never>;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/organizations/{organizationId}/audit-events": {
         parameters: {
             query?: never;
