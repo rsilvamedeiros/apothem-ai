@@ -21,7 +21,10 @@ If the requested implementation conflicts with documentation, **do not silently 
 
 ## Git workflow
 
-- Never run `git commit` (or `git push`) automatically. Stage/prepare changes and hand back an English commit message for the user to review and commit manually themselves.
+- Claude Code may commit automatically; the user does not approve each commit. Commit in small, logical units, one concern per commit.
+- Commit messages: Conventional Commits (`feat`, `fix`, `docs`, `test`, `refactor`, `chore`, `ci`, `build`, `perf`), English, imperative, a single concise subject line, optional scope. No body, no footers, no `Co-Authored-By`, no author tags.
+- Never `git push`, force-push, rewrite history or skip hooks unless explicitly asked.
+- Work module by module: after each module, send the user a short preview (what changed, tests run, commits made) and wait for `next`, `ok` or `proceed` before starting the next module.
 
 ## Non-negotiable project rules
 
@@ -77,6 +80,21 @@ For every non-trivial feature:
 ## AI-specific development rule
 
 Do not test AI features only by “trying the chat”. AI behavior requires deterministic contract tests plus evaluation datasets for semantic behavior. New agents/tools should declare expected scenarios, failure behavior and guardrails.
+
+## Engineering practices
+
+- TDD: write the failing test first, make it pass, then refactor. Bug fixes start with a regression test.
+- Responsible AI by default: human approval for risky actions (ADR-007), no PII or secrets in prompts/logs/fixtures, eval datasets for AI behavior, mock Model Gateway in tests/CI, documented guardrails and failure behavior for every agent/tool.
+- Tests must cover denied paths and tenant isolation, not only happy paths.
+- Documentation changes ship with the code that motivates them.
+
+## Cross-repo flow (`apothem-ai` <-> `apothem-api`)
+
+`apothem-api` is the source of truth for authorization, validation and business rules. Build UI only against the generated `packages/api-client` (never hand-written duplicate types); after a backend contract change run `npm run sync-and-generate --workspace=packages/api-client` and commit the regenerated files. Do not build screens for modules whose backend contract does not exist yet, except behind clearly marked demo data.
+
+## Hosting
+
+Vercel (frontend). Backend on Render and Supabase Postgres per ADR-010.
 
 ## Definition of done
 
