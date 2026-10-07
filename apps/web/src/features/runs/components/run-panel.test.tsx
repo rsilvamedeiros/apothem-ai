@@ -71,7 +71,7 @@ describe("RunPanel", () => {
 
   it("tells the user where to follow a run that needs approval", async () => {
     const waiting: RunView = { ...completed, status: "waiting_approval", output: null, finishedAt: null };
-    render(<RunPanel action={make({ run: waiting })} runnable detailHref={(id) => `/runs/${id}`} />);
+    render(<RunPanel action={make({ run: waiting })} runnable detailBasePath="/runs" />);
     await userEvent.type(screen.getByLabelText("Task"), "ping");
     await userEvent.click(screen.getByRole("button", { name: "Run agent" }));
     expect(await screen.findByText("Waiting for approval")).toBeInTheDocument();

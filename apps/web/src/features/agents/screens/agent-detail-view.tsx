@@ -20,7 +20,7 @@ type AgentDetailViewProps = {
   disable: Action;
   archive: Action;
   startRun: (state: RunPanelState, formData: FormData) => Promise<RunPanelState>;
-  runDetailHref: (runId: string) => string;
+  runBasePath: string;
   saveTools: Action;
   tools: LoadToolsResult;
 };
@@ -38,7 +38,7 @@ function failureMessage(result: Exclude<LoadAgentDetailResult, { kind: "ok" }>):
   }
 }
 
-export function AgentDetailView({ result, backHref, saveDraft, publish, disable, archive, startRun, runDetailHref, saveTools, tools }: AgentDetailViewProps) {
+export function AgentDetailView({ result, backHref, saveDraft, publish, disable, archive, startRun, runBasePath, saveTools, tools }: AgentDetailViewProps) {
   const back = (
     <Link href={backHref} className={styles.back}>
       ← Agents
@@ -105,7 +105,7 @@ export function AgentDetailView({ result, backHref, saveDraft, publish, disable,
         <RunPanel
           action={startRun}
           runnable={agent.status === "active" && agent.activeVersionId !== null}
-          detailHref={runDetailHref}
+          detailBasePath={runBasePath}
         />
       </section>
 

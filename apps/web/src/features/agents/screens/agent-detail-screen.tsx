@@ -31,7 +31,7 @@ export async function AgentDetailScreen({ organizationId, workspaceId, agentId }
       saveTools={saveToolBindingsAction.bind(null, organizationId, workspaceId, agentId)}
       tools={tools}
       startRun={startRunAction.bind(null, organizationId, workspaceId, agentId)}
-      runDetailHref={(runId) => `/org/${organizationId}/workspace/${workspaceId}/runs/${runId}`}
+      runBasePath={`/org/${organizationId}/workspace/${workspaceId}/runs`}
     />
   );
 }

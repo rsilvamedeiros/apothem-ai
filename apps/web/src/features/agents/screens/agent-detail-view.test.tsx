@@ -10,7 +10,7 @@ const actions = {
   disable: action,
   archive: action,
   startRun: vi.fn(async () => ({})),
-  runDetailHref: (runId: string) => `/runs/${runId}`,
+  runBasePath: "/runs",
   saveTools: action,
   tools: {
     kind: "ok" as const,

@@ -12,13 +12,13 @@ type RunPanelProps = {
   action: (state: RunPanelState, formData: FormData) => Promise<RunPanelState>;
   /** Only an active published agent can run. */
   runnable: boolean;
-  /** Where a finished run's detail page lives; omitted to hide the link. */
-  detailHref?: (runId: string) => string;
+  /** Path under which run detail pages live (a plain string: functions cannot cross to a client component). */
+  detailBasePath?: string;
 };
 
 const newKey = () => crypto.randomUUID();
 
-export function RunPanel({ action, runnable, detailHref }: RunPanelProps) {
+export function RunPanel({ action, runnable, detailBasePath }: RunPanelProps) {
   const [state, formAction, pending] = useActionState(action, {});
   const [task, setTask] = useState("");
   // One key per submit attempt: a double click replays the same run instead of paying for two.
@@ -58,7 +58,7 @@ export function RunPanel({ action, runnable, detailHref }: RunPanelProps) {
         ) : null}
       </form>
 
-      {state.run ? <RunResultCard run={state.run} {...(detailHref ? { detailHref: detailHref(state.run.id) } : {})} /> : null}
+      {state.run ? <RunResultCard run={state.run} {...(detailBasePath ? { detailHref: `${detailBasePath}/${state.run.id}` } : {})} /> : null}
     </div>
   );
 }
