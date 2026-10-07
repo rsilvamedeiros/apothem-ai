@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createWorkspace } from "@apothem/api-client";
+import { isUuid } from "@/lib/ids";
 import { getApiClient } from "@/lib/session";
 
 export async function createWorkspaceAction(organizationId: string, formData: FormData): Promise<void> {
@@ -9,6 +10,10 @@ export async function createWorkspaceAction(organizationId: string, formData: Fo
   const slug = String(formData.get("slug") ?? "").trim();
   if (!name || !slug) {
     throw new Error("name and slug are required");
+  }
+  // The id comes from the route and ends up in a redirect path; reject anything but a UUID.
+  if (!isUuid(organizationId)) {
+    throw new Error("Invalid organization id");
   }
 
   const client = await getApiClient();
