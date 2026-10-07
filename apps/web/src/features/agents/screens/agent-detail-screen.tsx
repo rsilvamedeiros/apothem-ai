@@ -4,6 +4,7 @@ import {
   publishAgentAction,
   saveDraftAction,
 } from "../actions";
+import { startRunAction } from "@/features/runs/actions";
 import { loadAgentDetail } from "../load-agent-detail";
 import { AgentDetailView } from "./agent-detail-view";
 
@@ -25,6 +26,8 @@ export async function AgentDetailScreen({ organizationId, workspaceId, agentId }
       publish={publishAgentAction.bind(null, organizationId, workspaceId, agentId)}
       disable={changeAgentStatusAction.bind(null, "disable", organizationId, workspaceId, agentId)}
       archive={changeAgentStatusAction.bind(null, "archive", organizationId, workspaceId, agentId)}
+      startRun={startRunAction.bind(null, organizationId, workspaceId, agentId)}
+      runDetailHref={(runId) => `/org/${organizationId}/workspace/${workspaceId}/runs/${runId}`}
     />
   );
 }

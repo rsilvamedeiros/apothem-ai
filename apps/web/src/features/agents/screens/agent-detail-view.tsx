@@ -4,6 +4,7 @@ import { describeAgentStatus } from "../agent-status";
 import type { ActionState } from "../components/action-state";
 import { DraftEditor } from "../components/draft-editor";
 import { StatusControls } from "../components/status-controls";
+import { RunPanel, type RunPanelState } from "@/features/runs/components/run-panel";
 import type { LoadAgentDetailResult } from "../load-agent-detail";
 import styles from "./agent-detail-view.module.css";
 
@@ -16,6 +17,8 @@ type AgentDetailViewProps = {
   publish: Action;
   disable: Action;
   archive: Action;
+  startRun: (state: RunPanelState, formData: FormData) => Promise<RunPanelState>;
+  runDetailHref: (runId: string) => string;
 };
 
 const SHORT_CHECKSUM_LENGTH = 8;
@@ -31,7 +34,7 @@ function failureMessage(result: Exclude<LoadAgentDetailResult, { kind: "ok" }>):
   }
 }
 
-export function AgentDetailView({ result, backHref, saveDraft, publish, disable, archive }: AgentDetailViewProps) {
+export function AgentDetailView({ result, backHref, saveDraft, publish, disable, archive, startRun, runDetailHref }: AgentDetailViewProps) {
   const back = (
     <Link href={backHref} className={styles.back}>
       ← Agents
@@ -78,6 +81,15 @@ export function AgentDetailView({ result, backHref, saveDraft, publish, disable,
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Lifecycle</h2>
         <StatusControls status={agent.status} publish={publish} disable={disable} archive={archive} />
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Test run</h2>
+        <RunPanel
+          action={startRun}
+          runnable={agent.status === "active" && agent.activeVersionId !== null}
+          detailHref={runDetailHref}
+        />
       </section>
 
       <section className={styles.section}>

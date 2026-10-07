@@ -4,7 +4,14 @@ import { AgentDetailView } from "./agent-detail-view";
 import type { LoadAgentDetailResult } from "../load-agent-detail";
 
 const action = vi.fn(async () => ({ ok: true }));
-const actions = { saveDraft: action, publish: action, disable: action, archive: action };
+const actions = {
+  saveDraft: action,
+  publish: action,
+  disable: action,
+  archive: action,
+  startRun: vi.fn(async () => ({})),
+  runDetailHref: (runId: string) => `/runs/${runId}`,
+};
 
 const ok = (status: "draft" | "active" | "disabled" | "archived" = "active"): LoadAgentDetailResult => ({
   kind: "ok",
@@ -63,5 +70,16 @@ describe("AgentDetailView", () => {
     render(<AgentDetailView result={result} backHref="/back" {...actions} />);
     expect(screen.getByRole("alert")).toHaveTextContent(text);
     expect(screen.getByRole("link", { name: /Agents/ })).toHaveAttribute("href", "/back");
+  });
+
+  it("lets an active agent be tested from the page", () => {
+    render(<AgentDetailView result={ok("active")} backHref="/back" {...actions} />);
+    expect(screen.getByRole("heading", { name: "Test run" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Run agent" })).toBeInTheDocument();
+  });
+
+  it.each(["draft", "disabled", "archived"] as const)("does not offer a test run for a %s agent", (status) => {
+    render(<AgentDetailView result={ok(status)} backHref="/back" {...actions} />);
+    expect(screen.queryByRole("button", { name: "Run agent" })).toBeNull();
   });
 });
