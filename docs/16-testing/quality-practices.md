@@ -39,7 +39,9 @@ Use for invariants that example tests miss: run/approval state machines never re
 
 ## Mutation testing
 
-Scheduled (not per push) on authorization, tenant scoping and approval policy. A surviving mutant in these areas is a missing test.
+Scheduled (not per push) on authorization, tenant scoping and approval policy, using Stryker with per-test coverage and incremental mode (about 2 minutes for the authorization module). A surviving mutant in these areas is a missing test. Break threshold is 75%; the authorization module scores about 98%.
+
+Property-based testing already paid off: a fast-check property found that a forged role named `toString` made the authorization service throw instead of deny.
 
 ## Coverage
 
