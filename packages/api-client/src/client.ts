@@ -11,11 +11,14 @@ export type CreateApothemApiClientOptions = {
    * stop passing this once real session/bearer-token auth lands.
    */
   principalId?: string;
+  /** Injectable for tests; defaults to the global fetch. */
+  fetch?: (request: Request) => Promise<Response>;
 };
 
 export function createApothemApiClient(options: CreateApothemApiClientOptions): ApothemApiClient {
   return createClient<paths>({
     baseUrl: options.baseUrl,
     headers: options.principalId ? { "x-principal-id": options.principalId } : undefined,
+    ...(options.fetch ? { fetch: options.fetch } : {}),
   });
 }
