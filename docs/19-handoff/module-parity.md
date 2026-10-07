@@ -11,7 +11,7 @@ Legend: Done, Partial, Planned, n/a.
 | Module | Backend | Frontend | Notes |
 |---|---|---|---|
 | identity | Partial (dev header authenticator) | Partial (dev sign-in bootstrap) | Self-hosted OIDC pending (ADR-009) |
-| organizations | Done (duplicate slug 409, service tests) | Done | Known limitation: organization and first membership are not created atomically |
+| organizations | Done (duplicate slug 409, member management with escalation and last-owner guards) | Done (organization page, members page) | Known limitation: organization and first membership are not created atomically |
 | workspaces | Done (service tests, cross-organization isolation) | Done | |
 | authorization | Done (golden matrix, properties, mutation about 98%) | n/a | Frontend never decides access |
 | audit | Done (append-only record, tenant-scoped read API with cursor pagination, mutation about 90%) | Done (audit log page with cursor pagination) | DB integration test for the Drizzle query and the retention job are pending |

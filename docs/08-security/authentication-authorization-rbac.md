@@ -21,3 +21,4 @@ RBAC provides default bundles; attribute/policy checks handle contextual constra
 - Only `active` memberships and `active` workspaces resolve a tenant context. `invited`, `revoked` and `archived` states are denied.
 - A denied tenant resolution returns the same error whether the workspace does not exist or belongs to another organization (no existence leak).
 - `approval.decide` is not part of any default bundle; it is evaluated by policy (ADR-007).
+- Granting roles is bounded by the actor's own organization role (role assignment policy): only owners can create or change owners and admins; admins can manage builder, operator and auditor only. This is enforced in the API and covered by property tests; the UI never decides it.
