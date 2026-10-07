@@ -9,9 +9,11 @@ type AgentsViewProps = {
   result: LoadAgentsResult;
   /** True only in development; production never shows demo data. */
   allowDemo: boolean;
+  /** Path of the agents list, e.g. /org/:id/workspace/:id/agents. */
+  basePath: string;
 };
 
-export function AgentsView({ result, allowDemo }: AgentsViewProps) {
+export function AgentsView({ result, allowDemo, basePath }: AgentsViewProps) {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -21,9 +23,7 @@ export function AgentsView({ result, allowDemo }: AgentsViewProps) {
             Agents defined for this workspace, their published version, and draft state.
           </p>
         </div>
-        <Button type="button" disabled title="Agent creation is not wired up yet">
-          New agent
-        </Button>
+        <Button href={`${basePath}/new`}>New agent</Button>
       </div>
 
       {result.kind === "ok" ? <AgentList agents={result.agents} /> : null}
@@ -43,8 +43,8 @@ export function AgentsView({ result, allowDemo }: AgentsViewProps) {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Start from a use case</h2>
         <p className={styles.sectionHint}>
-          Agent creation isn&apos;t wired up yet — these previews show the templates it will
-          start from.
+          Template selection isn&apos;t wired up yet — these previews show what new agents
+          will start from.
         </p>
         <div className={styles.templateGrid}>
           {USE_CASE_TEMPLATES.map((template) => (

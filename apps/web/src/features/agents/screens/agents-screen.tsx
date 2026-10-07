@@ -10,5 +10,9 @@ type AgentsScreenProps = {
 export async function AgentsScreen({ organizationId, workspaceId }: AgentsScreenProps) {
   const client = await getApiClient();
   const result = await loadAgents(client, organizationId, workspaceId);
-  return <AgentsView result={result} allowDemo={process.env.NODE_ENV !== "production"} />;
+  return <AgentsView
+      result={result}
+      allowDemo={process.env.NODE_ENV !== "production"}
+      basePath={`/org/${organizationId}/workspace/${workspaceId}/agents`}
+    />;
 }
