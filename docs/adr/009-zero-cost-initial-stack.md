@@ -1,6 +1,6 @@
 # ADR-009 — Zero-Cost Initial Stack
 
-**Status:** Accepted
+**Status:** Accepted (backend hosting and remote database superseded by [ADR-010](010-hosting-render-supabase-vercel.md))
 **Project:** APOTHEM AI
 **Canonical domain:** `apothemai.com.br`
 

@@ -26,7 +26,7 @@ This document distinguishes **decided**, **preferred** and **open** items so cod
   - Drizzle ORM.
   - Redis + BullMQ for queues (Docker Compose locally, Upstash free tier remotely).
   - MinIO locally / Cloudflare R2 free tier remotely for object storage.
-  - Fly.io free allowance for backend hosting; Vercel free tier for frontend.
+  - Render for backend hosting, Supabase for remote Postgres, Vercel for frontend per [ADR-010](../adr/010-hosting-render-supabase-vercel.md) (supersedes the Fly.io choice).
   - No paid observability vendor initially (structured logs + OpenTelemetry only).
 
 ## Preferred, to validate during scaffold
@@ -34,7 +34,7 @@ This document distinguishes **decided**, **preferred** and **open** items so cod
 - TypeScript-first application stack.
 - Next.js for web surfaces.
 - Node.js API/application layer.
-- pgvector before a specialized vector database (PostgreSQL+pgvector via Docker Compose for dev; Neon/Supabase free tier when remote is needed).
+- pgvector before a specialized vector database (PostgreSQL+pgvector via Docker Compose for dev; Supabase when remote is needed).
 
 ## Open
 
