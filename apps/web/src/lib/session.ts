@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { createApothemApiClient } from "@apothem/api-client";
-import { auth } from "@/auth";
+import { auth, googleConfigured } from "@/auth";
 import { loadAccessTokenConfig } from "./access-token";
 import { accessTokenForSession } from "./session-token";
 import { sessionCookieOptions } from "./sign-in";
@@ -42,9 +42,14 @@ export async function clearSession(): Promise<void> {
   store.delete(ACCESS_TOKEN_COOKIE);
 }
 
+/** Auth.js is only consulted when a provider is configured; without one, auth() would demand a secret. */
+async function currentAuthSession() {
+  return googleConfigured ? auth() : null;
+}
+
 /** True when any credential is present; used to decide between the landing page and the app. */
 export async function hasSession(): Promise<boolean> {
-  const session = await auth();
+  const session = await currentAuthSession();
   if (session?.user?.email) return true;
   return Boolean((await getSessionAccessToken()) ?? (await getSessionPrincipalId()));
 }
@@ -55,7 +60,7 @@ export async function getApiClient() {
     throw new Error("APOTHEM_API_URL is not set — copy apps/web/.env.example to .env.local");
   }
 
-  const fromSession = await accessTokenForSession(await auth(), loadAccessTokenConfig());
+  const fromSession = await accessTokenForSession(await currentAuthSession(), loadAccessTokenConfig());
   const accessToken = fromSession ?? (await getSessionAccessToken());
   const principalId = accessToken ? undefined : await getSessionPrincipalId();
 

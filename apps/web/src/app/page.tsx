@@ -1,59 +1,21 @@
-import { Button, Card, Logomark } from "@apothem/ui";
-import { signIn } from "./actions";
-import styles from "./page.module.css";
+import { googleConfigured } from "@/auth";
+import { createOrganizationAction } from "@/features/account/actions";
+import { HomeView } from "@/features/account/home-view";
+import { loadAccount, type LoadAccountResult } from "@/features/account/load-account";
+import { getApiClient, hasSession } from "@/lib/session";
+import { SignInPanel } from "./sign-in-panel";
 
-export default function SignInPage() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.brand}>
-        <Logomark size={28} className={styles.mark} />
-        <span className={styles.wordmark}>APOTHEM</span>
-      </div>
+export default async function HomePage() {
+  const devSignInEnabled = process.env.NODE_ENV !== "production";
 
-      <Card className={styles.card}>
-        <div className={styles.cardHeader}>
-          <h1 className={styles.headline}>Enter your workspace</h1>
-          <p className={styles.hint}>
-            Dev-only bootstrap — real session authentication (ADR-009) replaces this
-            before launch.
-          </p>
-        </div>
+  const result: LoadAccountResult = (await hasSession())
+    ? await loadAccount(await getApiClient())
+    : { kind: "signed_out" };
 
-        <form className={styles.form} action={signIn}>
-          <label>
-            Access token (optional, API in jwt mode)
-            <input
-              name="accessToken"
-              type="password"
-              autoComplete="off"
-              spellCheck={false}
-              placeholder="npm run auth:dev-token -- you@example.com"
-            />
-          </label>
-          <label>
-            Principal ID
-            <input
-              name="principalId"
-              defaultValue="00000000-0000-0000-0000-000000000000"
-              placeholder="00000000-0000-0000-0000-000000000000"
-            />
-          </label>
-          <label>
-            Organization ID
-            <input
-              name="organizationId"
-              defaultValue="00000000-0000-0000-0000-000000000000"
-              placeholder="00000000-0000-0000-0000-000000000000"
-              required
-            />
-          </label>
-          <Button type="submit">Continue</Button>
-        </form>
+  // No session, or the API says it is missing or expired: show sign-in.
+  if (result.kind === "signed_out") {
+    return <SignInPanel googleEnabled={googleConfigured} devSignInEnabled={devSignInEnabled} />;
+  }
 
-        <p className={styles.footnote}>
-          Using seeded demo fixtures — see <code>apothem-api/database/seed.ts</code>.
-        </p>
-      </Card>
-    </main>
-  );
+  return <HomeView result={result} createOrganization={createOrganizationAction} />;
 }

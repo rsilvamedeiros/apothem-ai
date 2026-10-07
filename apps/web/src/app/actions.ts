@@ -1,12 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { signIn as authSignIn, signOut as authSignOut } from "@/auth";
+import { googleConfigured, signIn as authSignIn, signOut as authSignOut } from "@/auth";
 import { parseSignIn } from "@/lib/sign-in";
 import { clearSession, setSessionAccessToken, setSessionPrincipalId } from "@/lib/session";
 
 /** Starts the Google flow; Auth.js redirects back to the home page (the organization picker). */
 export async function signInWithGoogle(): Promise<void> {
+  if (!googleConfigured) throw new Error("Google sign-in is not configured");
   await authSignIn("google", { redirectTo: "/" });
 }
 
@@ -32,5 +33,6 @@ export async function signIn(formData: FormData): Promise<void> {
 
 export async function signOut(): Promise<void> {
   await clearSession();
-  await authSignOut({ redirectTo: "/" });
+  if (googleConfigured) await authSignOut({ redirectTo: "/" });
+  redirect("/");
 }
