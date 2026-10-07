@@ -26,3 +26,10 @@ Accessibility baseline includes keyboard navigation, focus states, semantic labe
 - Starting a run sends only the task text and an idempotency key. The key is generated per submit attempt on the client and regenerated after a finished run, so a double click replays one run instead of paying for two. A missing or malformed key is replaced server-side.
 - Tenant, agent and run ids come from the route; the form has no tenant fields. The Test run panel is offered only for an active, published agent.
 - Task text and model answers are rendered as text. Timestamps are shown in a fixed UTC format.
+
+## Tools and approvals UI (apps/web)
+
+- A pending proposal is shown as what will happen: a readable tool name and every argument as text (long values are truncated), who requested it, when it expires, and who decided it with the reason. A decision made by the requester because no other approver existed is labelled self-approved.
+- Decision controls (approve or reject with an optional reason) are rendered only for pending approvals. The UI does not decide who may use them: the API enforces `approval.decide` and separation of duties, and its refusal is shown as a fixed message.
+- The tool editor lists the API's catalog with each tool's risk. "Ask a person first" is the recommended choice, "Run automatically" is not offered for irreversible tools and shows a warning for writes. The form can only choose among real catalog tools, the catalog is re-loaded on every save, and bindings are validated again by the API when the agent is published.
+- Controlled `<select>` elements inside forms are keyed with `useControlledResetKey`. React resets a form after its action runs and a controlled select would otherwise show its first option while the next submit sends another value (this had made the add-member role select display "Owner" after a submit).

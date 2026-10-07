@@ -19,8 +19,8 @@ Legend: Done, Partial, Planned, n/a.
 | models (Model Gateway) | Done (Anthropic and mock adapters, cost/provider/capability guardrails, routing evals) | Planned | Model policy editor depends on a typed model-policy contract |
 | knowledge | Planned (README only) | Partial (UI shell without backend) | Backend contract first |
 | runs | Done for v1 (synchronous single model call, durable record, idempotency, budgets, failure codes; no tools or approvals) | Done (Test run panel on the agent page, runs list with cursor paging, run detail with steps and failure guidance) | Next: tools and approvals (WAITING_APPROVAL), knowledge, streaming and a worker queue |
-| tools | Done for v1 (typed catalog, strict bindings, policy, idempotent built-in executor) | Planned | Tool bindings editor depends on exposing the catalog through the API |
-| approvals | Done for v1 (durable proposals, decisions, expiry, separation of duties) | Planned | Next: approval inbox and waiting state in the runs UI |
+| tools | Done for v1 (typed catalog, strict bindings, policy, idempotent built-in executor) | Done (tool catalog served by GET /v1/tools, tool bindings editor on the agent page, ask-first recommended, automatic never offered for irreversible tools) | Next: external connectors as new catalog entries |
+| approvals | Done for v1 (durable proposals, decisions, expiry, separation of duties) | Done (approval inbox with status tabs and paging, decision controls with reason, waiting state and proposals on the run page) | Next: notifications for pending approvals, per-tenant policies |
 | conversations | Planned | Planned | |
 | connections | Planned | Planned | |
 | workflows | Planned | Planned | |
