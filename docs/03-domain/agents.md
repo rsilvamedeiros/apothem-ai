@@ -24,3 +24,11 @@ Immutable publication snapshot containing:
 Publishing creates a new version; it never edits the previous one. Runs always record version ID.
 
 Agent status may be draft/active/disabled/archived. Disabling blocks new production runs while preserving history.
+
+## Enforced invariants (implemented in apothem-api)
+
+- Agents belong to one workspace; lookups are always scoped by workspace, so an agent of another workspace is indistinguishable from a missing one.
+- Publishing snapshots the draft into an immutable version. The checksum is a SHA-256 over canonical JSON (sorted keys), so equal configurations hash equally regardless of key order.
+- `archived` is terminal: no draft edits, no publish and no status change.
+- Disabling or archiving, publishing and draft edits each emit an audit event; denied operations emit none.
+- The version store has no update or delete operation.
