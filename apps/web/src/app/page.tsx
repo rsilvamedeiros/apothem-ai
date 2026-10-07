@@ -21,12 +21,21 @@ export default function SignInPage() {
 
         <form className={styles.form} action={signIn}>
           <label>
+            Access token (optional, API in jwt mode)
+            <input
+              name="accessToken"
+              type="password"
+              autoComplete="off"
+              spellCheck={false}
+              placeholder="npm run auth:dev-token -- you@example.com"
+            />
+          </label>
+          <label>
             Principal ID
             <input
               name="principalId"
               defaultValue="00000000-0000-0000-0000-000000000000"
               placeholder="00000000-0000-0000-0000-000000000000"
-              required
             />
           </label>
           <label>
