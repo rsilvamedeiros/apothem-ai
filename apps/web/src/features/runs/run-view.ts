@@ -3,7 +3,7 @@ import type { StatusTone } from "@apothem/ui";
 /** Same limit as apothem-api; the API validates again and its answer wins. */
 export const MAX_RUN_INPUT_LENGTH = 20_000;
 
-export type RunStatus = "queued" | "running" | "completed" | "failed" | "cancelled";
+export type RunStatus = "queued" | "running" | "waiting_approval" | "completed" | "failed" | "cancelled";
 
 /** Mirrors the API's run response; presentation only. */
 export type RunView = {
@@ -42,6 +42,7 @@ export type RunStepView = {
 const STATUS_VIEW: Record<RunStatus, { label: string; tone: StatusTone }> = {
   queued: { label: "Queued", tone: "neutral" },
   running: { label: "Running", tone: "info" },
+  waiting_approval: { label: "Waiting for approval", tone: "warning" },
   completed: { label: "Completed", tone: "success" },
   failed: { label: "Failed", tone: "danger" },
   cancelled: { label: "Cancelled", tone: "warning" },
@@ -74,7 +75,31 @@ const ERROR_GUIDANCE: Record<string, { title: string; hint: string }> = {
   },
   TOOL_NOT_BOUND: {
     title: "The model asked for a tool this agent does not have",
-    hint: "Tools are not available yet. Adjust the instructions so the agent answers directly.",
+    hint: "Bind the tool to the agent and publish a new version, or adjust the instructions so the agent answers directly.",
+  },
+  TOOL_ARGUMENT_INVALID: {
+    title: "The model proposed an invalid action",
+    hint: "Its arguments did not match the tool contract, so nothing was done. Clarify the instructions and try again.",
+  },
+  TOOL_LIMIT_EXCEEDED: {
+    title: "The agent reached its tool call limit",
+    hint: "A run may use at most 3 tools. Simplify the task or the instructions.",
+  },
+  TOOL_EXECUTION_FAILED: {
+    title: "A tool could not complete its action",
+    hint: "Nothing further was done. Try again; if it keeps failing, contact support with the run id.",
+  },
+  APPROVAL_REJECTED: {
+    title: "A person rejected the proposed action",
+    hint: "The action was not performed. Start a new run if you still need it.",
+  },
+  APPROVAL_EXPIRED: {
+    title: "The approval request expired",
+    hint: "Nobody decided in time, so the action was not performed. Start a new run to ask again.",
+  },
+  APPROVAL_INVALIDATED: {
+    title: "The approval no longer applied",
+    hint: "The agent was disabled or archived before the decision, so the action was not performed.",
   },
   RUN_INTERNAL_ERROR: {
     title: "The run failed unexpectedly",
@@ -93,4 +118,42 @@ export function formatDuration(milliseconds: number | null): string {
   if (milliseconds === null) return "—";
   if (milliseconds < 1000) return `${milliseconds} ms`;
   return `${Number((milliseconds / 1000).toFixed(1))} s`;
+}
+
+export type ApprovalStatus = "pending" | "approved" | "rejected" | "expired";
+
+/** Mirrors the API's approval response; presentation only. */
+export type ApprovalView = {
+  id: string;
+  runId: string;
+  agentId: string;
+  stepSequence: number;
+  toolName: string;
+  arguments: Record<string, unknown>;
+  requestedByPrincipalId: string;
+  status: ApprovalStatus;
+  expiresAt: string;
+  decidedByPrincipalId: string | null;
+  decisionReason: string | null;
+  selfApproved: boolean;
+  decidedAt: string | null;
+  createdAt: string;
+};
+
+const APPROVAL_STATUS_VIEW: Record<ApprovalStatus, { label: string; tone: StatusTone }> = {
+  pending: { label: "Pending", tone: "warning" },
+  approved: { label: "Approved", tone: "success" },
+  rejected: { label: "Rejected", tone: "danger" },
+  expired: { label: "Expired", tone: "neutral" },
+};
+
+export function describeApprovalStatus(status: ApprovalStatus): { label: string; tone: StatusTone } {
+  return Object.hasOwn(APPROVAL_STATUS_VIEW, status) ? APPROVAL_STATUS_VIEW[status] : { label: "Unknown", tone: "neutral" };
+}
+
+/** "create_note" -> "Create note". Display only; the catalog name stays the identity. */
+export function formatToolName(name: string): string {
+  const words = name.split("_").filter((word) => word.length > 0);
+  const text = words.join(" ");
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }

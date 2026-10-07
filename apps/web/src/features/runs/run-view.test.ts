@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { describeRunError, describeRunStatus, formatDuration } from "./run-view";
+import { describeApprovalStatus, describeRunError, describeRunStatus, formatDuration, formatToolName } from "./run-view";
 
 describe("describeRunStatus", () => {
   it.each([
     ["queued", "Queued", "neutral"],
     ["running", "Running", "info"],
+    ["waiting_approval", "Waiting for approval", "warning"],
     ["completed", "Completed", "success"],
     ["failed", "Failed", "danger"],
     ["cancelled", "Cancelled", "warning"],
@@ -26,6 +27,12 @@ describe("describeRunError", () => {
     "MODEL_REQUEST_REJECTED",
     "RUN_BUDGET_EXCEEDED",
     "TOOL_NOT_BOUND",
+    "TOOL_ARGUMENT_INVALID",
+    "TOOL_LIMIT_EXCEEDED",
+    "TOOL_EXECUTION_FAILED",
+    "APPROVAL_REJECTED",
+    "APPROVAL_EXPIRED",
+    "APPROVAL_INVALIDATED",
     "RUN_INTERNAL_ERROR",
   ])("gives actionable guidance for %s", (code) => {
     const guidance = describeRunError(code);
@@ -49,5 +56,32 @@ describe("formatDuration", () => {
     [60_000, "60 s"],
   ])("formats %s as %s", (ms, text) => {
     expect(formatDuration(ms)).toBe(text);
+  });
+});
+
+describe("describeApprovalStatus", () => {
+  it.each([
+    ["pending", "Pending", "warning"],
+    ["approved", "Approved", "success"],
+    ["rejected", "Rejected", "danger"],
+    ["expired", "Expired", "neutral"],
+  ] as const)("maps %s", (status, label, tone) => {
+    expect(describeApprovalStatus(status)).toEqual({ label, tone });
+  });
+
+  it("falls back safely", () => {
+    expect(describeApprovalStatus("weird" as never)).toEqual({ label: "Unknown", tone: "neutral" });
+  });
+});
+
+describe("formatToolName", () => {
+  it("turns a catalog name into a readable label", () => {
+    expect(formatToolName("create_note")).toBe("Create note");
+    expect(formatToolName("get_current_time")).toBe("Get current time");
+  });
+
+  it("is safe for odd input", () => {
+    expect(formatToolName("")).toBe("");
+    expect(formatToolName("__proto__")).toBe("Proto");
   });
 });
