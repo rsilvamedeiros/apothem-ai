@@ -13,4 +13,6 @@ export {
   listAgentVersions,
 } from "./agents";
 export { listAuditEvents } from "./audit";
+export { addMember, changeMemberRole, listMembers, revokeMember } from "./members";
+export type { MemberRole } from "./members";
 export type { paths, components } from "./generated/schema";
