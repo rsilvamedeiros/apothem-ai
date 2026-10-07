@@ -10,7 +10,7 @@ Legend: Done, Partial, Planned, n/a.
 
 | Module | Backend | Frontend | Notes |
 |---|---|---|---|
-| identity | Partial (dev header authenticator) | Partial (dev sign-in bootstrap) | Self-hosted OIDC pending (ADR-009) |
+| identity | Done for verification (strict JWT bearer auth, production refuses the dev header, mutation tested) | Partial (access token or dev principal cookie; no real sign-in UI) | Next: choose and deploy the token issuer (ADR-012), then a real sign-in flow and refresh |
 | organizations | Done (duplicate slug 409, member management with escalation and last-owner guards) | Done (organization page, members page) | Known limitation: organization and first membership are not created atomically |
 | workspaces | Done (service tests, cross-organization isolation) | Done | |
 | authorization | Done (golden matrix, properties, mutation about 98%) | n/a | Frontend never decides access |

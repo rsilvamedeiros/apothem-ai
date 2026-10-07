@@ -45,3 +45,5 @@ This document distinguishes **decided**, **preferred** and **open** items so cod
 - when to move off the zero-cost stack (ADR-009) as the company starts commercializing.
 
 Open decisions should be resolved by evidence and recorded as ADRs.
+
+- Authentication is decided by [ADR-012](../adr/012-authentication-signed-bearer-tokens.md): the API verifies signed bearer tokens (`AUTH_MODE=jwt`), production refuses the dev header, and the token issuer (Auth.js or another OIDC server) remains a configuration choice.
