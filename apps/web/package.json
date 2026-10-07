@@ -12,7 +12,9 @@
   "dependencies": {
     "@apothem/api-client": "*",
     "@apothem/ui": "*",
+    "jose": "^6.2.12",
     "next": "^15.1.0",
+    "next-auth": "^5.0.0-beta.32",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
