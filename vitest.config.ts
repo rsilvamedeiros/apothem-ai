@@ -26,7 +26,7 @@ export default defineConfig({
       ],
       reporter: ["text-summary", "json-summary", "lcov"],
       // Floors are a ratchet: raise them as coverage grows, never lower them.
-      thresholds: { lines: 68, functions: 65, branches: 80, statements: 68 },
+      thresholds: { lines: 73, functions: 72, branches: 82, statements: 73 },
     },
   },
 });
