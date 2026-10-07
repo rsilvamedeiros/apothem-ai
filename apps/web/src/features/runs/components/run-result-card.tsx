@@ -43,6 +43,12 @@ export function RunResultCard({ run, detailHref }: RunResultCardProps) {
         </section>
       ) : null}
 
+      {run.status === "waiting_approval" ? (
+        <p role="status" className={styles.hint}>
+          The agent proposed an action that needs a person. An owner or admin must approve it before anything happens.
+        </p>
+      ) : null}
+
       {guidance ? (
         <div role="alert" className={styles.alert}>
           <strong>{guidance.title}</strong>

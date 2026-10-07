@@ -1,4 +1,6 @@
 import Link from "next/link";
+import type { ActionState } from "@/lib/action-state";
+import { ApprovalCard } from "../approvals/components/approval-card";
 import type { LoadRunResult } from "./load-runs";
 import { RunResultCard } from "./components/run-result-card";
 import { formatDuration } from "./run-view";
@@ -9,6 +11,8 @@ type RunDetailViewProps = {
   backHref: string;
   /** Link to the agent that ran, built by the page from the run's agent id. */
   agentHref: string;
+  /** Returns the server action bound to one approval. */
+  decide: (approvalId: string) => (state: ActionState, formData: FormData) => Promise<ActionState>;
 };
 
 const SHORT_ID_LENGTH = 8;
@@ -24,7 +28,7 @@ function failureMessage(result: Exclude<LoadRunResult, { kind: "ok" }>): string 
   }
 }
 
-export function RunDetailView({ result, backHref, agentHref }: RunDetailViewProps) {
+export function RunDetailView({ result, backHref, agentHref, decide }: RunDetailViewProps) {
   const back = (
     <Link href={backHref} className={styles.back}>
       ← Runs
@@ -42,7 +46,7 @@ export function RunDetailView({ result, backHref, agentHref }: RunDetailViewProp
     );
   }
 
-  const { run, steps } = result;
+  const { run, steps, approvals } = result;
   return (
     <div className={styles.page}>
       {back}
@@ -59,6 +63,22 @@ export function RunDetailView({ result, backHref, agentHref }: RunDetailViewProp
           <Link href={agentHref}>View agent</Link>
         </p>
       </section>
+
+      {approvals.length > 0 ? (
+        <section>
+          <h2 className={styles.title}>Approvals</h2>
+          <ul className={styles.steps}>
+            {approvals.map((approval) => (
+              <li key={approval.id}>
+                <ApprovalCard
+                  approval={approval}
+                  {...(approval.status === "pending" ? { decide: decide(approval.id) } : {})}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section>
         <h2 className={styles.title}>Steps</h2>

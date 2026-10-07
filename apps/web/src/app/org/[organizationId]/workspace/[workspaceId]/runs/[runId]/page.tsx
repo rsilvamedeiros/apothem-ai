@@ -1,3 +1,4 @@
+import { decideApprovalAction } from "@/features/approvals/actions";
 import { loadRun } from "@/features/runs/load-runs";
 import { RunDetailView } from "@/features/runs/run-detail-view";
 import { getApiClient } from "@/lib/session";
@@ -16,6 +17,7 @@ export default async function RunPage({ params }: RunPageProps) {
       result={result}
       backHref={`${base}/runs`}
       agentHref={result.kind === "ok" ? `${base}/agents/${result.run.agentId}` : `${base}/agents`}
+      decide={(approvalId) => decideApprovalAction.bind(null, organizationId, workspaceId, approvalId)}
     />
   );
 }

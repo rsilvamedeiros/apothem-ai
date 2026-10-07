@@ -68,4 +68,13 @@ describe("RunPanel", () => {
     expect(screen.getByText(/Publish the agent/)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Run agent" })).toBeNull();
   });
+
+  it("tells the user where to follow a run that needs approval", async () => {
+    const waiting: RunView = { ...completed, status: "waiting_approval", output: null, finishedAt: null };
+    render(<RunPanel action={make({ run: waiting })} runnable detailHref={(id) => `/runs/${id}`} />);
+    await userEvent.type(screen.getByLabelText("Task"), "ping");
+    await userEvent.click(screen.getByRole("button", { name: "Run agent" }));
+    expect(await screen.findByText("Waiting for approval")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "View run details" })).toHaveAttribute("href", `/runs/${completed.id}`);
+  });
 });

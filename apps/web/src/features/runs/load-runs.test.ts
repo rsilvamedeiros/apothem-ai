@@ -49,8 +49,13 @@ describe("loadRuns", () => {
 });
 
 describe("loadRun", () => {
-  it("returns the run with its steps", async () => {
-    expect(await loadRun(client(200, { run, steps: [step] }), ORG, WS, RUN)).toEqual({ kind: "ok", run, steps: [step] });
+  it("returns the run with its steps and approvals", async () => {
+    expect(await loadRun(client(200, { run, steps: [step], approvals: [{ id: "a1" }] }), ORG, WS, RUN)).toEqual({
+      kind: "ok",
+      run,
+      steps: [step],
+      approvals: [{ id: "a1" }],
+    });
   });
 
   it("is not found for a malformed run id without calling the API", async () => {

@@ -1,8 +1,26 @@
 import { render, screen, within } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { RunDetailView } from "./run-detail-view";
 import type { LoadRunResult } from "./load-runs";
-import type { RunStepView, RunView } from "./run-view";
+import type { ApprovalView, RunStepView, RunView } from "./run-view";
+
+const decide = () => vi.fn(async () => ({ ok: true }));
+const pendingApproval: ApprovalView = {
+  id: "55555555-5555-4555-8555-555555555555",
+  runId: "44444444-4444-4444-8444-444444444444",
+  agentId: "a1",
+  stepSequence: 2,
+  toolName: "create_note",
+  arguments: { title: "Call back", body: "Tomorrow" },
+  requestedByPrincipalId: "p1",
+  status: "pending",
+  expiresAt: "2026-03-05T12:00:00.000Z",
+  decidedByPrincipalId: null,
+  decisionReason: null,
+  selfApproved: false,
+  decidedAt: null,
+  createdAt: "2026-03-04T12:00:00.000Z",
+};
 
 const run: RunView = {
   id: "44444444-4444-4444-8444-444444444444",
@@ -39,7 +57,7 @@ const step: RunStepView = {
 
 describe("RunDetailView", () => {
   it("shows the run, the pinned agent version and its steps", () => {
-    render(<RunDetailView result={{ kind: "ok", run, steps: [step] } as LoadRunResult} backHref="/runs" agentHref="/agents/a" />);
+    render(<RunDetailView result={{ kind: "ok", run, steps: [step], approvals: [] } as LoadRunResult} backHref="/runs" agentHref="/agents/a" decide={decide} />);
     expect(screen.getByText("pong")).toBeInTheDocument();
     expect(screen.getByText("66666666")).toHaveAttribute("title", run.agentVersionId);
     const steps = screen.getAllByRole("listitem");
@@ -49,7 +67,7 @@ describe("RunDetailView", () => {
   });
 
   it("links back to the list and to the agent", () => {
-    render(<RunDetailView result={{ kind: "ok", run, steps: [] }} backHref="/runs" agentHref="/agents/a" />);
+    render(<RunDetailView result={{ kind: "ok", run, steps: [], approvals: [] }} backHref="/runs" agentHref="/agents/a" decide={decide} />);
     expect(screen.getByRole("link", { name: /Runs/ })).toHaveAttribute("href", "/runs");
     expect(screen.getByRole("link", { name: "View agent" })).toHaveAttribute("href", "/agents/a");
   });
@@ -61,16 +79,18 @@ describe("RunDetailView", () => {
           kind: "ok",
           run: { ...run, status: "failed", output: null, errorCode: "RUN_BUDGET_EXCEEDED" },
           steps: [{ ...step, status: "failed", errorCode: "RUN_BUDGET_EXCEEDED", finishReason: null }],
+          approvals: [],
         }}
         backHref="/runs"
         agentHref="/agents/a"
+        decide={decide}
       />,
     );
     expect(screen.getByRole("alert")).toHaveTextContent("The run took too long");
   });
 
   it("says when a run has no recorded steps", () => {
-    render(<RunDetailView result={{ kind: "ok", run, steps: [] }} backHref="/runs" agentHref="/agents/a" />);
+    render(<RunDetailView result={{ kind: "ok", run, steps: [], approvals: [] }} backHref="/runs" agentHref="/agents/a" decide={decide} />);
     expect(screen.getByText("No steps were recorded.")).toBeInTheDocument();
   });
 
@@ -79,7 +99,39 @@ describe("RunDetailView", () => {
     [{ kind: "error", message: "You do not have permission to view runs." } as const, "permission"],
     [{ kind: "unreachable" } as const, "unreachable"],
   ])("renders a non-ok result (%j)", (result, text) => {
-    render(<RunDetailView result={result} backHref="/runs" agentHref="/agents/a" />);
+    render(<RunDetailView result={result} backHref="/runs" agentHref="/agents/a" decide={decide} />);
     expect(screen.getByRole("alert")).toHaveTextContent(text);
+  });
+
+  it("shows the proposal a waiting run is blocked on, with decision controls for pending approvals", () => {
+    render(
+      <RunDetailView
+        result={{ kind: "ok", run: { ...run, status: "waiting_approval", output: null }, steps: [], approvals: [pendingApproval] }}
+        backHref="/runs"
+        agentHref="/agents/a"
+        decide={decide}
+      />,
+    );
+    expect(screen.getByRole("heading", { name: "Approvals" })).toBeInTheDocument();
+    expect(screen.getByText("Create note")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Approve" })).toBeInTheDocument();
+  });
+
+  it("keeps decided approvals as history without controls", () => {
+    render(
+      <RunDetailView
+        result={{ kind: "ok", run, steps: [], approvals: [{ ...pendingApproval, status: "approved", decidedAt: "2026-03-04T13:00:00.000Z" }] }}
+        backHref="/runs"
+        agentHref="/agents/a"
+        decide={decide}
+      />,
+    );
+    expect(screen.getByText("Approved")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Approve" })).toBeNull();
+  });
+
+  it("omits the approvals section when the run never needed one", () => {
+    render(<RunDetailView result={{ kind: "ok", run, steps: [], approvals: [] }} backHref="/runs" agentHref="/agents/a" decide={decide} />);
+    expect(screen.queryByRole("heading", { name: "Approvals" })).toBeNull();
   });
 });

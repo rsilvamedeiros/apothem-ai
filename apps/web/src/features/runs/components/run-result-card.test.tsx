@@ -83,4 +83,12 @@ describe("RunResultCard", () => {
     render(<RunResultCard run={base} detailHref="/runs/abc" />);
     expect(screen.getByRole("link", { name: "View run details" })).toHaveAttribute("href", "/runs/abc");
   });
+
+  it("explains a run that is waiting for a person, without showing an answer or an error", () => {
+    render(<RunResultCard run={{ ...base, status: "waiting_approval", output: null, finishedAt: null }} />);
+    expect(screen.getByText("Waiting for approval")).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent(/owner or admin must approve/i);
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(screen.queryByText("Answer")).toBeNull();
+  });
 });
