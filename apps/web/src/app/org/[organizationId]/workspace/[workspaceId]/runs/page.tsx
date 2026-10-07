@@ -1,13 +1,28 @@
-import styles from "../stub.module.css";
+import { loadRuns } from "@/features/runs/load-runs";
+import { RunsView } from "@/features/runs/runs-view";
+import { getApiClient } from "@/lib/session";
 
-export default function RunsPage() {
+type RunsPageProps = {
+  params: Promise<{ organizationId: string; workspaceId: string }>;
+  searchParams: Promise<{ cursor?: string | string[] }>;
+};
+
+const MAX_CURSOR_LENGTH = 512;
+
+export default async function RunsPage({ params, searchParams }: RunsPageProps) {
+  const { organizationId, workspaceId } = await params;
+  const { cursor: rawCursor } = await searchParams;
+  // The cursor is untrusted input: only a single, bounded string is forwarded.
+  const cursor =
+    typeof rawCursor === "string" && rawCursor.length > 0 && rawCursor.length <= MAX_CURSOR_LENGTH ? rawCursor : undefined;
+
+  const result = await loadRuns(await getApiClient(), organizationId, workspaceId, cursor ? { cursor } : {});
+
   return (
-    <div className={styles.page}>
-      <h1 className={styles.title}>Runs</h1>
-      <p className={styles.description}>
-        Durable execution records: inputs, tool calls, approvals, and final outcome.
-      </p>
-      <div className={styles.emptyState}>No runs yet.</div>
-    </div>
+    <RunsView
+      result={result}
+      basePath={`/org/${organizationId}/workspace/${workspaceId}/runs`}
+      isLaterPage={cursor !== undefined}
+    />
   );
 }
