@@ -1,3 +1,8 @@
 import { nextEslintConfig } from "@apothem/frontend-config/eslint/next";
 
-export default nextEslintConfig(import.meta.dirname);
+// These packages are not Next apps (no pages directory), so the rule only produces noise.
+const noPagesRule = { rules: { "@next/next/no-html-link-for-pages": "off" } };
+
+const config = [...nextEslintConfig(import.meta.dirname), noPagesRule];
+
+export default config;
