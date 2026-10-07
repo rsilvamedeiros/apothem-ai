@@ -72,9 +72,14 @@ export default async function OrganizationPage({ params }: PageProps) {
           <span className={styles.orgSlug}>{organization.slug}</span>
           <h1 className={styles.headline}>{organization.name}</h1>
           <p className={styles.hint}>Choose a workspace to continue.</p>
-          <Button href={`/org/${organizationId}/audit`} variant="secondary">
-            Audit log
-          </Button>
+          <div style={{ display: "flex", gap: "var(--apothem-space-1)" }}>
+            <Button href={`/org/${organizationId}/members`} variant="secondary">
+              Members
+            </Button>
+            <Button href={`/org/${organizationId}/audit`} variant="secondary">
+              Audit log
+            </Button>
+          </div>
         </div>
 
         <div className={styles.workspaceGrid}>
