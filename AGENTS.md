@@ -26,7 +26,10 @@ Do not silently change:
 - event delivery guarantees;
 - deployment boundaries;
 - data retention categories;
-- audit event contract.
+- audit event contract;
+- the repository split or stack baseline decided in ADR-008/ADR-009/ADR-010.
+
+ADRs for both repositories live in `docs/adr/` of this repository.
 
 ## Default behavior when a specification is incomplete
 
@@ -38,6 +41,7 @@ Do not silently change:
 6. Prefer idempotent application commands.
 7. Prefer auditability over hidden convenience.
 8. Prefer a modular monolith over premature service extraction.
+9. Prefer test-first changes and the shared quality practices in `docs/16-testing/quality-practices.md` (ADR-011).
 
 ## Context preservation
 
@@ -53,4 +57,8 @@ When making a significant change, update the closest relevant `.md` rather than 
 - treating streaming completion text as the authoritative execution record;
 - silently retrying non-idempotent tools;
 - removing approval steps to simplify demos;
-- using logs as a substitute for an immutable audit trail.
+- using logs as a substitute for an immutable audit trail;
+- hand-writing API types that duplicate what `packages/api-client` generates from the OpenAPI spec;
+- granting the frontend any authorization or business-rule authority;
+- lowering test or coverage thresholds to make a build pass;
+- using live AI providers in unit, component or E2E tests.
