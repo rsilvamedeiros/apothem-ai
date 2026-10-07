@@ -18,6 +18,16 @@ Decision record: [ADR-011](../adr/011-engineering-quality-and-responsible-ai.md)
 | AI evals | datasets run through the mock Model Gateway | n/a (UI never calls providers) |
 | Security | dependency audit, secret scan, SAST | dependency audit, secret scan |
 
+## Full-stack E2E (`npm run e2e`)
+
+`e2e/full-stack.spec.ts` drives a real browser against the real API. Playwright starts the web app and, from the sibling `apothem-api` checkout (`../apothem-api`, or `E2E_API_DIR`), `npm run e2e:api`: the real server and migrations on in-memory Postgres (PGlite) with the mock model, in `AUTH_MODE=jwt`. The spec signs in by setting the `apothem_access_token` cookie with an HS256 token that uses the throwaway constants in `apothem-api/infra/scripts/e2e-api.ts`; they are valid only for that process. The suite is skipped when the sibling checkout is absent.
+
+Journey covered: sign-up on first login, organization, workspace, agent, instructions, tool with required approval, publish, run that proposes a write, inbox approval (self-approval as sole approver), completed run with tool result, audit trail without note contents, members, and cross-organization denial.
+
+Defects this suite found that unit tests missed: plain functions passed from a server component to a client component, and a decided approval vanishing together with its outcome message.
+
+CI follow-up: running it there needs read access to the private `apothem-api` repo (`API_REPO_TOKEN` secret, not configured yet).
+
 ## Definition of a good test
 
 - Deterministic: no network, clock or randomness without injection; no live LLM calls.
