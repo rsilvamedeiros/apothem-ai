@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { apiAvailable, signIn, WEB } from "./support/full-stack";
+import { apiAvailable, createWorkspace, signIn, WEB } from "./support/full-stack";
 
 /**
  * Knowledge end to end in a real browser against the real API: a knowledge
@@ -13,19 +13,6 @@ const QUESTION = "how long do refunds take";
 test.describe("knowledge", () => {
   test.skip(!apiAvailable, "needs the sibling apothem-api checkout");
 
-  async function workspaceFor(page: Page, run: string) {
-    await page.goto(`${WEB}/`);
-    await page.getByLabel("Organization name").fill(`Acme ${run}`);
-    await page.getByRole("button", { name: "Create organization" }).click();
-    await page.waitForURL(/\/org\/[0-9a-f-]{36}$/);
-    const orgId = page.url().split("/org/")[1]!;
-    await page.getByPlaceholder("Workspace name").fill("Support");
-    await page.getByPlaceholder("workspace-slug").fill(`support-${run}`);
-    await page.getByRole("button", { name: "Create", exact: true }).click();
-    await page.waitForURL(/\/workspace\/[0-9a-f-]{36}\/overview$/);
-    return { orgId, base: `${WEB}/org/${orgId}/workspace/${page.url().split("/workspace/")[1]!.split("/")[0]}` };
-  }
-
   async function runAgent(page: Page, agentUrl: string) {
     await page.goto(agentUrl);
     await page.getByLabel("Task").fill(`__mock_tool_call__ search_knowledge {"query":"${QUESTION}"}`);
@@ -37,7 +24,7 @@ test.describe("knowledge", () => {
     test.setTimeout(240_000);
     const run = Date.now().toString(36);
     await signIn(context, `kb-owner-${run}@example.com`);
-    const { orgId, base } = await workspaceFor(page, run);
+    const { orgId, base } = await createWorkspace(page, run);
 
     // Knowledge base.
     await page.goto(`${base}/knowledge`);
@@ -126,7 +113,7 @@ test.describe("knowledge", () => {
   test("removing a document stops it from being found", async ({ page, context }) => {
     const run = Date.now().toString(36);
     await signIn(context, `kb-rm-${run}@example.com`);
-    const { base } = await workspaceFor(page, run);
+    const { base } = await createWorkspace(page, run);
     await page.goto(`${base}/knowledge`);
     await page.getByLabel("Name").fill("Handbook");
     await page.getByRole("button", { name: "Create knowledge base" }).click();
@@ -152,7 +139,7 @@ test.describe("knowledge", () => {
   test("another account cannot open the knowledge of a workspace it does not belong to", async ({ page, context }) => {
     const run = Date.now().toString(36);
     await signIn(context, `kb-a-${run}@example.com`);
-    const { base } = await workspaceFor(page, run);
+    const { base } = await createWorkspace(page, run);
     await page.goto(`${base}/knowledge`);
     await page.getByLabel("Name").fill("Private handbook");
     await page.getByRole("button", { name: "Create knowledge base" }).click();

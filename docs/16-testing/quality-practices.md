@@ -24,6 +24,8 @@ Decision record: [ADR-011](../adr/011-engineering-quality-and-responsible-ai.md)
 
 Specs share `e2e/support/full-stack.ts` (sibling checkout detection and the signed-cookie sign-in). `e2e/knowledge.spec.ts` covers knowledge: create a base, paste a document, see a repeated paste recognised, search and read the passage with its source, attach the base and the search tool to an agent (including the hint when the tool is still off), publish, run, audit without the text, archive and see the next run find nothing, remove a document, and a second account that cannot reach the base. It found that a page refresh after archiving removed the outcome message.
 
+`e2e/tool-policy.spec.ts` covers the workspace tool policy: a rule that forces approval over an author's `auto`, a rule that blocks the tool while a request is already waiting (the approval is invalidated and nothing runs), the author seeing why on the agent page, lifting the rule, the audit trail, and a second account that cannot reach the policy.
+
 Full journey covered: sign-up on first login, organization, workspace, agent, instructions, tool with required approval, publish, run that proposes a write, inbox approval (self-approval as sole approver), completed run with tool result, audit trail without note contents, members, and cross-organization denial.
 
 Defects this suite found that unit tests missed: plain functions passed from a server component to a client component, and a decided approval vanishing together with its outcome message.

@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
-import type { BrowserContext } from "@playwright/test";
+import { expect, type BrowserContext, type Page } from "@playwright/test";
 import { SignJWT } from "jose";
 
 /**
@@ -27,4 +27,19 @@ export async function signIn(context: BrowserContext, email: string): Promise<vo
     .setExpirationTime("30m")
     .sign(new TextEncoder().encode(SECRET));
   await context.addCookies([{ name: "apothem_access_token", value: token, url: WEB, httpOnly: true, sameSite: "Lax" }]);
+}
+
+/** Creates an organization and its first workspace through the UI and returns the workspace base URL. */
+export async function createWorkspace(page: Page, run: string): Promise<{ orgId: string; base: string }> {
+  await page.goto(`${WEB}/`);
+  await page.getByLabel("Organization name").fill(`Acme ${run}`);
+  await page.getByRole("button", { name: "Create organization" }).click();
+  await page.waitForURL(/\/org\/[0-9a-f-]{36}$/);
+  const orgId = page.url().split("/org/")[1]!;
+  await page.getByPlaceholder("Workspace name").fill("Support");
+  await page.getByPlaceholder("workspace-slug").fill(`support-${run}`);
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.waitForURL(/\/workspace\/[0-9a-f-]{36}\/overview$/);
+  await expect(page).toHaveURL(/\/overview$/);
+  return { orgId, base: `${WEB}/org/${orgId}/workspace/${page.url().split("/workspace/")[1]!.split("/")[0]}` };
 }
