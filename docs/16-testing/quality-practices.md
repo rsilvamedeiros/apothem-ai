@@ -78,3 +78,7 @@ Lint, typecheck, unit/component/integration tests, build, migration test on a cl
 Small commits, Conventional Commits in English, push after each commit. After each module, update tests, OpenAPI and docs before requesting review.
 
 Module status across both repositories is tracked in [../19-handoff/module-parity.md](../19-handoff/module-parity.md).
+
+## Knowledge evaluation
+
+Retrieval quality is measured, not assumed. `knowledge.integration.test.ts` runs a small known-answer corpus through the real Postgres full-text search and requires the expected source in the top three for every question (recall@3). It already caught that a query for "refund" missed a document that said "refunds", which led to prefix matching. Grow the corpus with every retrieval defect found; the permission tests (another workspace, unbound base, archived base) are part of the same suite because a wrong source is worse than a missing one.
