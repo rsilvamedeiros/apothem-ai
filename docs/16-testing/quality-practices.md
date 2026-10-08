@@ -22,7 +22,9 @@ Decision record: [ADR-011](../adr/011-engineering-quality-and-responsible-ai.md)
 
 `e2e/full-stack.spec.ts` drives a real browser against the real API. Playwright starts the web app and, from the sibling `apothem-api` checkout (`../apothem-api`, or `E2E_API_DIR`), `npm run e2e:api`: the real server and migrations on in-memory Postgres (PGlite) with the mock model, in `AUTH_MODE=jwt`. The spec signs in by setting the `apothem_access_token` cookie with an HS256 token that uses the throwaway constants in `apothem-api/infra/scripts/e2e-api.ts`; they are valid only for that process. The suite is skipped when the sibling checkout is absent.
 
-Journey covered: sign-up on first login, organization, workspace, agent, instructions, tool with required approval, publish, run that proposes a write, inbox approval (self-approval as sole approver), completed run with tool result, audit trail without note contents, members, and cross-organization denial.
+Specs share `e2e/support/full-stack.ts` (sibling checkout detection and the signed-cookie sign-in). `e2e/knowledge.spec.ts` covers knowledge: create a base, paste a document, see a repeated paste recognised, search and read the passage with its source, attach the base and the search tool to an agent (including the hint when the tool is still off), publish, run, audit without the text, archive and see the next run find nothing, remove a document, and a second account that cannot reach the base. It found that a page refresh after archiving removed the outcome message.
+
+Full journey covered: sign-up on first login, organization, workspace, agent, instructions, tool with required approval, publish, run that proposes a write, inbox approval (self-approval as sole approver), completed run with tool result, audit trail without note contents, members, and cross-organization denial.
 
 Defects this suite found that unit tests missed: plain functions passed from a server component to a client component, and a decided approval vanishing together with its outcome message.
 
