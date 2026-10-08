@@ -17,6 +17,8 @@ export { decideApproval, listApprovals } from "./approvals";
 export type { ApprovalDecision } from "./approvals";
 export { getRun, listRuns, startRun } from "./runs";
 export { listTools } from "./tools";
+export { listToolPolicies, removeToolPolicy, setToolPolicy } from "./tool-policies";
+export type { WorkspaceToolRule } from "./tool-policies";
 export {
   addKnowledgeDocument,
   archiveKnowledgeBase,
