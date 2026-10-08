@@ -8,6 +8,7 @@ import {
 } from "@apothem/api-client";
 import { isUuid } from "@/lib/ids";
 import { isNetworkError } from "@/lib/mock";
+import type { KnowledgeBindingInput } from "./knowledge-bindings";
 import type { ToolBindingInput } from "./tool-bindings";
 import { INSTRUCTIONS_MAX_LENGTH, type CreateAgentFieldErrors, type CreateAgentInput } from "./agent-form";
 
@@ -121,12 +122,12 @@ export async function saveDraftCommand(
   organizationId: string,
   workspaceId: string,
   agentId: string,
-  patch: { instructions?: string; toolBindings?: ToolBindingInput[] },
+  patch: { instructions?: string; toolBindings?: ToolBindingInput[]; knowledgeBindings?: KnowledgeBindingInput[] },
 ): Promise<SaveDraftResult> {
   if (!isUuid(organizationId) || !isUuid(workspaceId) || !isUuid(agentId)) {
     return { kind: "error", message: AGENT_NOT_FOUND };
   }
-  if (patch.instructions === undefined && patch.toolBindings === undefined) {
+  if (patch.instructions === undefined && patch.toolBindings === undefined && patch.knowledgeBindings === undefined) {
     return { kind: "error", message: "There is nothing to save." };
   }
   if (patch.instructions !== undefined && patch.instructions.length > INSTRUCTIONS_MAX_LENGTH) {
