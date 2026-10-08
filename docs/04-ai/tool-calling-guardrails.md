@@ -28,3 +28,7 @@ Tool output is untrusted external input. Protect the next reasoning turn from pr
 - The runtime evaluates policy in code: unbound is denied, irreversible always requires approval, a reversible write requires approval unless its binding says `auto`, and anything unknown fails closed to a human.
 - A run is capped at 3 tool calls. Tool output is bounded (2000 characters), serialized as data, labelled untrusted and kept in a user-role message so it cannot override the agent's instructions.
 - Approvals are durable and immutable; the person who started the run cannot approve it while another approver exists; they expire after 24 hours; approval resumes the persisted proposal with an idempotency key derived from the approval id. See `docs/adr/013-tools-and-approvals-v1.md`.
+
+## Knowledge retrieval (ADR-014)
+
+`search_knowledge` is a read-only catalog tool. It takes a single `query`; the knowledge bases it may read come from the `knowledgeBindings` of the published version and are passed by the runtime, never chosen by the model (extra arguments are rejected). Results are at most three passages with their source identity, trimmed to fit the 2000-character tool result limit, and re-enter the context like any other tool output: delimited, user-role, untrusted data.
