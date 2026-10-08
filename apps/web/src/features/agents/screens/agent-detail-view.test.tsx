@@ -13,6 +13,7 @@ const actions = {
   runBasePath: "/runs",
   saveTools: action,
   saveKnowledge: action,
+  toolRules: {} as Record<string, "blocked" | "approval_required">,
   knowledgeHref: "/knowledge",
   knowledge: {
     kind: "ok" as const,
@@ -115,6 +116,12 @@ describe("AgentDetailView", () => {
     expect(screen.getByLabelText("Handbook")).toBeChecked();
     expect(screen.queryByLabelText("Old")).toBeNull();
     expect(screen.getByRole("button", { name: "Save knowledge" })).toBeEnabled();
+  });
+
+  it("shows which tools the workspace restricts, so the author is not surprised at run time", () => {
+    render(<AgentDetailView result={ok("active")} backHref="/back" {...actions} toolRules={{ create_note: "blocked" }} />);
+    expect(screen.getByText("Blocked in this workspace")).toBeInTheDocument();
+    expect(screen.getByText(/cannot use it until the rule is lifted/)).toBeInTheDocument();
   });
 
   it("makes the knowledge editor read-only for an archived agent", () => {

@@ -5,6 +5,7 @@ import { Button, StatusBadge } from "@apothem/ui";
 import type { ActionState } from "@/lib/action-state";
 import { useControlledResetKey } from "@/lib/use-controlled-reset-key";
 import { formatToolName } from "@/features/runs/run-view";
+import { describeRule, type ToolRules } from "@/features/tool-policy/tool-policy-model";
 import { bindingsToModes, describeRisk, type BindingMode, type ToolOption } from "../tool-bindings";
 import styles from "./tool-bindings-editor.module.css";
 
@@ -16,9 +17,11 @@ type ToolBindingsEditorProps = {
   /** The draft's stored bindings; anything stale or malformed counts as off. */
   bindings: unknown;
   disabled: boolean;
+  /** Workspace rules (ADR-015): a ceiling set by an owner or admin, shown so authors are not surprised at run time. */
+  rules?: ToolRules;
 };
 
-export function ToolBindingsEditor({ action, tools, bindings, disabled }: ToolBindingsEditorProps) {
+export function ToolBindingsEditor({ action, tools, bindings, disabled, rules = {} }: ToolBindingsEditorProps) {
   const [state, formAction, pending] = useActionState(action, {});
   const [modes, setModes] = useState<Record<string, BindingMode>>(() => bindingsToModes(bindings, tools));
   const epoch = useControlledResetKey(state);
@@ -35,6 +38,7 @@ export function ToolBindingsEditor({ action, tools, bindings, disabled }: ToolBi
         {tools.map((tool) => {
           const risk = describeRisk(tool.risk);
           const id = `tool-${tool.name}`;
+          const rule = describeRule(Object.hasOwn(rules, tool.name) ? rules[tool.name] : undefined);
           return (
             <li key={tool.name} className={styles.item}>
               <div className={styles.text}>
@@ -43,6 +47,10 @@ export function ToolBindingsEditor({ action, tools, bindings, disabled }: ToolBi
                 </label>
                 <span className={styles.description}>{tool.description}</span>
                 <StatusBadge tone={risk.tone}>{risk.label}</StatusBadge>
+                {rule ? <StatusBadge tone={rule.tone}>{rule.label}</StatusBadge> : null}
+                {rules[tool.name] === "blocked" ? (
+                  <span className={styles.description}>An owner or admin blocked this tool, so the agent cannot use it until the rule is lifted.</span>
+                ) : null}
               </div>
               <select
                 key={`${tool.name}-${epoch}`}

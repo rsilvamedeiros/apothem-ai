@@ -7,6 +7,7 @@ import { StatusControls } from "../components/status-controls";
 import { KnowledgeBindingsEditor } from "../components/knowledge-bindings-editor";
 import { ToolBindingsEditor } from "../components/tool-bindings-editor";
 import { hasSearchTool } from "../knowledge-bindings";
+import type { ToolRules } from "@/features/tool-policy/tool-policy-model";
 import type { LoadKnowledgeBasesResult } from "@/features/knowledge/load-knowledge";
 import type { LoadToolsResult } from "../load-tools";
 import { RunPanel, type RunPanelState } from "@/features/runs/components/run-panel";
@@ -28,6 +29,8 @@ type AgentDetailViewProps = {
   tools: LoadToolsResult;
   saveKnowledge: Action;
   knowledge: LoadKnowledgeBasesResult;
+  /** Workspace tool rules in force; empty when they could not be loaded. */
+  toolRules: ToolRules;
   /** Where knowledge bases are created and managed. */
   knowledgeHref: string;
 };
@@ -59,6 +62,7 @@ export function AgentDetailView({
   saveKnowledge,
   knowledge,
   knowledgeHref,
+  toolRules,
 }: AgentDetailViewProps) {
   const back = (
     <Link href={backHref} className={styles.back}>
@@ -110,7 +114,7 @@ export function AgentDetailView({
           Changes apply to the next version you publish.
         </p>
         {tools.kind === "ok" ? (
-          <ToolBindingsEditor action={saveTools} tools={tools.tools} bindings={draft.toolBindings} disabled={archived} />
+          <ToolBindingsEditor action={saveTools} tools={tools.tools} bindings={draft.toolBindings} disabled={archived} rules={toolRules} />
         ) : (
           <p className={styles.hint}>{tools.message}</p>
         )}

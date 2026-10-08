@@ -9,6 +9,7 @@ import {
 import { startRunAction } from "@/features/runs/actions";
 import { loadTools } from "../load-tools";
 import { loadKnowledgeBases } from "@/features/knowledge/load-knowledge";
+import { loadToolPolicies } from "@/features/tool-policy/load-tool-policies";
 import { loadAgentDetail } from "../load-agent-detail";
 import { AgentDetailView } from "./agent-detail-view";
 
@@ -20,10 +21,11 @@ type AgentDetailScreenProps = {
 
 export async function AgentDetailScreen({ organizationId, workspaceId, agentId }: AgentDetailScreenProps) {
   const client = await getApiClient();
-  const [result, tools, knowledge] = await Promise.all([
+  const [result, tools, knowledge, policies] = await Promise.all([
     loadAgentDetail(client, organizationId, workspaceId, agentId),
     loadTools(client),
     loadKnowledgeBases(client, organizationId, workspaceId),
+    loadToolPolicies(client, organizationId, workspaceId),
   ]);
 
   return (
@@ -38,6 +40,7 @@ export async function AgentDetailScreen({ organizationId, workspaceId, agentId }
       tools={tools}
       saveKnowledge={saveKnowledgeBindingsAction.bind(null, organizationId, workspaceId, agentId)}
       knowledge={knowledge}
+      toolRules={policies.kind === "ok" ? policies.rules : {}}
       knowledgeHref={`/org/${organizationId}/workspace/${workspaceId}/knowledge`}
       startRun={startRunAction.bind(null, organizationId, workspaceId, agentId)}
       runBasePath={`/org/${organizationId}/workspace/${workspaceId}/runs`}

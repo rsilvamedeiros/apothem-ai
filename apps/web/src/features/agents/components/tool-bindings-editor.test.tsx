@@ -25,6 +25,26 @@ describe("ToolBindingsEditor", () => {
     }
   });
 
+  describe("workspace rules (ADR-015)", () => {
+    it("marks a blocked tool and says the agent cannot use it, without disabling the choice", () => {
+      render(<ToolBindingsEditor action={make()} tools={TOOLS} bindings={[]} disabled={false} rules={{ create_note: "blocked" }} />);
+      expect(screen.getByText("Blocked in this workspace")).toBeInTheDocument();
+      expect(screen.getByText(/An owner or admin blocked this tool, so the agent cannot use it until the rule is lifted\./)).toBeInTheDocument();
+      expect(screen.getByLabelText(/create note/i)).toBeEnabled();
+    });
+
+    it("marks a tool that always asks first, without the blocked warning", () => {
+      render(<ToolBindingsEditor action={make()} tools={TOOLS} bindings={[]} disabled={false} rules={{ get_current_time: "approval_required" }} />);
+      expect(screen.getByText("Always asks first in this workspace")).toBeInTheDocument();
+      expect(screen.queryByText(/cannot use it until/)).toBeNull();
+    });
+
+    it("shows nothing for tools without a rule, or with a rule it does not know", () => {
+      render(<ToolBindingsEditor action={make()} tools={TOOLS} bindings={[]} disabled={false} rules={{ wire_money: "allow_everything" as never }} />);
+      expect(screen.queryByText(/in this workspace/)).toBeNull();
+    });
+  });
+
   it("starts from the saved bindings", () => {
     render(
       <ToolBindingsEditor
