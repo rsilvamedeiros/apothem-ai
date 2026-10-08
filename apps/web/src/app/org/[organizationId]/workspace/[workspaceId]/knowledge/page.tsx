@@ -1,5 +1,10 @@
 import { KnowledgeScreen } from "@/features/knowledge/screens/knowledge-screen";
 
-export default function KnowledgePage() {
-  return <KnowledgeScreen />;
+type KnowledgePageProps = {
+  params: Promise<{ organizationId: string; workspaceId: string }>;
+};
+
+export default async function KnowledgePage({ params }: KnowledgePageProps) {
+  const { organizationId, workspaceId } = await params;
+  return <KnowledgeScreen organizationId={organizationId} workspaceId={workspaceId} />;
 }
