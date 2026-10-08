@@ -17,6 +17,7 @@ Roles are a product abstraction and should eventually be customizable; the initi
 | Manage connections | ✓ | ✓ | configurable | — | read metadata |
 | Run agent | ✓ | ✓ | ✓ | ✓ | optional |
 | Approve actions | policy | policy | policy | policy | — |
+| Manage workspace tool policy | ✓ | ✓ | — | — | read |
 | View executions | ✓ | ✓ | ✓ | own/scoped | ✓ |
 | View audit | ✓ | ✓ | limited | own | ✓ |
 | API keys | ✓ | ✓ | scoped | — | metadata |
