@@ -12,6 +12,15 @@ const actions = {
   startRun: vi.fn(async () => ({})),
   runBasePath: "/runs",
   saveTools: action,
+  saveKnowledge: action,
+  knowledgeHref: "/knowledge",
+  knowledge: {
+    kind: "ok" as const,
+    bases: [
+      { id: "11111111-1111-4111-8111-111111111111", name: "Handbook", description: "Policies", status: "active" as const, createdAt: "2026-01-01T00:00:00.000Z", archivedAt: null },
+      { id: "22222222-2222-4222-8222-222222222222", name: "Old", description: null, status: "archived" as const, createdAt: "2026-01-01T00:00:00.000Z", archivedAt: "2026-01-02T00:00:00.000Z" },
+    ],
+  },
   tools: {
     kind: "ok" as const,
     tools: [{ name: "create_note", description: "Saves a note.", risk: "reversible_write" as const, allowedApprovalModes: ["required" as const, "auto" as const] }],
@@ -21,7 +30,7 @@ const actions = {
 const ok = (status: "draft" | "active" | "disabled" | "archived" = "active"): LoadAgentDetailResult => ({
   kind: "ok",
   agent: { id: "a1", name: "Support", slug: "support", description: "Answers tickets", status, activeVersionId: "v2" },
-  draft: { instructions: "Be kind.", toolBindings: [{ tool: "create_note", approval: "required" }], updatedAt: "2026-01-02T00:00:00.000Z" },
+  draft: { instructions: "Be kind.", toolBindings: [{ tool: "create_note", approval: "required" }], knowledgeBindings: [{ knowledgeBaseId: "11111111-1111-4111-8111-111111111111" }], updatedAt: "2026-01-02T00:00:00.000Z" },
   versions: [
     { id: "v2", versionNumber: 2, checksum: "b".repeat(64), createdAt: "2026-01-02T00:00:00.000Z" },
     { id: "v1", versionNumber: 1, checksum: "a".repeat(64), createdAt: "2026-01-01T00:00:00.000Z" },
@@ -98,6 +107,28 @@ describe("AgentDetailView", () => {
   it("makes the tool editor read-only for an archived agent", () => {
     render(<AgentDetailView result={ok("archived")} backHref="/back" {...actions} />);
     expect(screen.getByLabelText(/create note/i)).toBeDisabled();
+  });
+
+  it("lets the agent author attach knowledge bases, starting from the saved ones", () => {
+    render(<AgentDetailView result={ok("active")} backHref="/back" {...actions} />);
+    expect(screen.getByRole("heading", { name: "Knowledge" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Handbook")).toBeChecked();
+    expect(screen.queryByLabelText("Old")).toBeNull();
+    expect(screen.getByRole("button", { name: "Save knowledge" })).toBeEnabled();
+  });
+
+  it("makes the knowledge editor read-only for an archived agent", () => {
+    render(<AgentDetailView result={ok("archived")} backHref="/back" {...actions} />);
+    expect(screen.getByLabelText("Handbook")).toBeDisabled();
+  });
+
+  it.each([
+    [{ kind: "error", message: "You don't have access to knowledge in this workspace." } as const, "You don't have access to knowledge in this workspace."],
+    [{ kind: "unreachable" } as const, "apothem-api is unreachable. Try again shortly."],
+  ])("explains when knowledge could not be loaded instead of showing an empty editor (%j)", (knowledge, text) => {
+    render(<AgentDetailView result={ok("active")} backHref="/back" {...actions} knowledge={knowledge} />);
+    expect(screen.getByText(text)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Save knowledge" })).toBeNull();
   });
 
   it("explains when the tool catalog could not be loaded instead of showing an empty editor", () => {

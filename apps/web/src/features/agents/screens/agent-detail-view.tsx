@@ -4,7 +4,10 @@ import { describeAgentStatus } from "../agent-status";
 import type { ActionState } from "../components/action-state";
 import { DraftEditor } from "../components/draft-editor";
 import { StatusControls } from "../components/status-controls";
+import { KnowledgeBindingsEditor } from "../components/knowledge-bindings-editor";
 import { ToolBindingsEditor } from "../components/tool-bindings-editor";
+import { hasSearchTool } from "../knowledge-bindings";
+import type { LoadKnowledgeBasesResult } from "@/features/knowledge/load-knowledge";
 import type { LoadToolsResult } from "../load-tools";
 import { RunPanel, type RunPanelState } from "@/features/runs/components/run-panel";
 import type { LoadAgentDetailResult } from "../load-agent-detail";
@@ -23,6 +26,10 @@ type AgentDetailViewProps = {
   runBasePath: string;
   saveTools: Action;
   tools: LoadToolsResult;
+  saveKnowledge: Action;
+  knowledge: LoadKnowledgeBasesResult;
+  /** Where knowledge bases are created and managed. */
+  knowledgeHref: string;
 };
 
 const SHORT_CHECKSUM_LENGTH = 8;
@@ -38,7 +45,21 @@ function failureMessage(result: Exclude<LoadAgentDetailResult, { kind: "ok" }>):
   }
 }
 
-export function AgentDetailView({ result, backHref, saveDraft, publish, disable, archive, startRun, runBasePath, saveTools, tools }: AgentDetailViewProps) {
+export function AgentDetailView({
+  result,
+  backHref,
+  saveDraft,
+  publish,
+  disable,
+  archive,
+  startRun,
+  runBasePath,
+  saveTools,
+  tools,
+  saveKnowledge,
+  knowledge,
+  knowledgeHref,
+}: AgentDetailViewProps) {
   const back = (
     <Link href={backHref} className={styles.back}>
       ← Agents
@@ -92,6 +113,26 @@ export function AgentDetailView({ result, backHref, saveDraft, publish, disable,
           <ToolBindingsEditor action={saveTools} tools={tools.tools} bindings={draft.toolBindings} disabled={archived} />
         ) : (
           <p className={styles.hint}>{tools.message}</p>
+        )}
+      </section>
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Knowledge</h2>
+        <p className={styles.hint}>
+          Attach the knowledge bases this agent may search, then turn on the “Search knowledge” tool above. The agent reads only what is
+          attached here. Changes apply to the next version you publish.
+        </p>
+        {knowledge.kind === "ok" ? (
+          <KnowledgeBindingsEditor
+            action={saveKnowledge}
+            bases={knowledge.bases}
+            bindings={draft.knowledgeBindings}
+            searchToolOn={hasSearchTool(draft.toolBindings)}
+            disabled={archived}
+            knowledgeHref={knowledgeHref}
+          />
+        ) : (
+          <p className={styles.hint}>{knowledge.kind === "error" ? knowledge.message : "apothem-api is unreachable. Try again shortly."}</p>
         )}
       </section>
 

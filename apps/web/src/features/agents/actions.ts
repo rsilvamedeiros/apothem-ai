@@ -10,6 +10,7 @@ import {
 } from "./agent-commands";
 import type { ActionState } from "./components/action-state";
 import type { CreateAgentFormState } from "./components/create-agent-form";
+import { submitKnowledgeBindings } from "./submit-knowledge-bindings";
 import { submitToolBindings } from "./submit-tool-bindings";
 import { changeStatusState, publishState, saveDraftState } from "./to-action-state";
 import { submitCreateAgent } from "./submit-create-agent";
@@ -72,6 +73,18 @@ export async function changeAgentStatusAction(
   const result = await changeAgentStatusCommand(client, organizationId, workspaceId, agentId, action);
   if (result.kind === "done") refresh(organizationId, workspaceId, agentId);
   return changeStatusState(action, result);
+}
+
+export async function saveKnowledgeBindingsAction(
+  organizationId: string,
+  workspaceId: string,
+  agentId: string,
+  _previous: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const state = await submitKnowledgeBindings(await getApiClient(), organizationId, workspaceId, agentId, formData);
+  if (state.ok) refresh(organizationId, workspaceId, agentId);
+  return state;
 }
 
 export async function saveToolBindingsAction(
