@@ -11,8 +11,18 @@ export function ArchiveBaseControls({ action, archived }: { action: Action; arch
   const [state, formAction, pending] = useActionState(action, {});
   const [confirming, setConfirming] = useState(false);
 
+  // The page refreshes after a successful archive and arrives here already archived; the outcome stays on screen.
   if (archived) {
-    return <p className={styles.hint}>This knowledge base is archived. Agents no longer retrieve from it.</p>;
+    return (
+      <div className={styles.row}>
+        <p className={styles.hint}>This knowledge base is archived. Agents no longer retrieve from it.</p>
+        {state.ok && state.message ? (
+          <p role="status" className={styles.ok}>
+            {state.message}
+          </p>
+        ) : null}
+      </div>
+    );
   }
 
   return (

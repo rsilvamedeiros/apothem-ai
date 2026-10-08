@@ -138,6 +138,18 @@ describe("ArchiveBaseControls", () => {
     expect(screen.getByRole("button", { name: "Archive" })).toBeInTheDocument();
   });
 
+  it("keeps the outcome on screen when the page refreshes into the archived state", async () => {
+    const action = make({ ok: true, message: "Archived. Agents no longer retrieve from this knowledge base." });
+    const { rerender } = render(<ArchiveBaseControls action={action} archived={false} />);
+    await userEvent.click(screen.getByRole("button", { name: "Archive" }));
+    await userEvent.click(screen.getByRole("button", { name: "Confirm archive" }));
+    await screen.findByRole("status");
+
+    rerender(<ArchiveBaseControls action={action} archived />);
+    expect(screen.getByRole("status")).toHaveTextContent("Archived. Agents no longer retrieve from this knowledge base.");
+    expect(screen.queryByRole("button")).toBeNull();
+  });
+
   it("shows only a note once archived", () => {
     render(<ArchiveBaseControls action={make({})} archived />);
     expect(screen.queryByRole("button")).toBeNull();
