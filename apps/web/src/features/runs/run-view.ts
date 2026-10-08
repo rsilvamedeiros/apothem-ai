@@ -77,6 +77,10 @@ const ERROR_GUIDANCE: Record<string, { title: string; hint: string }> = {
     title: "The model asked for a tool this agent does not have",
     hint: "Bind the tool to the agent and publish a new version, or adjust the instructions so the agent answers directly.",
   },
+  TOOL_BLOCKED_BY_POLICY: {
+    title: "A workspace policy does not allow this tool",
+    hint: "An owner or admin blocked this tool for the workspace, so nothing was done. Ask them to change the policy in workspace settings, or adjust the agent.",
+  },
   TOOL_ARGUMENT_INVALID: {
     title: "The model proposed an invalid action",
     hint: "Its arguments did not match the tool contract, so nothing was done. Clarify the instructions and try again.",
@@ -99,7 +103,7 @@ const ERROR_GUIDANCE: Record<string, { title: string; hint: string }> = {
   },
   APPROVAL_INVALIDATED: {
     title: "The approval no longer applied",
-    hint: "The agent was disabled or archived before the decision, so the action was not performed.",
+    hint: "The agent was disabled or archived, or a workspace policy blocked the tool, before the decision, so the action was not performed.",
   },
   RUN_INTERNAL_ERROR: {
     title: "The run failed unexpectedly",
