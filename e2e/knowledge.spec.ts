@@ -91,6 +91,14 @@ test.describe("knowledge", () => {
     await expect(page.getByText(/TOOL RESULT for search_knowledge/)).toBeVisible();
     await expect(page.getByText(/within five business days/)).toBeVisible();
 
+    // The run page says where the answer came from, without the passage text.
+    await page.goto(`${base}/runs`);
+    await page.getByRole("link", { name: /__mock_tool_call__/ }).first().click();
+    const consulted = page.getByRole("list", { name: "Sources consulted" });
+    await expect(consulted).toContainText("Refund policy");
+    await expect(consulted).toContainText("Refunds, passage 1");
+    await expect(consulted).not.toContainText("five business days");
+
     // The audit trail records the work, never the text.
     await page.goto(`${WEB}/org/${orgId}/audit`);
     for (const action of ["knowledge_base.created", "knowledge_document.added"]) {
@@ -108,6 +116,12 @@ test.describe("knowledge", () => {
     await runAgent(page, agentUrl);
     await expect(page.getByText(/TOOL RESULT for search_knowledge/)).toBeVisible();
     await expect(page.getByText(/within five business days/)).toHaveCount(0);
+
+    // A run that read nothing lists no sources.
+    await page.goto(`${base}/runs`);
+    await page.getByRole("link", { name: /__mock_tool_call__/ }).first().click();
+    await expect(page.getByRole("heading", { name: "Record" })).toBeVisible();
+    await expect(page.getByRole("list", { name: "Sources consulted" })).toHaveCount(0);
   });
 
   test("removing a document stops it from being found", async ({ page, context }) => {
