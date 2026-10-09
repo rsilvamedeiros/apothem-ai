@@ -3,6 +3,7 @@ import type { ActionState } from "@/lib/action-state";
 import { ApprovalCard } from "../approvals/components/approval-card";
 import type { LoadRunResult } from "./load-runs";
 import { RunResultCard } from "./components/run-result-card";
+import { describeSource } from "../knowledge/knowledge-model";
 import { formatDuration } from "./run-view";
 import styles from "./runs-view.module.css";
 
@@ -46,7 +47,7 @@ export function RunDetailView({ result, backHref, agentHref, decide }: RunDetail
     );
   }
 
-  const { run, steps, approvals } = result;
+  const { run, steps, approvals, sources = [] } = result;
   return (
     <div className={styles.page}>
       {back}
@@ -63,6 +64,22 @@ export function RunDetailView({ result, backHref, agentHref, decide }: RunDetail
           <Link href={agentHref}>View agent</Link>
         </p>
       </section>
+
+      {sources.length > 0 ? (
+        <section>
+          <h2 className={styles.title}>Sources consulted</h2>
+          <p className={styles.description}>The passages this run read from knowledge before answering. The text itself stays in the knowledge base.</p>
+          <ul className={styles.steps} aria-label="Sources consulted">
+            {sources.map((source) => (
+              <li key={source.evidenceId} className={styles.step}>
+                <span>{source.title}</span>
+                <span className={styles.mono}>{describeSource(source)}</span>
+                <span>step {source.stepSequence}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {approvals.length > 0 ? (
         <section>

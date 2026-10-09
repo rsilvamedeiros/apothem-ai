@@ -124,6 +124,15 @@ export function formatDuration(milliseconds: number | null): string {
   return `${Number((milliseconds / 1000).toFixed(1))} s`;
 }
 
+/** A passage the run read from knowledge: identity and location only, never the text. */
+export type RunSourceView = {
+  stepSequence: number;
+  evidenceId: string;
+  title: string;
+  section: string | null;
+  ordinal: number;
+};
+
 export type ApprovalStatus = "pending" | "approved" | "rejected" | "expired";
 
 /** Mirrors the API's approval response; presentation only. */

@@ -134,4 +134,44 @@ describe("RunDetailView", () => {
     render(<RunDetailView result={{ kind: "ok", run, steps: [], approvals: [] }} backHref="/runs" agentHref="/agents/a" decide={decide} />);
     expect(screen.queryByRole("heading", { name: "Approvals" })).toBeNull();
   });
+
+  describe("sources consulted", () => {
+    const sources = [
+      { stepSequence: 2, evidenceId: "11111111-1111-4111-8111-111111111111", title: "Refund policy", section: "Refunds", ordinal: 2 },
+      { stepSequence: 2, evidenceId: "22222222-2222-4222-8222-222222222222", title: "Shipping", section: null, ordinal: 0 },
+    ];
+
+    it("lists what the run read, with where each passage came from", () => {
+      render(<RunDetailView result={{ kind: "ok", run, steps: [], approvals: [], sources }} backHref="/runs" agentHref="/agents/a" decide={decide} />);
+      const list = screen.getByRole("list", { name: "Sources consulted" });
+      const items = within(list).getAllByRole("listitem");
+      expect(items).toHaveLength(2);
+      expect(items[0]).toHaveTextContent("Refund policy");
+      expect(items[0]).toHaveTextContent("Refunds, passage 3");
+      expect(items[0]).toHaveTextContent("step 2");
+      expect(items[1]).toHaveTextContent("Shipping");
+      expect(items[1]).toHaveTextContent("passage 1");
+      expect(screen.getByText(/The text itself stays in the knowledge base/)).toBeInTheDocument();
+    });
+
+    it("renders titles as text, never markup", () => {
+      render(
+        <RunDetailView
+          result={{ kind: "ok", run, steps: [], approvals: [], sources: [{ ...sources[0]!, title: "<script>alert(1)</script><b>x</b>" }] }}
+          backHref="/runs"
+          agentHref="/agents/a"
+          decide={decide}
+        />,
+      );
+      expect(document.querySelector("script")).toBeNull();
+      expect(screen.getByRole("list", { name: "Sources consulted" }).querySelector("b")).toBeNull();
+    });
+
+    it("shows no section when the run read nothing, or when the API sent no sources", () => {
+      const { rerender } = render(<RunDetailView result={{ kind: "ok", run, steps: [], approvals: [], sources: [] }} backHref="/runs" agentHref="/agents/a" decide={decide} />);
+      expect(screen.queryByText("Sources consulted")).toBeNull();
+      rerender(<RunDetailView result={{ kind: "ok", run, steps: [], approvals: [] }} backHref="/runs" agentHref="/agents/a" decide={decide} />);
+      expect(screen.queryByText("Sources consulted")).toBeNull();
+    });
+  });
 });

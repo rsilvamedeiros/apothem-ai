@@ -1,7 +1,7 @@
 import { getRun, listRuns, type ApothemApiClient } from "@apothem/api-client";
 import { isUuid } from "@/lib/ids";
 import { isNetworkError } from "@/lib/mock";
-import type { ApprovalView, RunStepView, RunView } from "./run-view";
+import type { ApprovalView, RunSourceView, RunStepView, RunView } from "./run-view";
 
 export type LoadRunsResult =
   | { kind: "ok"; runs: RunView[]; nextCursor: string | null }
@@ -9,7 +9,7 @@ export type LoadRunsResult =
   | { kind: "unreachable" };
 
 export type LoadRunResult =
-  | { kind: "ok"; run: RunView; steps: RunStepView[]; approvals: ApprovalView[] }
+  | { kind: "ok"; run: RunView; steps: RunStepView[]; approvals: ApprovalView[]; sources?: RunSourceView[] }
   | { kind: "not_found" }
   | { kind: "error"; message: string }
   | { kind: "unreachable" };
@@ -67,6 +67,8 @@ export async function loadRun(
       run: data.run as RunView,
       steps: data.steps as RunStepView[],
       approvals: data.approvals as ApprovalView[],
+      // An API that predates sources, or a reader who may not see them, just has none.
+      sources: (data.sources ?? []) as RunSourceView[],
     };
   } catch (error) {
     if (isNetworkError(error)) return { kind: "unreachable" };

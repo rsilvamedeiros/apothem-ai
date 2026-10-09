@@ -55,7 +55,14 @@ describe("loadRun", () => {
       run,
       steps: [step],
       approvals: [{ id: "a1" }],
+      sources: [],
     });
+  });
+
+  it("returns the sources the API lists, and none when the API does not send any", async () => {
+    const sources = [{ stepSequence: 2, evidenceId: "e1", title: "Refund policy", section: "Refunds", ordinal: 0 }];
+    expect(await loadRun(client(200, { run, steps: [step], approvals: [], sources }), ORG, WS, RUN)).toMatchObject({ kind: "ok", sources });
+    expect(await loadRun(client(200, { run, steps: [], approvals: [] }), ORG, WS, RUN)).toMatchObject({ kind: "ok", sources: [] });
   });
 
   it("is not found for a malformed run id without calling the API", async () => {
