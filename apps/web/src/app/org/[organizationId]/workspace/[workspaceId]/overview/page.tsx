@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { Card } from "@apothem/ui";
+import { loadApprovalSummary } from "@/features/approvals/load-approval-summary";
+import { getApiClient } from "@/lib/session";
 import styles from "./overview.module.css";
 
-const STATS = [
-  { label: "Agents", value: 0 },
-  { label: "Knowledge sources", value: 0 },
-  { label: "Connections", value: 0 },
-  { label: "Pending approvals", value: 0 },
-] as const;
 
 const QUICK_START = [
   {
@@ -34,6 +30,15 @@ type PageProps = {
 export default async function OverviewPage({ params }: PageProps) {
   const { organizationId, workspaceId } = await params;
   const basePath = `/org/${organizationId}/workspace/${workspaceId}`;
+  const approvals = await loadApprovalSummary(await getApiClient(), organizationId, workspaceId);
+  const pending = approvals.kind === "ok" ? approvals.pending : null;
+  const stats: { label: string; value: number | string; href?: string }[] = [
+    { label: "Agents", value: 0 },
+    { label: "Knowledge sources", value: 0 },
+    { label: "Connections", value: 0 },
+    // A dash means it cannot be shown to this person, never that there is nothing waiting.
+    { label: "Pending approvals", value: pending ?? "\u2014", ...(pending ? { href: `${basePath}/approvals` } : {}) },
+  ];
 
   return (
     <div className={styles.page}>
@@ -45,10 +50,11 @@ export default async function OverviewPage({ params }: PageProps) {
       </div>
 
       <div className={styles.statRow}>
-        {STATS.map((stat) => (
+        {stats.map((stat) => (
           <Card key={stat.label} className={styles.statCard}>
             <span className={styles.statValue}>{stat.value}</span>
             <span className={styles.statLabel}>{stat.label}</span>
+            {stat.href ? <Link href={stat.href}>Review now</Link> : null}
           </Card>
         ))}
       </div>

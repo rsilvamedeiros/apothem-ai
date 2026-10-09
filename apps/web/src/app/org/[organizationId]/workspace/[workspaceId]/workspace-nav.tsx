@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { describePending, formatPendingCount } from "@/features/approvals/approval-summary";
 import styles from "./layout.module.css";
 
 const NAV_ITEMS = [
@@ -15,7 +16,13 @@ const NAV_ITEMS = [
   { label: "Settings", segment: "settings" },
 ] as const;
 
-export function WorkspaceNav({ basePath }: { basePath: string }) {
+type WorkspaceNavProps = {
+  basePath: string;
+  /** Approvals waiting for a person; the badge only appears when it is above zero. */
+  pendingApprovals?: number;
+};
+
+export function WorkspaceNav({ basePath, pendingApprovals = 0 }: WorkspaceNavProps) {
   const pathname = usePathname();
 
   return (
@@ -30,6 +37,14 @@ export function WorkspaceNav({ basePath }: { basePath: string }) {
             className={isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem}
           >
             {item.label}
+            {item.segment === "approvals" && pendingApprovals > 0 ? (
+              <>
+                <span className={styles.navBadge} aria-hidden="true">
+                  {formatPendingCount(pendingApprovals)}
+                </span>
+                <span className={styles.visuallyHidden}>{describePending(pendingApprovals)}</span>
+              </>
+            ) : null}
           </Link>
         );
       })}

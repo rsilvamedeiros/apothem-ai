@@ -5,6 +5,7 @@ import { Logomark } from "@apothem/ui";
 import { getApiClient } from "@/lib/session";
 import { canUseDemoFallback, mockOrganization, mockWorkspace } from "@/lib/mock";
 import { signOut } from "@/app/actions";
+import { loadApprovalSummary } from "@/features/approvals/load-approval-summary";
 import { WorkspaceNav } from "./workspace-nav";
 import styles from "./layout.module.css";
 
@@ -36,6 +37,8 @@ export default async function WorkspaceLayout({ children, params }: LayoutProps)
   }
 
   const basePath = `/org/${organizationId}/workspace/${workspaceId}`;
+  // Best effort: people who cannot decide approvals, or an API that is down, simply get no badge.
+  const approvals = isMock ? { kind: "hidden" as const } : await loadApprovalSummary(client, organizationId, workspaceId);
 
   return (
     <div className={styles.shell}>
@@ -53,7 +56,7 @@ export default async function WorkspaceLayout({ children, params }: LayoutProps)
           <span className={styles.workspaceName}>{workspace?.name ?? "Workspace"}</span>
         </div>
 
-        <WorkspaceNav basePath={basePath} />
+        <WorkspaceNav basePath={basePath} pendingApprovals={approvals.kind === "ok" ? approvals.pending : 0} />
 
         <form action={signOut} className={styles.signOut}>
           <button type="submit" className={styles.signOutButton}>

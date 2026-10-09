@@ -71,6 +71,10 @@
 }
 
 .navItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   padding: 8px 10px;
   border-radius: var(--apothem-radius-sm);
   color: var(--apothem-text-muted);
@@ -117,4 +121,25 @@
 .content {
   padding: var(--apothem-space-4);
   overflow-y: auto;
+}
+
+.navBadge {
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--apothem-accent);
+  color: var(--apothem-on-accent, #fff);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
