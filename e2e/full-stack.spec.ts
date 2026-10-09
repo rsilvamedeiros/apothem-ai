@@ -63,12 +63,22 @@ test.describe("full stack journey", () => {
     await page.getByRole("button", { name: "Run agent" }).click();
     await expect(page.getByText("Waiting for approval").first()).toBeVisible();
 
+    // The menu says something waits for a person, and the overview counts it.
+    await page.goto(`${workspaceBase}/overview`);
+    await expect(page.getByRole("link", { name: /Approvals/ })).toContainText("1 approval waiting for a person");
+    await expect(page.getByText("Pending approvals", { exact: true }).locator("..")).toContainText("1");
+
     // Approval inbox: the exact proposal is visible; the owner is the only approver, so self-approval is allowed.
     await page.goto(`${workspaceBase}/approvals`);
     await expect(page.getByText("Create note")).toBeVisible();
     await expect(page.getByText("Tomorrow 10am")).toBeVisible();
     await page.getByRole("button", { name: "Approve" }).click();
     await expect(page.getByText(/Approved\. The action was performed/)).toBeVisible();
+
+    // Once decided, nothing waits any more: no badge.
+    await page.goto(`${workspaceBase}/overview`);
+    await expect(page.getByRole("link", { name: "Approvals", exact: true })).toBeVisible();
+    await expect(page.getByText(/waiting for a person/)).toHaveCount(0);
 
     // The run finished and kept its record.
     await page.goto(`${workspaceBase}/runs`);

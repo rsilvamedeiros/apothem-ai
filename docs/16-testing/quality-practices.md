@@ -26,6 +26,8 @@ Specs share `e2e/support/full-stack.ts` (sibling checkout detection and the sign
 
 `e2e/tool-policy.spec.ts` covers the workspace tool policy: a rule that forces approval over an author's `auto`, a rule that blocks the tool while a request is already waiting (the approval is invalidated and nothing runs), the author seeing why on the agent page, lifting the rule, the audit trail, and a second account that cannot reach the policy.
 
+The full journey also checks the in-product approval notification: the menu badge and the overview count appear while a request waits and disappear once it is decided.
+
 Full journey covered: sign-up on first login, organization, workspace, agent, instructions, tool with required approval, publish, run that proposes a write, inbox approval (self-approval as sole approver), completed run with tool result, audit trail without note contents, members, and cross-organization denial.
 
 Defects this suite found that unit tests missed: plain functions passed from a server component to a client component, and a decided approval vanishing together with its outcome message.
