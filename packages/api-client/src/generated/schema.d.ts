@@ -2978,6 +2978,14 @@ export interface paths {
                                 decidedAt: string | null;
                                 createdAt: string;
                             }[];
+                            sources: {
+                                stepSequence: number;
+                                /** Format: uuid */
+                                evidenceId: string;
+                                title: string;
+                                section: string | null;
+                                ordinal: number;
+                            }[];
                         };
                     };
                 };
