@@ -20,3 +20,16 @@ export async function accessTokenForSession(
   if (!config || !email || session?.emailVerified !== true) return undefined;
   return issueAccessToken({ email, name: session.user?.name ?? undefined, emailVerified: true }, config);
 }
+
+/**
+ * A verified signed-in person with no token settings is a deployment mistake,
+ * and without this it would surface only as the API answering 401 and the app
+ * asking to sign in again, forever. Say what is wrong instead. The message
+ * names settings, never values or the person.
+ */
+export function assertSigningConfigured(session: SessionLike, config: AccessTokenConfig | undefined): void {
+  if (config || !session?.user?.email || session.emailVerified !== true) return;
+  throw new Error(
+    "Sign-in works but the API token is not configured: set APOTHEM_API_TOKEN_SECRET, APOTHEM_API_TOKEN_ISSUER and APOTHEM_API_TOKEN_AUDIENCE.",
+  );
+}

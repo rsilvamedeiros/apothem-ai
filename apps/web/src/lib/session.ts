@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { createApothemApiClient } from "@apothem/api-client";
 import { auth, googleConfigured } from "@/auth";
 import { loadAccessTokenConfig } from "./access-token";
-import { accessTokenForSession } from "./session-token";
+import { accessTokenForSession, assertSigningConfigured } from "./session-token";
 import { sessionCookieOptions } from "./sign-in";
 
 const PRINCIPAL_COOKIE = "apothem_principal_id";
@@ -60,7 +60,10 @@ export async function getApiClient() {
     throw new Error("APOTHEM_API_URL is not set — copy apps/web/.env.example to .env.local");
   }
 
-  const fromSession = await accessTokenForSession(await currentAuthSession(), loadAccessTokenConfig());
+  const session = await currentAuthSession();
+  const tokenConfig = loadAccessTokenConfig();
+  assertSigningConfigured(session, tokenConfig);
+  const fromSession = await accessTokenForSession(session, tokenConfig);
   const accessToken = fromSession ?? (await getSessionAccessToken());
   const principalId = accessToken ? undefined : await getSessionPrincipalId();
 
