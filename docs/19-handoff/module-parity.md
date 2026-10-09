@@ -11,7 +11,7 @@ Legend: Done, Partial, Planned, n/a.
 | Module | Backend | Frontend | Notes |
 |---|---|---|---|
 | identity | Done for verification (strict JWT bearer auth, production refuses the dev header, mutation tested) | Done (Google sign-in with Auth.js, token exchange, organization picker, first organization creation; dev bootstrap hidden in production) | Needs a Google OAuth client and matching secrets in Vercel and Render; token refresh relies on the 8 hour session; no deny list |
-| organizations | Done (duplicate slug 409, member management with escalation and last-owner guards) | Done (organization page, members page) | Known limitation: organization and first membership are not created atomically |
+| organizations | Done (duplicate slug 409, member management with escalation and last-owner guards) | Done (organization page, members page) | Organization and first membership are created in one transaction (no orphan organizations); the creation audit events are written right after the commit and share no transaction yet |
 | workspaces | Done (service tests, cross-organization isolation) | Done | |
 | authorization | Done (golden matrix, properties, mutation about 98%) | n/a | Frontend never decides access |
 | audit | Done (append-only record, tenant-scoped read API with cursor pagination, mutation about 90%) | Done (audit log page with cursor pagination) | DB integration test for the Drizzle query and the retention job are pending |
