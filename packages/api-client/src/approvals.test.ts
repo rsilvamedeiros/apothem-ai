@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createApothemApiClient } from "./client";
-import { decideApproval, listApprovals } from "./approvals";
+import { decideApproval, getApprovalSummary, listApprovals } from "./approvals";
 
 const ORG = "11111111-1111-4111-8111-111111111111";
 const WS = "22222222-2222-4222-8222-222222222222";
@@ -41,5 +41,12 @@ describe("approvals api-client wrappers", () => {
   it("surfaces refusals as data", async () => {
     const { client } = recording(409);
     expect((await decideApproval(client, ORG, WS, APPROVAL, { decision: "approve" })).response.status).toBe(409);
+  });
+
+  it("reads the summary of what needs a person", async () => {
+    const { client, calls } = recording();
+    await getApprovalSummary(client, ORG, WS);
+    expect([calls[0]?.method, calls[0]?.url]).toEqual(["GET", `${BASE}/summary`]);
+    expect(calls[0]?.headers.get("authorization")).toBe("Bearer aaa.bbb.ccc");
   });
 });

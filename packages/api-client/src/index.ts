@@ -13,7 +13,7 @@ export {
   listAgentVersions,
 } from "./agents";
 export { getAccount } from "./account";
-export { decideApproval, listApprovals } from "./approvals";
+export { decideApproval, getApprovalSummary, listApprovals } from "./approvals";
 export type { ApprovalDecision } from "./approvals";
 export { getRun, listRuns, startRun } from "./runs";
 export { listTools } from "./tools";

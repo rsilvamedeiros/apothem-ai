@@ -32,3 +32,8 @@ export async function decideApproval(
     body: input,
   });
 }
+
+/** How many approvals wait for a person. Read-only and cheap; owners and admins only. */
+export async function getApprovalSummary(client: ApothemApiClient, organizationId: string, workspaceId: string) {
+  return client.GET(`${APPROVALS}/summary`, { params: { path: { organizationId, workspaceId } } });
+}
